@@ -11,3 +11,4 @@ Project in which we study the organization of the cortical visual system of a po
 ### Preprocessing
 - [ ] convert dicom to niix
 - [ ] create BIDS structure
+- [ ] deface faces
