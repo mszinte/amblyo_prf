@@ -67,7 +67,7 @@ for i in range(0, len(data)):
     dest_dir = os.path.join(destroot,"sub-{p:02.0f}".format(p=data.iloc[i]['sub']),"ses-{p:02.0f}".format(p=data.iloc[i].ses),data.iloc[i].data_type)
     dest_file = "sub-{p:02.0f}".format(p=data.iloc[i]['sub'])+"_ses-{p:02.0f}".format(p=data.iloc[i].ses)+'_task-'+data.iloc[i].task+"_run-{p:1.0f}".format(p=data.iloc[i].run)+'_'+data.iloc[i].modality
     print('Attempting to convert from '+source+' to '+dest_dir+' with file '+dest_file)
-    print('dcm2niix -z y -s n -x n –b y –ba y -v 1 -f '+dest_file+' -o '+dest_dir+' \''+source+'\'') #change print for os.system
+    os.system('dcm2niix -z y -s n -x n –b y –ba y -v 1 -f '+dest_file+' -o '+dest_dir+' \''+source+'\'') #change print for os.system
     # ex: os.system('dcm2niix -z y -s n -x n –b y –ba y -v 1 -f \'test\' -o \'/home/achopin/disks/meso_S/data/stereo_prf/sourcedata/dcm2niix/sub-01/\' \'/home/achopin/disks/meso_S/data/stereo_prf/sourcedata/Big_data_STAM/AM52/am52 pRF selected runs/01b_epi_retino_DICOM/epi01_neuro_retinotopy_11/\'')
     # -z y : gzip the files
     # -s n : convert all images in folder
