@@ -37,7 +37,7 @@ import time
 opj = os.path.join
 
 # inputs
-singularity_dir = '/scratch/mszinte/softwares/mriqc-0.15.2.simg'
+singularity_dir = '/scratch/mszinte/softwares/mriqc-0.15.1.simg'
 main_dir = sys.argv[1]
 project_dir = sys.argv[2]
 subject = sys.argv[3]
