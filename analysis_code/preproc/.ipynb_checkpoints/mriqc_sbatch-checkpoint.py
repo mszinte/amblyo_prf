@@ -22,8 +22,9 @@ To run:
 python mriqc_sbatch.py [main directory] [project name] [subject name] [nb proc.] [hour proc.]
 -----------------------------------------------------------------------------------------
 Exemple:
-python mriqc_sbatch.py /scratch/mszinte/data stereo_prf sub-01 8 4
-python mriqc_sbatch.py /scratch/mszinte/data stereo_prf sub-02 8 4
+python mriqc_sbatch.py /scratch/mszinte/data stereo_prf sub-01 8 10
+python mriqc_sbatch.py /scratch/mszinte/data stereo_prf sub-02 8 10
+python mriqc_sbatch.py /scratch/mszinte/data stereo_prf sub-02 8 10
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
 -----------------------------------------------------------------------------------------
@@ -36,7 +37,7 @@ import time
 opj = os.path.join
 
 # inputs
-singularity_dir = '/scratch/mszinte/softwares/mriqc-0.15.1.simg'
+singularity_dir = '/scratch/mszinte/softwares/mriqc-0.15.2.simg'
 main_dir = sys.argv[1]
 project_dir = sys.argv[2]
 subject = sys.argv[3]

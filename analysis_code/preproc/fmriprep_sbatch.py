@@ -101,7 +101,7 @@ slurm_cmd = """\
            memory_val=memory_val, log_dir=log_dir, email_account=email_account, tf_export=tf_export)
 
 # define singularity cmd
-singularity_cmd = "singularity run --cleanenv{tf_bind} -B {main_dir}:/work_dir {simg} --fs-license-file /work_dir/freesurfer/license.txt /work_dir/{project_dir}/ /work_dir/{project_dir}/derivatives/fmriprep/ participant --participant-label {sub_num} -w /work_dir/temp_data/ --bold2t1w-dof {dof} --output-spaces T1w fsaverage{hcp_cifti} --low-mem --mem-mb {memory_val}000 --nthreads {nb_procs:.0f}{anat_only}{use_aroma}{use_fmapfree}{use_skip_bids_val}".format(tf_bind=tf_bind, main_dir=main_dir, project_dir=project_dir,
+singularity_cmd = "singularity run --cleanenv{tf_bind} -B {main_dir}:/work_dir {simg} --fs-license-file /work_dir/freesurfer/license.txt /work_dir/{project_dir}/ /work_dir/{project_dir}/derivatives/fmriprep/ participant --participant-label {sub_num} -w /work_dir/temp_data/ --bold2t1w-dof {dof} --bold2t1w-init header --output-spaces T1w fsaverage{hcp_cifti} --low-mem --mem-mb {memory_val}000 --nthreads {nb_procs:.0f}{anat_only}{use_aroma}{use_fmapfree}{use_skip_bids_val}".format(tf_bind=tf_bind, main_dir=main_dir, project_dir=project_dir,
                               simg=singularity_dir, sub_num=sub_num, nb_procs=nb_procs,
                               anat_only=anat_only, use_aroma=use_aroma, use_fmapfree=use_fmapfree,
                               use_skip_bids_val=use_skip_bids_val, hcp_cifti=hcp_cifti, memory_val=memory_val,
