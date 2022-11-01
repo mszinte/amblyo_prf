@@ -19,15 +19,13 @@ preprocessed files
 -----------------------------------------------------------------------------------------
 To run:
 1. cd to function
->> cd /home/mszinte/projects/pRF3T7T/mri_analysis/
+>> cd /home/mszinte/projects/stereo_prf/analysis_code/
 2. run python command
-python preproc/pybest_sbatch.py [main directory] [project name] [subject num] 
-                                [registration type] [hour proc.] [pca] [email account]
+python pybest_sbatch.py [main directory] [project name] [subject num] 
+                        [registration type] [hour proc.] [pca] [email account]
 -----------------------------------------------------------------------------------------
 Exemple:
-python preproc/pybest_sbatch.py /scratch/mszinte/data pRF3T7T sub-01 T1w 2 0 martin.szinte
-python preproc/pybest_sbatch.py /scratch/mszinte/data pRF3T7T sub-04 T1w 2 0 martin.szinte
-python preproc/pybest_sbatch.py /scratch/mszinte/data pRF3T7T sub-05 T1w 2 0 martin.szinte
+python preproc/pybest_sbatch.py /scratch/mszinte/data stereo_prf sub-01 T1w 2 0 martin.szinte
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
 -----------------------------------------------------------------------------------------
