@@ -41,18 +41,19 @@ if len(sys.argv)>2:      # if more than two arguments, then it must be the overw
 rootpath = os.path.join(project_dir,'sourcedata') 
 sourceroot = os.path.join(rootpath,'Big_data_STAM','prf_event_files')
 destroot = os.path.join(rootpath,'dcm2niix')
- 
+
 bar_dic = {" LL_UR ": "1"," Right ":"2", " LR_UL ":"3", " Down ":"4", " Up ":"5", " UL_LR ":"6", " Left ":"7", " UR_LL ":"8","LL_UR": "1","Right":"2", "LR_UL":"3", "Down":"4", "Up":"5", "UL_LR":"6", "Left":"7", "UR_LL":"8"}
 event_dic = {' fixation dimming ':'1', ' hit ':'2', ' miss ':'3', ' false_alarm ':'4','fixation dimming':'1', 'hit':'2', 'miss':'3', 'false_alarm':'4'}
 
 for file in os.listdir(sourceroot):
     if file.endswith('.tsv'):
         filepath = os.path.join(sourceroot,file)
-        print('Working with '+filepath)
+        print('Working with '+file)
         
-        # define destination file
-        dest_path = os.path.join(destroot,file[0:6],file[7:13],'func',file)
-        
+        # define destination file       
+        dest_path = os.path.join(destroot,file[0:6],file[7:13],'func',file[0:28]+file[33:44])
+       # dest_path2 = os.path.join(project_dir,file[0:6],file[7:13],'func',file[0:28]+file[33:44])
+
         # overwriting or skipping
         if os.path.exists(dest_path) & (overwrite==0):
             print('File already exists - skip '+file)
@@ -78,10 +79,16 @@ for file in os.listdir(sourceroot):
             # for all events, except false alarms, the event actually happened 0.8 sec before
             data.loc[data['event_type']<4,'onset'] = data.loc[data['event_type']<4,'onset'] - 0.8
             data.loc[data['event_type']<4,'duration'] = 0.8
-
+           
+            #change order of columns
+            cols = ['onset','duration','trial_number','bar_direction','event_type']                    
+            data = data[cols]
+            
             # save tsv file
             print('Saving to '+dest_path)
             data.to_csv(dest_path, index = False, sep='\t')
+            #print('Saving to '+dest_path2)
+            #data.to_csv(dest_path2, index = False, sep='\t')
 print('Event file conversion done')
 
 

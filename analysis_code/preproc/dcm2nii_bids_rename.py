@@ -75,10 +75,14 @@ print('Folder structure creation done')
 for i in range(0, len(data)):
     source = os.path.join(sourceroot,data.iloc[i].sources)
     dest_dir = os.path.join(destroot,"sub-{p:02.0f}".format(p=data.iloc[i]['sub']),"ses-{p:02.0f}".format(p=data.iloc[i].ses),data.iloc[i].data_type)
-    dest_file = "sub-{p:02.0f}".format(p=data.iloc[i]['sub'])+"_ses-{p:02.0f}".format(p=data.iloc[i].ses)+'_task-'+data.iloc[i].task+"_run-{p:1.0f}".format(p=data.iloc[i].run)+'_'+data.iloc[i].modality
+    print(data.iloc[i].task)
+    if pd.isnull(data.iloc[i].task)==0: # func case - task exists
+        dest_file = "sub-{p:02.0f}".format(p=data.iloc[i]['sub'])+"_ses-{p:02.0f}".format(p=data.iloc[i].ses)+'_task-'+data.iloc[i].task+"_run-{p:1.0f}".format(p=data.iloc[i].run)+'_'+data.iloc[i].modality
+    else:                              # anat case - no task, no run
+        dest_file = "sub-{p:02.0f}".format(p=data.iloc[i]['sub'])+"_ses-{p:02.0f}".format(p=data.iloc[i].ses)+'_'+data.iloc[i].modality    
     dest_file_abs_path = os.path.join(dest_dir,dest_file+'.nii.gz')
     if os.path.exists(dest_file_abs_path) & (overwrite==0):
-        print('File already exists - skip '+dest_file)
+        print('File already exists - skip (from '+source+' toward '+dest_file_abs_path+')')
     else:
         if os.path.exists(dest_file_abs_path) & (overwrite==1):
             print('File already exists - overwrite '+dest_file)       
