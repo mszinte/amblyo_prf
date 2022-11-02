@@ -1,10 +1,11 @@
-# Project name stereo_prf
-#### Authors: 
+# STEREO_PRF
+## Authors: 
 Adrien CHOPIN, Uriel LASCOMBES, Margot CHEVILLARD, Jian DING, Michael SILVER, Yasha SHEYNIN, Denis LEVI, & Martin SZINTE
 
 ## Project description
 
-Project in which we study the organization of the cortical visual system of a population of ambliopic patients.
+We study the organization of the cortical visual system of a population of ambliopic patients.</br>
+Here are listed all codes used to run and analyse this dataset.
 
 ## Data analysis
 
@@ -27,9 +28,13 @@ Project in which we study the organization of the cortical visual system of a po
 
 ### Post-processing
 
-### pRF
-- [ ] prf fit 
-- [ ] compute pRF parameters 
+### PRF analysis
+- [ ] Fit pRF parameters (eccentricity, size, amplitude, baseline, rsquare)
+  - pRF fitting code [prf_fit.py](analysis_code/postproc/prf/fit/prf_fit.py)
+  - submit fit [submit_fit_jobs.py](analysis_code/postproc/prf/fit/submit_fit_jobs.py)
+- [ ] Compute all pRF parameters (loo-rsquare, magnification, coverage) 
 - [ ] make pycortex maps
 - [ ] make webgl
 - [ ] send index.py to webapp
+
+### ROI analysis
