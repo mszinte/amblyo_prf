@@ -9,7 +9,7 @@ Project in which we study the organization of the cortical visual system of a po
 ## Data analysis
 
 ### Preprocessing
-- [ ] convert dicom to niix
-- [ ] create BIDS structure
-- [ ] deface faces
+- [x] convert dicom to niix [dcm2nii_bids_rename.py](analysis_code/preproc/dcm2nii_bids_rename.py)
+- [x] create BIDS structure
+- [x] deface faces using deface_sbat
 - [ ] aasdasda
