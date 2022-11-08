@@ -1,0 +1,135 @@
+
+
+task 	 motion 
+dot_speed 	 0.2 
+dot_co 	 0.5 
+dot_size 	 10.0 
+dot_life 	 20 
+numdots 	 100 
+dot_pop 	 same 
+noise 	 position 
+DimColor 	 [ 0.15  0.15  0.15] 
+time 	 condition 	 response_type 
+
+
+task 	 motion 
+dot_speed 	 0.2 
+dot_co 	 0.5 
+dot_size 	 12.0 
+dot_life 	 20 
+numdots 	 100 
+dot_pop 	 same 
+noise 	 position 
+DimColor 	 [ 0.15  0.15  0.15] 
+time 	 condition 	 response_type 
+
+
+task 	 motion 
+dot_speed 	 0.2 
+dot_co 	 0.5 
+dot_size 	 15.0 
+dot_life 	 20 
+numdots 	 100 
+dot_pop 	 same 
+noise 	 position 
+DimColor 	 [ 0.15  0.15  0.15] 
+time 	 condition 	 response_type 
+6.541400 	 LL_UR 	 miss 
+15.443931 	 LL_UR 	 fixation dimming 
+16.556803 	 LL_UR 	 miss 
+16.775284 	 LL_UR 	 fixation dimming 
+34.888156 	 Right 	 miss 
+42.495655 	 Right 	 fixation dimming 
+43.239886 	 Right 	 miss 
+44.527903 	 Right 	 fixation dimming 
+63.304221 	 LR_UL 	 fixation dimming 
+66.121331 	 LR_UL 	 miss 
+71.137997 	 LR_UL 	 miss 
+77.401610 	 LR_UL 	 fixation dimming 
+81.007793 	 LR_UL 	 miss 
+88.925778 	 Down 	 miss 
+94.735131 	 Down 	 miss 
+98.386157 	 Down 	 fixation dimming 
+100.502049 	 Down 	 fixation dimming 
+106.405645 	 Down 	 fixation dimming 
+123.145119 	 Up 	 miss 
+125.920425 	 Up 	 fixation dimming 
+128.731584 	 Up 	 miss 
+130.272834 	 Up 	 miss 
+131.894160 	 Up 	 miss 
+133.549367 	 Up 	 fixation dimming 
+133.567910 	 Up 	 miss 
+139.354528 	 Up 	 miss 
+139.545984 	 Up 	 fixation dimming 
+147.341554 	 UL_LR 	 fixation dimming 
+149.938968 	 UL_LR 	 fixation dimming 
+153.068250 	 UL_LR 	 fixation dimming 
+160.510928 	 UL_LR 	 miss 
+189.139129 	 Left 	 fixation dimming 
+191.236920 	 Left 	 miss 
+192.402807 	 Left 	 fixation dimming 
+195.514695 	 Left 	 miss 
+197.978265 	 Left 	 fixation dimming 
+199.193405 	 Left 	 fixation dimming 
+209.648432 	 UR_LL 	 fixation dimming 
+212.697021 	 UR_LL 	 miss 
+217.598441 	 UR_LL 	 fixation dimming 
+224.862907 	 UR_LL 	 miss 
+225.362442 	 UR_LL 	 fixation dimming 
+
+hits = 0.000000 
+false alarms = 0.000000 
+hit_rate =  0.000000, miss_rate = 1.000000, false_alarms = 0.000000
+
+task 	 motion 
+dot_speed 	 0.2 
+dot_co 	 0.5 
+dot_size 	 15.0 
+dot_life 	 20 
+numdots 	 100 
+dot_pop 	 same 
+noise 	 position 
+DimColor 	 [ 0.15  0.15  0.15] 
+time 	 condition 	 response_type 
+5.758803 	 LL_UR 	 miss 
+6.871775 	 LL_UR 	 fixation dimming 
+12.364949 	 LL_UR 	 fixation dimming 
+19.376481 	 LL_UR 	 fixation dimming 
+22.019527 	 LL_UR 	 miss 
+26.896686 	 Right 	 fixation dimming 
+36.801469 	 Right 	 fixation dimming 
+42.743509 	 Right 	 fixation dimming 
+63.618741 	 LR_UL 	 fixation dimming 
+64.383158 	 LR_UL 	 miss 
+71.624194 	 LR_UL 	 fixation dimming 
+79.499245 	 LR_UL 	 fixation dimming 
+87.271303 	 Down 	 fixation dimming 
+90.833508 	 Down 	 fixation dimming 
+97.310536 	 Down 	 fixation dimming 
+104.782707 	 Down 	 miss 
+129.601684 	 Up 	 miss 
+130.789837 	 Up 	 fixation dimming 
+130.850170 	 Up 	 miss 
+137.959124 	 Up 	 miss 
+137.959124 	 Up 	 fixation dimming 
+139.289592 	 Up 	 miss 
+150.154631 	 UL_LR 	 fixation dimming 
+152.922497 	 UL_LR 	 miss 
+155.116250 	 UL_LR 	 fixation dimming 
+158.129183 	 UL_LR 	 miss 
+184.227778 	 Left 	 miss 
+187.146390 	 Left 	 fixation dimming 
+189.286327 	 Left 	 fixation dimming 
+190.542184 	 Left 	 miss 
+193.466203 	 Left 	 fixation dimming 
+209.232279 	 UR_LL 	 fixation dimming 
+209.355518 	 UR_LL 	 miss 
+210.208290 	 UR_LL 	 miss 
+214.713892 	 UR_LL 	 fixation dimming 
+220.255063 	 UR_LL 	 miss 
+221.858508 	 UR_LL 	 fixation dimming 
+225.162860 	 UR_LL 	 miss 
+
+hits = 0.000000 
+false alarms = 0.000000 
+hit_rate =  0.000000, miss_rate = 1.000000, false_alarms = 0.000000

@@ -1,0 +1,16 @@
+
+
+task 	 fixation 
+dot_speed 	 0.2 
+dot_co 	 0.4 
+dot_size 	 2.0 
+dot_life 	 40 
+numdots 	 100 
+dot_pop 	 same 
+noise 	 position 
+DimColor 	 [ 0.15  0.15  0.15] 
+mask height = 11
+time 	 condition 	 response_type 
+2.980676 	 LL_UR 	 motion pulse 
+6.714186 	 LL_UR 	 miss 
+8.153923 	 LL_UR 	 miss 
