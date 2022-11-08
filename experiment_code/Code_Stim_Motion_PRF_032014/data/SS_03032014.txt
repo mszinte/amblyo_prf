@@ -1,0 +1,149 @@
+
+
+task 	 motion 
+dot_speed 	 0.2 
+dot_co 	 0.5 
+dot_size 	 2.0 
+dot_life 	 40 
+numdots 	 100 
+dot_pop 	 same 
+noise 	 position 
+DimColor 	 [ 0.15  0.15  0.15] 
+time 	 condition 	 response_type 
+
+
+task 	 motion 
+dot_speed 	 0.2 
+dot_co 	 0.5 
+dot_size 	 2.0 
+dot_life 	 40 
+numdots 	 100 
+dot_pop 	 same 
+noise 	 position 
+DimColor 	 [ 0.15  0.15  0.15] 
+time 	 condition 	 response_type 
+
+
+task 	 motion 
+dot_speed 	 0.2 
+dot_co 	 0.5 
+dot_size 	 2.0 
+dot_life 	 40 
+numdots 	 100 
+dot_pop 	 same 
+noise 	 position 
+DimColor 	 [ 0.15  0.15  0.15] 
+time 	 condition 	 response_type 
+
+
+task 	 motion 
+dot_speed 	 0.2 
+dot_co 	 0.5 
+dot_size 	 2.0 
+dot_life 	 40 
+numdots 	 100 
+dot_pop 	 same 
+noise 	 position 
+DimColor 	 [ 0.15  0.15  0.15] 
+time 	 condition 	 response_type 
+
+
+task 	 motion 
+dot_speed 	 0.2 
+dot_co 	 0.5 
+dot_size 	 4.0 
+dot_life 	 40 
+numdots 	 100 
+dot_pop 	 same 
+noise 	 position 
+DimColor 	 [ 0.15  0.15  0.15] 
+time 	 condition 	 response_type 
+
+
+task 	 motion 
+dot_speed 	 0.2 
+dot_co 	 0.5 
+dot_size 	 2.0 
+dot_life 	 40 
+numdots 	 100 
+dot_pop 	 same 
+noise 	 position 
+DimColor 	 [ 0.15  0.15  0.15] 
+time 	 condition 	 response_type 
+
+
+task 	 motion 
+dot_speed 	 0.2 
+dot_co 	 0.5 
+dot_size 	 2.0 
+dot_life 	 40 
+numdots 	 100 
+dot_pop 	 same 
+noise 	 position 
+DimColor 	 [ 0.15  0.15  0.15] 
+time 	 condition 	 response_type 
+
+
+task 	 motion 
+dot_speed 	 0.2 
+dot_co 	 0.5 
+dot_size 	 2.0 
+dot_life 	 40 
+numdots 	 100 
+dot_pop 	 same 
+noise 	 position 
+DimColor 	 [ 0.15  0.15  0.15] 
+time 	 condition 	 response_type 
+
+
+task 	 motion 
+dot_speed 	 0.2 
+dot_co 	 0.5 
+dot_size 	 2.0 
+dot_life 	 40 
+numdots 	 100 
+dot_pop 	 same 
+noise 	 position 
+DimColor 	 [ 0.15  0.15  0.15] 
+time 	 condition 	 response_type 
+5.100624 	 LL_UR 	 miss 
+8.685683 	 LL_UR 	 fixation dimming 
+10.419574 	 LL_UR 	 fixation dimming 
+11.403972 	 LL_UR 	 fixation dimming 
+17.973170 	 LL_UR 	 miss 
+28.962125 	 Right 	 fixation dimming 
+31.046955 	 Right 	 miss 
+38.350047 	 Right 	 miss 
+39.634294 	 Right 	 miss 
+45.120905 	 Right 	 fixation dimming 
+
+
+task 	 motion 
+dot_speed 	 0.2 
+dot_co 	 0.5 
+dot_size 	 2.0 
+dot_life 	 40 
+numdots 	 100 
+dot_pop 	 same 
+noise 	 position 
+DimColor 	 [ 0.15  0.15  0.15] 
+time 	 condition 	 response_type 
+
+
+task 	 motion 
+dot_speed 	 0.2 
+dot_co 	 0.5 
+dot_size 	 2.0 
+dot_life 	 40 
+numdots 	 100 
+dot_pop 	 same 
+noise 	 position 
+DimColor 	 [ 0.15  0.15  0.15] 
+time 	 condition 	 response_type 
+3.316924 	 LL_UR 	 miss 
+4.932825 	 LL_UR 	 fixation dimming 
+8.550470 	 LL_UR 	 fixation dimming 
+9.018041 	 LL_UR 	 miss 
+14.236850 	 LL_UR 	 miss 
+16.204813 	 LL_UR 	 fixation dimming 
+20.207422 	 LL_UR 	 fixation dimming 

@@ -1,0 +1,20 @@
+
+
+task 	 fixation 
+dot_speed 	 0.2 
+dot_co 	 0.5 
+dot_size 	 2.0 
+dot_life 	 20 
+numdots 	 100 
+dot_pop 	 same 
+noise 	 position 
+DimColor 	 [ 0.15  0.15  0.15] 
+time 	 condition 	 response_type 
+3.717303 	 LL_UR 	 motion pulse 
+9.950466 	 LL_UR 	 motion pulse 
+15.067285 	 LL_UR 	 miss 
+16.317945 	 LL_UR 	 motion pulse 
+19.751161 	 LL_UR 	 motion pulse 
+22.651343 	 LL_UR 	 motion pulse 
+43.817996 	 Right 	 miss 
+46.551515 	 Right 	 miss 

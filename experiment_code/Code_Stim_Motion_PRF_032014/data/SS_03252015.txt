@@ -1,0 +1,117 @@
+
+
+task 	 motion 
+dot_speed 	 0.2 
+dot_co 	 0.8 
+dot_size 	 7.0 
+dot_life 	 20 
+numdots 	 100 
+dot_pop 	 same 
+noise 	 position 
+DimColor 	 [ 0.15  0.15  0.15] 
+time 	 condition 	 response_type 
+3.345857 	 LL_UR 	 miss 
+4.029339 	 LL_UR 	 false_alarm 
+5.195916 	 LL_UR 	 hit 
+18.113114 	 LL_UR 	 hit 
+20.713270 	 LL_UR 	 miss 
+20.746623 	 LL_UR 	 false_alarm 
+43.697820 	 Right 	 hit 
+62.899152 	 LR_UL 	 fixation dimming 
+64.898991 	 LR_UL 	 hit 
+74.116103 	 LR_UL 	 fixation dimming 
+76.066147 	 LR_UL 	 hit 
+79.332996 	 LR_UL 	 fixation dimming 
+89.566463 	 Down 	 fixation dimming 
+96.850424 	 Down 	 fixation dimming 
+96.900493 	 Down 	 hit 
+100.533748 	 Down 	 hit 
+102.117242 	 Down 	 fixation dimming 
+103.517269 	 Down 	 fixation dimming 
+124.985378 	 Up 	 fixation dimming 
+126.301833 	 Up 	 hit 
+128.685363 	 Up 	 miss 
+128.768570 	 Up 	 false_alarm 
+138.502399 	 Up 	 miss 
+149.502948 	 UL_LR 	 miss 
+152.353092 	 UL_LR 	 fixation dimming 
+162.420414 	 UL_LR 	 fixation dimming 
+181.271281 	 Left 	 hit 
+182.104749 	 Left 	 fixation dimming 
+184.904803 	 Left 	 fixation dimming 
+190.338585 	 Left 	 hit 
+193.021909 	 Left 	 fixation dimming 
+202.322453 	 UR_LL 	 fixation dimming 
+206.055865 	 UR_LL 	 hit 
+208.472565 	 UR_LL 	 hit 
+211.005899 	 UR_LL 	 fixation dimming 
+
+hits = 12.000000 
+false alarms = 3.000000 
+hit_rate =  0.705882, miss_rate = 0.294118, false_alarms = 0.176471
+
+task 	 motion 
+dot_speed 	 0.2 
+dot_co 	 0.8 
+dot_size 	 7.0 
+dot_life 	 20 
+numdots 	 100 
+dot_pop 	 same 
+noise 	 position 
+DimColor 	 [ 0.15  0.15  0.15] 
+time 	 condition 	 response_type 
+2.872587 	 LL_UR 	 hit 
+14.156490 	 LL_UR 	 hit 
+17.139966 	 LL_UR 	 hit 
+20.790171 	 LL_UR 	 hit 
+21.490343 	 LL_UR 	 fixation dimming 
+28.607438 	 Right 	 fixation dimming 
+36.490972 	 Right 	 hit 
+43.074354 	 Right 	 fixation dimming 
+43.957718 	 Right 	 fixation dimming 
+62.308779 	 LR_UL 	 fixation dimming 
+70.359133 	 LR_UL 	 miss 
+70.759110 	 LR_UL 	 false_alarm 
+70.942495 	 LR_UL 	 fixation dimming 
+71.809207 	 LR_UL 	 fixation dimming 
+72.242545 	 LR_UL 	 hit 
+73.126110 	 LR_UL 	 hit 
+73.192845 	 LR_UL 	 fixation dimming 
+76.009414 	 LR_UL 	 hit 
+79.609606 	 LR_UL 	 fixation dimming 
+85.327045 	 Down 	 hit 
+88.993526 	 Down 	 fixation dimming 
+95.327162 	 Down 	 fixation dimming 
+97.843937 	 Down 	 hit 
+101.594087 	 Down 	 fixation dimming 
+123.378886 	 Up 	 hit 
+143.763158 	 UL_LR 	 hit 
+147.563655 	 UL_LR 	 fixation dimming 
+148.763487 	 UL_LR 	 fixation dimming 
+150.931002 	 UL_LR 	 fixation dimming 
+156.247354 	 UL_LR 	 miss 
+157.097301 	 UL_LR 	 hit 
+157.147379 	 UL_LR 	 false_alarm 
+158.931055 	 UL_LR 	 fixation dimming 
+159.648052 	 UL_LR 	 hit 
+160.547696 	 UL_LR 	 fixation dimming 
+161.447751 	 UL_LR 	 hit 
+178.981915 	 Left 	 hit 
+185.148778 	 Left 	 miss 
+185.165443 	 Left 	 false_alarm 
+188.398952 	 Left 	 fixation dimming 
+191.815821 	 Left 	 fixation dimming 
+193.665923 	 Left 	 fixation dimming 
+195.565953 	 Left 	 fixation dimming 
+196.599348 	 Left 	 miss 
+202.482966 	 UR_LL 	 miss 
+206.082961 	 UR_LL 	 hit 
+207.383169 	 UR_LL 	 fixation dimming 
+208.600268 	 UR_LL 	 miss 
+209.100713 	 UR_LL 	 false_alarm 
+214.933377 	 UR_LL 	 fixation dimming 
+216.100090 	 UR_LL 	 hit 
+
+hits = 18.000000 
+false alarms = 4.000000 
+hit_rate =  0.750000, miss_rate = 0.250000, false_alarms = 0.166667
