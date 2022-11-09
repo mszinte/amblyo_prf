@@ -15,6 +15,7 @@ Here are listed all codes used to run and analyse this dataset.
 - [x] convert dicom to niix [dcm2nii_bids_rename.py](analysis_code/preproc/bids/dcm2nii_bids_rename.py)
 - [x] create events files [event_files_bidify.py](analysis_code/preproc/bids/event_files_bidify.py)
 - [x] deface participants t1w image [deface_sbatch.py](analysis_code/preproc/bids/deface_sbatch.py)
+- [x] create the visual matrix design [visual_design_matrix_builder.ipynb](analysis_code/preproc/bids/visual_design_matrix_builder.ipynb)
 
 #### Structural preprocessing
 - [ ] manual edit of brain segmentation
@@ -27,6 +28,7 @@ Here are listed all codes used to run and analyse this dataset.
 - [x] average and leave-one-out averaging of runs together [preproc_end.py](analysis_code/preproc/functional/preproc_end.py)
 
 ### Post-processing
+- [x] Enter the correct values in the file settings.json (postproc folder)
 
 ### PRF analysis
 - [ ] Fit pRF parameters (eccentricity, size, amplitude, baseline, rsquare)
