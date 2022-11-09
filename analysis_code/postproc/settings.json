@@ -1,9 +1,9 @@
 {   
-    "screen_distance": 120,
-    "screen_width": 77.3,
+    "screen_distance": 79.6,
+    "screen_width": 42.7,
     "grid_nr": 40,
     "TR": 1.8,
-    "max_ecc_size": 16,
+    "max_ecc_size": 19,
     "xfm_masks": ["cortical", "thick", "thin", "nearest"],
     "cortical_mask": "cortical"
 }
