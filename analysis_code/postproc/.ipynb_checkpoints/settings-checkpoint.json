@@ -7,7 +7,7 @@
     "grid_nr": 40,
     "TR": 1.8,
     "TRs": 135,
-    "max_ecc_size": 19,
+    "max_ecc_size": 26,
     "xfm_masks": ["cortical", "thick", "thin", "nearest"],
     "cortical_mask": "cortical"
 }
