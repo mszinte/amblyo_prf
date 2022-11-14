@@ -33,7 +33,6 @@ warnings.filterwarnings("ignore")
 # General imports
 import sys, os
 import numpy as np
-import scipy.io
 import glob
 import datetime
 import json
@@ -61,15 +60,14 @@ nb_procs = int(sys.argv[6])
 with open('settings.json') as f:
     json_s = f.read()
     analysis_info = json.loads(json_s)
-screen_size = analysis_info['screen_width']
-screen_distance = analysis_info['screen_distance']
+screen_size_cm = analysis_info['screen_size_cm']
+screen_distance_cm = analysis_info['screen_distance_cm']
 TR = analysis_info['TR']
 grid_nr = analysis_info['grid_nr']
 max_ecc_size = analysis_info['max_ecc_size']
 
-# Get task specific settings
-visual_dm_file = scipy.io.loadmat(input_vd)
-visual_dm = visual_dm_file['stim'].transpose([1,0,2])
+# Get task specific visual design matrix
+visual_dm = np.load(input_vd)
 
 # Load data
 data_img = nb.load(input_fn)
@@ -88,8 +86,10 @@ fit_mat = np.zeros((data.shape[0],data.shape[1],data.shape[2],6))
 pred_mat = np.zeros(data.shape)
 
 # determine model
-stimulus = PRFStimulus2D(screen_size_cm=screen_size, screen_distance_cm=screen_distance,
-                         design_matrix=visual_dm, TR=TR)
+stimulus = PRFStimulus2D(screen_size_cm=screen_size, 
+                         screen_distance_cm=screen_distance,
+                         design_matrix=visual_dm, 
+                         TR=TR)
 
 gauss_model = Iso2DGaussianModel(stimulus=stimulus)
 sizes = max_ecc_size * np.linspace(0.1,1,grid_nr)**2
