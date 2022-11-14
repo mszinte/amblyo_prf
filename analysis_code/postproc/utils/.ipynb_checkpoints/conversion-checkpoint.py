@@ -1,6 +1,7 @@
 class conversion:    
     """
     Series of conversion utilities for screen size
+    Modified to take into account the visual angle squeeze occuring for cm further in the periphery (valid only for object sizes centred on fovea)
     
     Parameters
     ----------
@@ -11,6 +12,10 @@ class conversion:
     Created by
     ----------
     Martin Szinte (mail@martinszinte.net)
+    
+    Modified by
+    ----------
+    Adrien Chopin (adrien.chopin@gmail.com)
     """
     
     

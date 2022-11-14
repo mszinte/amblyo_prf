@@ -1,7 +1,6 @@
-class conversion:    
+class conversion2:    
     """
     Series of conversion utilities for screen size
-    Modified to take into account the visual angle squeeze occuring for cm further in the periphery (valid only for object sizes centred on fovea)
     
     Parameters
     ----------
@@ -12,10 +11,6 @@ class conversion:
     Created by
     ----------
     Martin Szinte (mail@martinszinte.net)
-    
-    Modified by
-    ----------
-    Adrien Chopin (adrien.chopin@gmail.com)
     """
     
     
@@ -54,7 +49,10 @@ class conversion:
 
         """               
         import numpy as np
-        return cm/(2*self.screen_distance_cm*np.tan(0.5*np.pi/180))
+        #return cm/(2*self.screen_distance_cm*np.tan(0.5*np.pi/180))
+        return (2*np.arctan(cm/(2*self.screen_distance_cm)))*180/np.pi
+
+        
 
     def pix2cm(self, pix):
         """
@@ -102,7 +100,8 @@ class conversion:
 
         """
         import numpy as np
-        return (2*self.screen_distance_cm*np.tan(0.5*np.pi/180))*dva
+       # return (2*self.screen_distance_cm*np.tan(0.5*np.pi/180))*dva
+        return 2*self.screen_distance_cm*np.tan(dva*np.pi/(2*180))
     
     def dva2pix(self,dva):
         """
