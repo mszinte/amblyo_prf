@@ -18,8 +18,8 @@ Nifti image files with fit parameters for a z slice
 -----------------------------------------------------------------------------------------
 To run :
 >> cd to function directory
-cd ~/projects/stereo_prf/analysis_code/
->> python postproc/prf/fit/prf_fit.py [subject] [timeseries] [visual design] 
+cd ~/projects/stereo_prf/analysis_code/postproc/
+>> python prf/fit/prf_fit.py [subject] [timeseries] [visual design] 
                      [fit] [prediction] [nb_procs]
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
@@ -40,11 +40,11 @@ import ipdb
 deb = ipdb.set_trace
 
 # MRI analysis imports
-from postproc.prf.model.prfpy.rf import *
-from postproc.prf.model.prfpy.timecourse import *
-from postproc.prf.model.prfpy.stimulus import PRFStimulus2D
-from postproc.prf.model.prfpy.model import Iso2DGaussianModel
-from postproc.prf.model.prfpy.fit import Iso2DGaussianFitter
+from prf.model.prfpy.rf import *
+from prf.model.prfpy.timecourse import *
+from prf.model.prfpy.stimulus import PRFStimulus2D
+from prf.model.prfpy.model import Iso2DGaussianModel
+from prf.model.prfpy.fit import Iso2DGaussianFitter
 import nibabel as nb
 
 # Get inputs
@@ -66,6 +66,7 @@ TR = analysis_info['TR']
 grid_nr = analysis_info['grid_nr']
 max_ecc_size = analysis_info['max_ecc_size']
 
+
 # Get task specific visual design matrix
 visual_dm = np.load(input_vd)
 
@@ -81,7 +82,7 @@ data_where = np.where(data_var!=0.0)
 data_indices = []
 
 for x,y,z in zip(data_where[0],data_where[1],data_where[2]):
-    [data_indices.append((x,y,z))
+    data_indices.append((x,y,z))
 fit_mat = np.zeros((data.shape[0],data.shape[1],data.shape[2],6))
 pred_mat = np.zeros(data.shape)
 
