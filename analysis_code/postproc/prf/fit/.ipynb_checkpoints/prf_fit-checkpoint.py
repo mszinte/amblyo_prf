@@ -40,11 +40,11 @@ import ipdb
 deb = ipdb.set_trace
 
 # MRI analysis imports
-from prf.model.prfpy.rf import *
-from prf.model.prfpy.timecourse import *
-from prf.model.prfpy.stimulus import PRFStimulus2D
-from prf.model.prfpy.model import Iso2DGaussianModel
-from prf.model.prfpy.fit import Iso2DGaussianFitter
+from prfpy.rf import *
+from prfpy.timecourse import *
+from prfpy.stimulus import PRFStimulus2D
+from prfpy.model import Iso2DGaussianModel
+from prfpy.fit import Iso2DGaussianFitter
 import nibabel as nb
 
 # Get inputs
@@ -68,7 +68,7 @@ max_ecc_size = analysis_info['max_ecc_size']
 
 
 # Get task specific visual design matrix
-visual_dm = np.load(input_vd)
+vdm = np.load(input_vd)
 
 # Load data
 data_img = nb.load(input_fn)
@@ -87,9 +87,9 @@ fit_mat = np.zeros((data.shape[0],data.shape[1],data.shape[2],6))
 pred_mat = np.zeros(data.shape)
 
 # determine model
-stimulus = PRFStimulus2D(screen_size_cm=screen_size, 
-                         screen_distance_cm=screen_distance,
-                         design_matrix=visual_dm, 
+stimulus = PRFStimulus2D(screen_size_cm=screen_size_cm[1], 
+                         screen_distance_cm=screen_distance_cm,
+                         design_matrix=vdm, 
                          TR=TR)
 
 gauss_model = Iso2DGaussianModel(stimulus=stimulus)

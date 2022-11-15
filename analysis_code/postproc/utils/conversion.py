@@ -54,7 +54,6 @@ class conversion:
 
         """               
         import numpy as np
-        #return cm/(2*self.screen_distance_cm*np.tan(0.5*np.pi/180))
         return (2*np.arctan(cm/(2*self.screen_distance_cm)))*180/np.pi
 
     def pix2cm(self, pix):
@@ -103,7 +102,6 @@ class conversion:
 
         """
         import numpy as np
-        #return (2*self.screen_distance_cm*np.tan(0.5*np.pi/180))*dva
         return 2*self.screen_distance_cm*np.tan(dva*np.pi/(2*180))
     
     def dva2pix(self,dva):
