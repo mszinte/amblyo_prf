@@ -19,14 +19,14 @@ To run:
 -----------------------------------------------------------------------------------------
 Exemple:
 1. cd to function
->> cd ~/projects/stereo_prf/analysis_code/postproc/fit/
+>> cd ~/projects/stereo_prf/analysis_code/postproc/
 2. run python command
-python submit_fit_jobs.py [main directory] [project name] [subject num]
+python prf/fit/submit_fit_jobs.py [main directory] [project name] [subject num]
 -----------------------------------------------------------------------------------------
 Executions:
-python submit_fit_jobs.py /scratch/mszinte/data stereo_prf sub-01
-python submit_fit_jobs.py /scratch/mszinte/data stereo_prf sub-02
-python submit_fit_jobs.py /scratch/mszinte/data stereo_prf sub-03
+python prf/fit/submit_fit_jobs.py /scratch/mszinte/data stereo_prf sub-01
+python prf/fit/submit_fit_jobs.py /scratch/mszinte/data stereo_prf sub-02
+python prf/fit/submit_fit_jobs.py /scratch/mszinte/data stereo_prf sub-03
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
 -----------------------------------------------------------------------------------------
@@ -59,8 +59,8 @@ nb_procs = 8
 print("Fit analysis")
 
 # Define folders
-ppdir = "{}/{}/derivatives/pp_data/".format(main_dir, project_dir)
-prf_folder = "{}/{}/prf/".format(pp_dir, subject)
+pp_dir = "{}/{}/derivatives/pp_data".format(main_dir, project_dir)
+prf_folder = "{}/{}/prf".format(pp_dir, subject)
 os.makedirs(prf_folder, exist_ok=True)
 prf_fit_folder = "{}/{}/prf/fit".format(pp_dir, subject)
 os.makedirs(prf_fit_folder, exist_ok=True)
@@ -102,10 +102,10 @@ for fit_num, pp_avg_fn in enumerate(pp_avg_fns):
     #SBATCH -e {log_dir}/{sub}_fit_{fit_num}_%N_%j_%a.err
     #SBATCH -o {log_dir}/{sub}_fit_{fit_num}_%N_%j_%a.out
     #SBATCH -J {sub}_fit_{fit_num}\n\n""".format(
-    nb_procs=nb_procs, log_dir=log_dir, job_dur=job_dur, sub=subject, fit_num=fit_num)
+    nb_procs=nb_procs, log_dir=prf_logs_folder, job_dur=job_dur, sub=subject, fit_num=fit_num)
 
     # define fit cmd
-    fit_cmd = "python analysis_code/postproc/prf/fit/prf_fit.py {} {} {} {} {} {}".format(
+    fit_cmd = "ipython prf/fit/prf_fit.py {} {} {} {} {} {}".format(
         subject, input_fn, vdm_fn, fit_fn, pred_fn, nb_procs)
 
     # create sh folder and file
@@ -117,4 +117,4 @@ for fit_num, pp_avg_fn in enumerate(pp_avg_fns):
 
     # Submit jobs
     print("Submitting {sh_dir} to queue".format(sh_dir=sh_dir))
-    os.system("sbatch {sh_dir}".format(sub_command=sub_command, sh_dir=sh_dir))
+    # os.system("sbatch {sh_dir}".format(sub_command=sub_command, sh_dir=sh_dir))
