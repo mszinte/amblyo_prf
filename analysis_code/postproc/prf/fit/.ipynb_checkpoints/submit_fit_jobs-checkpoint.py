@@ -66,11 +66,11 @@ prf_fit_folder = "{}/{}/prf/fit".format(pp_dir, subject)
 os.makedirs(prf_fit_folder, exist_ok=True)
 prf_jobs_folder = "{}/{}/prf/jobs".format(pp_dir, subject)
 os.makedirs(prf_jobs_folder, exist_ok=True)
-prf_logs_folder = "{}/{}/prf/log_outpits".format(pp_dir, subject)
+prf_logs_folder = "{}/{}/prf/log_outputs".format(pp_dir, subject)
 os.makedirs(prf_logs_folder, exist_ok=True)
 
-# Fefine fns (filenames)
-vdm_fn = "{}/vdm/prf_vdm.mat".format(pp_dir, subject)
+# Define fns (filenames)
+vdm_fn = "{}/{}/derivatives/vdm/vdm.npy".format(main_dir, project_dir)
 pp_avg_fns = glob.glob("{}/{}/func/fmriprep_dct_avg/*avg*.nii.gz".format(pp_dir,subject))
 for fit_num, pp_avg_fn in enumerate(pp_avg_fns):
     
@@ -93,19 +93,19 @@ for fit_num, pp_avg_fn in enumerate(pp_avg_fns):
 
     # create job shell
     slurm_cmd = """\
-    #!/bin/bash
-    #SBATCH -p skylake
-    #SBATCH -A b161
-    #SBATCH --nodes=1
-    #SBATCH --cpus-per-task={nb_procs}
-    #SBATCH --time={job_dur}
-    #SBATCH -e {log_dir}/{sub}_fit_{fit_num}_%N_%j_%a.err
-    #SBATCH -o {log_dir}/{sub}_fit_{fit_num}_%N_%j_%a.out
-    #SBATCH -J {sub}_fit_{fit_num}\n\n""".format(
+#!/bin/bash
+#SBATCH -p skylake
+#SBATCH -A b161
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task={nb_procs}
+#SBATCH --time={job_dur}
+#SBATCH -e {log_dir}/{sub}_fit_{fit_num}_%N_%j_%a.err
+#SBATCH -o {log_dir}/{sub}_fit_{fit_num}_%N_%j_%a.out
+#SBATCH -J {sub}_fit_{fit_num}\n\n""".format(
     nb_procs=nb_procs, log_dir=prf_logs_folder, job_dur=job_dur, sub=subject, fit_num=fit_num)
 
     # define fit cmd
-    fit_cmd = "ipython prf/fit/prf_fit.py {} {} {} {} {} {}".format(
+    fit_cmd = "python prf/fit/prf_fit.py {} {} {} {} {} {}".format(
         subject, input_fn, vdm_fn, fit_fn, pred_fn, nb_procs)
 
     # create sh folder and file
@@ -117,4 +117,4 @@ for fit_num, pp_avg_fn in enumerate(pp_avg_fns):
 
     # Submit jobs
     print("Submitting {sh_dir} to queue".format(sh_dir=sh_dir))
-    # os.system("sbatch {sh_dir}".format(sub_command=sub_command, sh_dir=sh_dir))
+    os.system("sbatch {sh_dir}".format(sh_dir=sh_dir))
