@@ -58,16 +58,16 @@ nb_procs = 8
 
 print("Fit analysis")
 
-# Define folders
+# Define directories
 pp_dir = "{}/{}/derivatives/pp_data".format(main_dir, project_dir)
-prf_folder = "{}/{}/prf".format(pp_dir, subject)
-os.makedirs(prf_folder, exist_ok=True)
-prf_fit_folder = "{}/{}/prf/fit".format(pp_dir, subject)
-os.makedirs(prf_fit_folder, exist_ok=True)
-prf_jobs_folder = "{}/{}/prf/jobs".format(pp_dir, subject)
-os.makedirs(prf_jobs_folder, exist_ok=True)
-prf_logs_folder = "{}/{}/prf/log_outputs".format(pp_dir, subject)
-os.makedirs(prf_logs_folder, exist_ok=True)
+prf_dir = "{}/{}/prf".format(pp_dir, subject)
+os.makedirs(prf_dir, exist_ok=True)
+prf_fit_dir = "{}/{}/prf/fit".format(pp_dir, subject)
+os.makedirs(prf_fit_dir, exist_ok=True)
+prf_jobs_dir = "{}/{}/prf/jobs".format(pp_dir, subject)
+os.makedirs(prf_jobs_dir, exist_ok=True)
+prf_logs_dir = "{}/{}/prf/log_outputs".format(pp_dir, subject)
+os.makedirs(prf_logs_dir, exist_ok=True)
 
 # Define fns (filenames)
 vdm_fn = "{}/{}/derivatives/vdm/vdm.npy".format(main_dir, project_dir)
@@ -75,8 +75,9 @@ pp_avg_fns = glob.glob("{}/{}/func/fmriprep_dct_avg/*avg*.nii.gz".format(pp_dir,
 for fit_num, pp_avg_fn in enumerate(pp_avg_fns):
     
     input_fn = pp_avg_fn
-    fit_fn = "{}/{}_prf-deriv.nii.gz".format(prf_fit_folder, os.path.basename(pp_avg_fn))
-    pred_fn = "{}/{}_prf-pred.nii.gz".format(prf_fit_folder, os.path.basename(pp_avg_fn))
+    deb()
+    fit_fn = "{}/{}_prf-fit.nii.gz".format(prf_fit_dir, os.path.basename(pp_avg_fn)[:-7])
+    pred_fn = "{}/{}_prf-pred.nii.gz".format(prf_fit_dir, os.path.basename(pp_avg_fn)[:-7])
 
     if os.path.isfile(fit_fn):
         if os.path.getsize(fit_fn) != 0:
@@ -102,14 +103,14 @@ for fit_num, pp_avg_fn in enumerate(pp_avg_fns):
 #SBATCH -e {log_dir}/{sub}_fit_{fit_num}_%N_%j_%a.err
 #SBATCH -o {log_dir}/{sub}_fit_{fit_num}_%N_%j_%a.out
 #SBATCH -J {sub}_fit_{fit_num}\n\n""".format(
-    nb_procs=nb_procs, log_dir=prf_logs_folder, job_dur=job_dur, sub=subject, fit_num=fit_num)
+    nb_procs=nb_procs, log_dir=prf_logs_dir, job_dur=job_dur, sub=subject, fit_num=fit_num)
 
     # define fit cmd
     fit_cmd = "python prf/fit/prf_fit.py {} {} {} {} {} {}".format(
         subject, input_fn, vdm_fn, fit_fn, pred_fn, nb_procs)
 
-    # create sh folder and file
-    sh_dir = "{}/jobs/{}_prf_fit-{}.sh".format(prf_folder,subject,fit_num)
+    # create sh dir and file
+    sh_dir = "{}/jobs/{}_prf_fit-{}.sh".format(prf_dir,subject,fit_num)
 
     of = open(sh_dir, 'w')
     of.write("{slurm_cmd}{fit_cmd}".format(slurm_cmd=slurm_cmd, fit_cmd=fit_cmd))
