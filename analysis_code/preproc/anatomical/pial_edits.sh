@@ -7,57 +7,57 @@
 # -----------------------------------------------------------------------------------------
 # Input(s):
 # $1: project directory
-# $2: subject name (e.g. sub-01)
-# $3: mesocentre login ID
+# $2: project name (correspond to directory)
+# $3: subject name (e.g. sub-01)
+# $4: mesocentre login ID
 # -----------------------------------------------------------------------------------------
 # Output(s):
 # edited brainmask.mgz and orignal brainmask_orog.mgz
 # -----------------------------------------------------------------------------------------
 # To run:
+# 0. TO RUN LOCALLY WITH FREEWIEW INSTALLED (not on server)
 # 1. cd to function
-# >> cd ~/disks/meso_H/projects/PredictEye/mri_analysis/
+# >> cd ~/disks/meso_H/projects/stereo_prf/analysis_code/preproc/anatomical/
 # 2. run shell command
-# sh preproc/pial_edits.sh [main directory] [subject name] [mesocentre_ID]
+# sh pial_edits.sh [main directory] [project name] [subject name] [mesocentre_ID]
 # -----------------------------------------------------------------------------------------
 # Exemple:
-# cd ~/disks/meso_H/projects/PredictEye/mri_analysis/
-# sh preproc/pial_edits.sh /scratch/mszinte/data/PredictEye sub-01 mszinte
+# sh pial_edits.sh /scratch/mszinte/data/ stereo_prf sub-01 mszinte
 # -----------------------------------------------------------------------------------------
-# Written by Martin Szinte (martin.szinte@gmail.com)
+# Written by Martin Szinte (mail@martinszinte.net)
 # -----------------------------------------------------------------------------------------
 
 
 # rsync to desktop (faster processing)
 echo "\n>> Copying the files to the desktop"
-rsync -azuv  --progress $3@login.mesocentre.univ-amu.fr:$1/deriv_data/fmriprep/freesurfer/$2 ~/Desktop/temp_data/
+rsync -azuv  --progress $4@login.mesocentre.univ-amu.fr:$1/$2/derivatives/fmriprep/freesurfer/$3 ~/Desktop/temp_data/
 
 # create a copy of the origninal brainmask
-NEWFILE=~/Desktop/temp_data/$2/mri/brainmask_orig.mgz
+NEWFILE=~/Desktop/temp_data/$3/mri/brainmask_orig.mgz
 if [ -f "$NEWFILE" ]; then
     echo "\n>> A copy of original brainmask already exists: $NEWFILE"
 else
 	echo "\n>> Creating a copy of original brainmask: $NEWFILE"
-	cp ~/Desktop/temp_data/$2/mri/brainmask.mgz $NEWFILE
+	cp ~/Desktop/temp_data/$3/mri/brainmask.mgz $NEWFILE
 fi
 
 # Check + edit pial surface
 echo "\n>> Edit the brain mask following https://surfer.nmr.mgh.harvard.edu/fswiki/FsTutorial/PialEdits_freeview"
 echo ">> When you are done, save the brainmask and quit freeview"
-freeview -v ~/Desktop/temp_data/$2/mri/T1.mgz \
-~/Desktop/temp_data/$2/mri/T2.mgz \
-~/Desktop/temp_data/$2/mri/brainmask.mgz \
--f ~/Desktop/temp_data/$2/surf/lh.white:edgecolor=yellow \
-~/Desktop/temp_data/$2/surf/lh.pial:edgecolor=red \
-~/Desktop/temp_data/$2/surf/rh.white:edgecolor=yellow \
-~/Desktop/temp_data/$2/surf/rh.pial:edgecolor=red
+freeview -v ~/Desktop/temp_data/$3/mri/T1.mgz \
+~/Desktop/temp_data/$3/mri/brainmask.mgz \
+-f ~/Desktop/temp_data/$3/surf/lh.white:edgecolor=yellow \
+~/Desktop/temp_data/$3/surf/lh.pial:edgecolor=red \
+~/Desktop/temp_data/$3/surf/rh.white:edgecolor=yellow \
+~/Desktop/temp_data/$3/surf/rh.pial:edgecolor=red
 
 # move the file to the right place
 while true; do
 	read -p "Do you wish to transfer the edited brainmask to the mesocentre? (y/n) " yn
 	case $yn in
 		[Yy]* ) echo "\n>> Uploading of the brainmasks to mesocentre";\
-				rsync -avuz ~/Desktop/temp_data/$2/mri/brainmask.mgz $3@login.mesocentre.univ-amu.fr:$1/deriv_data/fmriprep/freesurfer/$2/mri/
-				rsync -avuz ~/Desktop/temp_data/$2/mri/brainmask_orig.mgz $3@login.mesocentre.univ-amu.fr:$1/deriv_data/fmriprep/freesurfer/$2/mri/
+				rsync -avuz ~/Desktop/temp_data/$3/mri/brainmask.mgz $4@login.mesocentre.univ-amu.fr:$1/$2/derivatives/fmriprep/freesurfer/$3/mri/
+				rsync -avuz ~/Desktop/temp_data/$3/mri/brainmask_orig.mgz $4@login.mesocentre.univ-amu.fr:$1/$2/derivatives/fmriprep/freesurfer/$3/mri/
         break;;
 		[Nn]* ) echo "\n>> No uploading of the brainmasks to mesocentre";\
 				exit;;

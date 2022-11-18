@@ -15,7 +15,10 @@ _[dcm2niix](https://github.com/rordenlab/dcm2niix);
 [PyDeface](https://github.com/poldracklab/pydeface); 
 [fMRIprep](https://fmriprep.org/en/stable/); 
 [pRFpy](https://github.com/VU-Cog-Sci/prfpy); 
-[pybest](https://github.com/lukassnoek/pybest)_</br>
+[pybest](https://github.com/lukassnoek/pybest);
+[FreeSurfer](https://surfer.nmr.mgh.harvard.edu/);
+[FFmpeg](https://ffmpeg.org/)
+_</br>
 
 
 ## Data analysis
@@ -30,6 +33,7 @@ _[dcm2niix](https://github.com/rordenlab/dcm2niix);
 - [x] deface participants t1w image [deface_sbatch.py](analysis_code/preproc/bids/deface_sbatch.py)
 
 #### Structural preprocessing
+- [x] create sagital view video before and after manual edit [sagital_view.py](analysis_code/preproc/anatomical/sagital_view.py)
 - [ ] manual edit of brain segmentation
 - [ ] cut the brain and flatten it
 - [ ] create pycortex dataset
