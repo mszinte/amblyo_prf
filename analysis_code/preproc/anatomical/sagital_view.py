@@ -59,7 +59,7 @@ volumes_cmd = '-f {fs_dir}/surf/lh.white:color=red:edgecolor=red \
 -layout 1'.format(fs_dir = fs_dir)
 
 slice_cmd = ''
-x_start, x_end = 50, 250
+x_start, x_end = 50, 210
 for x in np.arange(x_start,x_end):
     if x < 10:x_name = '00{}'.format(x)
     elif x >= 10 and x < 100:x_name = '0{}'.format(x)

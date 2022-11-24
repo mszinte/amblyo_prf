@@ -1,5 +1,5 @@
 # -----------------------------------------------------------------------------------------
-# pial_edits.py
+# pial_edits.sh
 # -----------------------------------------------------------------------------------------
 # Goal of the script:
 # Run freeview to edit the segmentation brainmask localy before transfering it back to 
@@ -21,10 +21,8 @@
 # 2. run shell command
 # sh pial_edits.sh [main directory] [project name] [subject name] [mesocentre_ID]
 # -----------------------------------------------------------------------------------------
-# Excecutions:
-# sh pial_edits.sh /scratch/mszinte/data/ stereo_prf sub-01 mszinte (21/10/2022, MS)
-# sh pial_edits.sh /scratch/mszinte/data/ stereo_prf sub-02 mszinte (21/10/2022, MS)
-# sh pial_edits.sh /scratch/mszinte/data/ stereo_prf sub-03 mszinte (21/10/2022, MS)
+# Exemple:
+# sh pial_edits.sh /scratch/mszinte/data/ stereo_prf sub-01 mszinte
 # -----------------------------------------------------------------------------------------
 # Written by Martin Szinte (mail@martinszinte.net)
 # -----------------------------------------------------------------------------------------
