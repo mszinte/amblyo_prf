@@ -15,7 +15,6 @@ Adrien CHOPIN, Uriel LASCOMBES, Margot CHEVILLARD, Jian DING, Michael SILVER, Ya
 [PyDeface](https://github.com/poldracklab/pydeface); 
 [fMRIprep](https://fmriprep.org/en/stable/); 
 [pRFpy](https://github.com/VU-Cog-Sci/prfpy); 
-[pybest](https://github.com/lukassnoek/pybest);
 [FreeSurfer](https://surfer.nmr.mgh.harvard.edu/);
 [FFmpeg](https://ffmpeg.org/)
 [FSL](https://fsl.fmrib.ox.ac.uk)
