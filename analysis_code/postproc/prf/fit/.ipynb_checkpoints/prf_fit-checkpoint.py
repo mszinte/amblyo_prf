@@ -57,7 +57,7 @@ pred_fn = sys.argv[5]
 nb_procs = int(sys.argv[6])
 
 # Analysis parameters
-with open('settings.json') as f:
+with open('../../../settings.json') as f:
     json_s = f.read()
     analysis_info = json.loads(json_s)
 screen_size_cm = analysis_info['screen_size_cm']
@@ -65,7 +65,6 @@ screen_distance_cm = analysis_info['screen_distance_cm']
 TR = analysis_info['TR']
 grid_nr = analysis_info['grid_nr']
 max_ecc_size = analysis_info['max_ecc_size']
-
 
 # Get task specific visual design matrix
 vdm = np.load(input_vd)
