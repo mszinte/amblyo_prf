@@ -17,9 +17,9 @@ Find where event_files_bidify.py is located (say in ~/XX/), and where your proje
 >> python ~/XX/event_files_bidify.py ~/path2stereo_prf/
 Example:
 From mesocentre:
->> python  ~/projects/stereo_prf/analysis_code/preproc/event_files_bidify.py '/scratch/mszinte/data/stereo_prf/' 
+>> python  ~/projects/stereo_prf/analysis_code/preproc/bids/event_files_bidify.py '/scratch/mszinte/data/stereo_prf/' 
 From invibe nohost:
->> python  ~/disks/meso_H/projects/stereo_prf/analysis_code/preproc/event_files_bidify.py '~/disks/meso_S/data/stereo_prf/' -o
+>> python  ~/disks/meso_H/projects/stereo_prf/analysis_code/preproc/bids/event_files_bidify.py '~/disks/meso_S/data/stereo_prf/' -o
 -----------------------------------------------------------------------------------------
 Written by Adrien Chopin (adrien.chopin@gmail.com) - 2022
 -----------------------------------------------------------------------------------------

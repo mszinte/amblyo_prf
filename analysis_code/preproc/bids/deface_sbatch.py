@@ -15,28 +15,29 @@ sys.argv[5]: server job or not (1 = server, 0 = terminal)
 Output(s):
 Defaced images
 -----------------------------------------------------------------------------------------
-To run:
-1. cd to function
->> cd /home/mszinte/projects/stereo_prf/mri_analysis/
-2. run python command
-python preproc/deface_sbatch.py [main directory] [project name] [subject num] [overwrite] 
+To run: run python commands
+>> cd ~/projects/stereo_prf/analysis_code/preproc/bids/
+>> python deface_sbatch.py [main directory] [project name] [subject num] [overwrite] [server]
 -----------------------------------------------------------------------------------------
 Exemple:
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-01 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-02 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-03 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-04 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-05 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-06 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-07 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-08 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-09 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-10 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-11 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-12 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-13 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-14 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-15 0 0
+python deface_sbatch.py /scratch/mszinte/data stereo_prf sub-01 1 0
+python deface_sbatch.py /scratch/mszinte/data stereo_prf sub-02 1 0
+python deface_sbatch.py /scratch/mszinte/data stereo_prf sub-03 1 0
+python deface_sbatch.py /scratch/mszinte/data stereo_prf sub-04 1 0
+python deface_sbatch.py /scratch/mszinte/data stereo_prf sub-05 1 0
+python deface_sbatch.py /scratch/mszinte/data stereo_prf sub-06 1 0
+python deface_sbatch.py /scratch/mszinte/data stereo_prf sub-07 1 0
+python deface_sbatch.py /scratch/mszinte/data stereo_prf sub-08 1 0
+python deface_sbatch.py /scratch/mszinte/data stereo_prf sub-09 1 0
+python deface_sbatch.py /scratch/mszinte/data stereo_prf sub-10 1 0
+python deface_sbatch.py /scratch/mszinte/data stereo_prf sub-11 1 0
+python deface_sbatch.py /scratch/mszinte/data stereo_prf sub-12 1 0
+python deface_sbatch.py /scratch/mszinte/data stereo_prf sub-13 1 0
+python deface_sbatch.py /scratch/mszinte/data stereo_prf sub-14 1 0
+python deface_sbatch.py /scratch/mszinte/data stereo_prf sub-15 1 0
+python deface_sbatch.py /scratch/mszinte/data stereo_prf sub-16 1 0
+python deface_sbatch.py /scratch/mszinte/data stereo_prf sub-17 1 0
+python deface_sbatch.py /scratch/mszinte/data stereo_prf sub-18 1 0
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
 -----------------------------------------------------------------------------------------

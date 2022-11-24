@@ -1,0 +1,335 @@
+All data saved at: Date and Time:	 5/ 3/2015	22: 6:58
+Box : 23 
+DE : 1 
+alreadyStarted : 0 
+ans : 20 
+calib : 
+      leftContr = 0.96
+      rightContr = 0.96
+      leftUpShift = 0
+      rightUpShift = 0
+      leftLeftShift = 0
+      rightLeftShift = 0
+      flickering = 0
+      leftContrNum = 3.17805383034794
+      rightContrNum = 3.17805383034794 
+calib1 : 1 
+calib2 : 1 
+dataFilePath : dataFilesexpe : 
+      name = STaM-DST-Goggles: Stereopsis Training and MRI
+      instrPosition = [0 300 400 1100]
+      portCOM = 
+           BaudRate = 57600
+           BreakInterruptFcn = 
+           ByteOrder = littleEndian
+           BytesAvailable = 512
+           BytesAvailableFcn = 
+           BytesAvailableFcnCount = 48
+           BytesAvailableFcnMode = terminator
+           BytesToOutput = 0
+           DataBits = 8
+           DataTerminalReady = on
+           ErrorFcn = 
+           FlowControl = none
+           InputBufferSize = 512
+           Name = Serial-COM2
+           ObjectVisibility = on
+           OutputBufferSize = 512
+           OutputEmptyFcn = 
+           Parity = none
+           PinStatus = 
+                CarrierDetect = off
+                ClearToSend = off
+                DataSetReady = off
+                RingIndicator = off
+           PinStatusFcn = 
+           Port = COM2
+           ReadAsyncMode = continuous
+           RecordDetail = compact
+           RecordMode = overwrite
+           RecordName = record.txt
+           RecordStatus = off
+           RequestToSend = on
+           Status = open
+           StopBits = 1
+           Tag = 
+           Terminator = LF
+           Timeout = 10
+           TimerFcn = 
+           TimerPeriod = 1
+           TransferStatus = idle
+           Type = serial
+           UserData = []
+           ValuesReceived = 0
+           ValuesSent = 2570
+      DE = 1
+      startTime = 222566.393061599 
+file : 3 
+fileMat : dataFilesfileName : dataFilesflickering : 0 
+g : 
+      BaudRate = 
+           57600
+           57600
+      BreakInterruptFcn = 
+           
+           
+      ByteOrder = 
+           littleEndian
+           littleEndian
+      BytesAvailable = 
+           512
+           92
+      BytesAvailableFcn = 
+           
+           
+      BytesAvailableFcnCount = 
+           48
+           48
+      BytesAvailableFcnMode = 
+           terminator
+           terminator
+      BytesToOutput = 
+           0
+           0
+      DataBits = 
+           8
+           8
+      DataTerminalReady = 
+           on
+           on
+      ErrorFcn = 
+           
+           
+      FlowControl = 
+           none
+           none
+      InputBufferSize = 
+           512
+           512
+      Name = 
+           Serial-COM2
+           Serial-COM2
+      ObjectVisibility = 
+           on
+           on
+      OutputBufferSize = 
+           512
+           512
+      OutputEmptyFcn = 
+           
+           
+      Parity = 
+           none
+           none
+      PinStatus = 
+           
+                CarrierDetect = off
+                ClearToSend = off
+                DataSetReady = off
+                RingIndicator = off
+           
+                CarrierDetect = off
+                ClearToSend = off
+                DataSetReady = off
+                RingIndicator = off
+      PinStatusFcn = 
+           
+           
+      Port = 
+           COM2
+           COM2
+      ReadAsyncMode = 
+           continuous
+           continuous
+      RecordDetail = 
+           compact
+           compact
+      RecordMode = 
+           overwrite
+           overwrite
+      RecordName = 
+           record.txt
+           record.txt
+      RecordStatus = 
+           off
+           off
+      RequestToSend = 
+           on
+           on
+      Status = 
+           closed
+           closed
+      StopBits = 
+           1
+           1
+      Tag = 
+           
+           
+      Terminator = 
+           LF
+           LF
+      Timeout = 
+           10
+           10
+      TimerFcn = 
+           
+           
+      TimerPeriod = 
+           1
+           1
+      TransferStatus = 
+           idle
+           idle
+      Type = 
+           serial
+           serial
+      UserData = 
+           []
+           []
+      ValuesReceived = 
+           0
+           0
+      ValuesSent = 
+           13530
+           92 
+leftContr : 0.96 
+leftLeftShift : 0 
+leftUpShift : 0 
+name : defaut_DST 
+rightContr : 0.96 
+rightLeftShift : 0 
+rightUpShift : 0 
+scr : 
+      screenNumber = 1
+      res = [0 0 800 600]
+      box = 23
+      W = 43.4
+      H = 29.6
+      frameSep = 0
+      distFromScreen = 10
+      FOV = 30
+      ppBymm = 18.4331797235023
+      VA2pxConstant = 26.6666666666667
+      backgr = 5
+      fontColor = 0
+      keyboardNum = -1
+      w = 10
+      LEtxt = 11
+      REtxt = 12
+      fontSize = 10
+      centerX = 400
+      centerY = 300
+      stereoDeviation = 0
+      LcenterX = 400
+      RcenterX = 400
+      midPt = 400
+      LcenterXLine = 400
+      RcenterXLine = 400
+      centerYLine = 300
+      LcenterXDot = 399
+      RcenterXDot = 399
+      centerYDot = 301 
+sounds : 
+      success = 
+           duration = 0.2
+           sampleRate = 44100
+           f = 1000
+           F = 8820
+           obj = 
+                SampleRate = 44100
+                BitsPerSample = 16
+                NumberOfChannels = 1
+                DeviceID = -1
+                CurrentSample = 1
+                TotalSamples = 8821
+                Running = off
+                StartFcn = []
+                StopFcn = []
+                TimerFcn = []
+                TimerPeriod = 0.05
+                Tag = 
+                UserData = []
+                Type = audioplayer
+      fail = 
+           duration = 0.2
+           sampleRate = 44100
+           f = 500
+           F = 8820
+           obj = 
+                SampleRate = 44100
+                BitsPerSample = 16
+                NumberOfChannels = 1
+                DeviceID = -1
+                CurrentSample = 1
+                TotalSamples = 8821
+                Running = off
+                StartFcn = []
+                StopFcn = []
+                TimerFcn = []
+                TimerPeriod = 0.05
+                Tag = 
+                UserData = []
+                Type = audioplayer
+      outFixation = 
+           duration = 0.2
+           sampleRate = 44100
+           f = 2000
+           F = 8820
+           obj = 
+                SampleRate = 44100
+                BitsPerSample = 16
+                NumberOfChannels = 1
+                DeviceID = -1
+                CurrentSample = 1
+                TotalSamples = 8821
+                Running = off
+                StartFcn = []
+                StopFcn = []
+                TimerFcn = []
+                TimerPeriod = 0.05
+                Tag = 
+                UserData = []
+                Type = audioplayer 
+stim : 
+      fixationLengthMin = 30
+      fixationLineWidthMin = 15
+      fixationOffsetMin = 15
+      fixationDotSizeMin = 15
+      frameWidthVA = 20
+      frameHeightVA = 18
+      frameLineWidthVA = 0.2
+      frameContrast = 0.96
+      framePhase = 3.14159265358979
+      horiz = 
+           widthVA = 20
+           heightVA = 0.2
+           averageL = 5
+           contrast = 0.96
+           tilt = 90
+           spatialFrequencyDeg = 0.4
+           phase = 3.14159265358979
+           FWHM = 100
+           discrete = 1
+           width = 533
+           height = 5
+      vert = 
+           widthVA = 0.2
+           heightVA = 18
+           averageL = 5
+           contrast = 0.96
+           tilt = 0
+           spatialFrequencyDeg = 0.4
+           phase = 3.14159265358979
+           FWHM = 100
+           discrete = 1
+           width = 5
+           height = 480
+      duration = 200
+      itemDuration = 5000
+      interTrial = 200
+      minimalDuration = 200
+      fixationLength = 13
+      fixationLineWidth = 7
+      fixationOffset = 7
+      fixationDotSize = 7
+      frameLineWidth = 5 

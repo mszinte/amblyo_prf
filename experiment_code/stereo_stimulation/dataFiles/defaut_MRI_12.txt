@@ -1,0 +1,300 @@
+All data saved at: Date and Time:	24/ 8/2015	13:37:52
+Box : 23 
+DE : 2 
+alreadyStarted : 1 
+ans : 20 
+b : 4 
+blockTable : [1 0 1 NaN NaN 2 4 -4 270 NaN 2 4;2 0 1 NaN NaN 2 4 -4 270 NaN 2 4;3 0 1 NaN NaN 2 4 -4 270 NaN 2 4;4 0 1 NaN NaN 2 4 -4 270 NaN 2 4;5 0 1 NaN NaN 2 4 -4 270 NaN 2 4;6 0 1 NaN NaN 2 4 -4 270 NaN 2 4;7 0 1 NaN NaN 2 4 -4 270 NaN 2 4;8 0 1 NaN NaN 2 4 -4 270 NaN 2 4;9 0 1 NaN NaN 2 4 -4 270 NaN 2 4;10 0 1 NaN NaN 2 4 -4 270 NaN 2 4;11 0 1 NaN NaN 2 4 -4 270 NaN 2 4;12 0 1 NaN NaN 2 4 -4 270 NaN 2 4;13 0 1 NaN NaN 2 4 -4 270 NaN 2 4;14 0 1 NaN NaN 2 4 -4 270 NaN 2 4] 
+dataFilePath : dataFilesdisplayMode : 2 
+dummy : 4979.73379793736 
+expe : 
+      name = Stam v1 Goggles - Scanner version
+      time = []
+      date = 
+           Date and Time:	24/ 8/2015	13:35:23
+      instrPosition = [0 300 300 1000]
+      multiplier = 3
+      detectTime = 1.5
+      pedestalMin = 0
+      nbPedestal = 1
+      nbRepeatDisp = 2
+      dispList = [270 540 -270 -540]
+      nbValues = 1
+      nbOfPresentation = 14
+      pedestal = 0
+      dispListpp = 4
+      DE = 2
+      breakNb = 0
+      file = defaut_MRI
+      startTime = 4864.29150010328
+      leftContr = 0.96
+      rightContr = 0.96
+      leftUpShift = 0
+      rightUpShift = 0
+      leftLeftShift = 0
+      rightLeftShift = 0
+      flickering = 0
+      nbBlocks = 4
+      nn = 56
+      goalCounter = 56
+      beginInterTrial = 4964.00024028093
+      nbDotsLeft = 181
+      nbDotsRight = 181
+      nbDotsBackL = 170
+      nbDotsBackR = 170
+      stimTime = 15.0869661379611 
+file : 3 
+fileForThatSession : defaut_MRI_12 
+fileMat : dataFilesfileName : dataFilesfixONLeft : 4979.71726734146 
+fixONRight : 4979.73382557323 
+flickering : 0 
+forceCorrelated : 1 
+fullTable : [1 0 2 NaN NaN 2 4 -4 270 NaN 2 1;2 0 2 NaN NaN 2 4 -4 270 NaN 2 1;3 0 2 NaN NaN 2 4 -4 270 NaN 2 1;4 0 2 NaN NaN 2 4 -4 270 NaN 2 1;5 0 2 NaN NaN 2 4 -4 270 NaN 2 1;6 0 2 NaN NaN 2 4 -4 270 NaN 2 1;7 0 2 NaN NaN 2 4 -4 270 NaN 2 1;8 0 2 NaN NaN 2 4 -4 270 NaN 2 1;9 0 2 NaN NaN 2 4 -4 270 NaN 2 1;10 0 2 NaN NaN 2 4 -4 270 NaN 2 1;11 0 2 NaN NaN 2 4 -4 270 NaN 2 1;12 0 2 NaN NaN 2 4 -4 270 NaN 2 1;13 0 2 NaN NaN 2 4 -4 270 NaN 2 1;14 0 2 NaN NaN 2 4 -4 270 NaN 2 1;1 0 1 NaN NaN 2 4 -4 270 NaN 1 2;2 0 1 NaN NaN 2 4 -4 270 NaN 1 2;3 0 1 NaN NaN 2 4 -4 270 NaN 1 2;4 0 1 NaN NaN 2 4 -4 270 NaN 1 2;5 0 1 NaN NaN 2 4 -4 270 NaN 1 2;6 0 1 NaN NaN 2 4 -4 270 NaN 1 2;7 0 1 NaN NaN 2 4 -4 270 NaN 1 2;8 0 1 NaN NaN 2 4 -4 270 NaN 1 2;9 0 1 NaN NaN 2 4 -4 270 NaN 1 2;10 0 1 NaN NaN 2 4 -4 270 NaN 1 2;11 0 1 NaN NaN 2 4 -4 270 NaN 1 2;12 0 1 NaN NaN 2 4 -4 270 NaN 1 2;13 0 1 NaN NaN 2 4 -4 270 NaN 1 2;14 0 1 NaN NaN 2 4 -4 270 NaN 1 2;1 0 2 NaN NaN 2 4 -4 270 NaN 1 3;2 0 2 NaN NaN 2 4 -4 270 NaN 1 3;3 0 2 NaN NaN 2 4 -4 270 NaN 1 3;4 0 2 NaN NaN 2 4 -4 270 NaN 1 3;5 0 2 NaN NaN 2 4 -4 270 NaN 1 3;6 0 2 NaN NaN 2 4 -4 270 NaN 1 3;7 0 2 NaN NaN 2 4 -4 270 NaN 1 3;8 0 2 NaN NaN 2 4 -4 270 NaN 1 3;9 0 2 NaN NaN 2 4 -4 270 NaN 1 3;10 0 2 NaN NaN 2 4 -4 270 NaN 1 3;11 0 2 NaN NaN 2 4 -4 270 NaN 1 3;12 0 2 NaN NaN 2 4 -4 270 NaN 1 3;13 0 2 NaN NaN 2 4 -4 270 NaN 1 3;14 0 2 NaN NaN 2 4 -4 270 NaN 1 3;1 0 1 NaN NaN 2 4 -4 270 NaN 2 4;2 0 1 NaN NaN 2 4 -4 270 NaN 2 4;3 0 1 NaN NaN 2 4 -4 270 NaN 2 4;4 0 1 NaN NaN 2 4 -4 270 NaN 2 4;5 0 1 NaN NaN 2 4 -4 270 NaN 2 4;6 0 1 NaN NaN 2 4 -4 270 NaN 2 4;7 0 1 NaN NaN 2 4 -4 270 NaN 2 4;8 0 1 NaN NaN 2 4 -4 270 NaN 2 4;9 0 1 NaN NaN 2 4 -4 270 NaN 2 4;10 0 1 NaN NaN 2 4 -4 270 NaN 2 4;11 0 1 NaN NaN 2 4 -4 270 NaN 2 4;12 0 1 NaN NaN 2 4 -4 270 NaN 2 4;13 0 1 NaN NaN 2 4 -4 270 NaN 2 4;14 0 1 NaN NaN 2 4 -4 270 NaN 2 4] 
+g : [] 
+inputMode : 1 
+keepON : 0 
+keepgoing : 0 
+keypress : 4 
+leftContr : 0.96 
+leftLeftShift : 0 
+leftUpShift : 0 
+name : defaut 
+nameDST : defaut_DST 
+nbBlocks : 4 
+perf : 
+      hit = 0
+      miss = 5
+      FA = 0
+      CR = 9 
+performance : 0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            0000            3435        111 1019 
+portCOM : 
+      BaudRate = 57600
+      BreakInterruptFcn = 
+      ByteOrder = littleEndian
+      BytesAvailable = 512
+      BytesAvailableFcn = 
+      BytesAvailableFcnCount = 48
+      BytesAvailableFcnMode = terminator
+      BytesToOutput = 0
+      DataBits = 8
+      DataTerminalReady = on
+      ErrorFcn = 
+      FlowControl = none
+      InputBufferSize = 512
+      Name = Serial-COM2
+      ObjectVisibility = on
+      OutputBufferSize = 512
+      OutputEmptyFcn = 
+      Parity = none
+      PinStatus = 
+           CarrierDetect = off
+           ClearToSend = off
+           DataSetReady = off
+           RingIndicator = off
+      PinStatusFcn = 
+      Port = COM2
+      ReadAsyncMode = continuous
+      RecordDetail = compact
+      RecordMode = overwrite
+      RecordName = record.txt
+      RecordStatus = off
+      RequestToSend = on
+      Status = open
+      StopBits = 1
+      Tag = 
+      Terminator = LF
+      Timeout = 10
+      TimerFcn = 
+      TimerPeriod = 1
+      TransferStatus = idle
+      Type = serial
+      UserData = []
+      ValuesReceived = 0
+      ValuesSent = 8104 
+previousRunDuration : 64.9143932245406 
+quickMode : 1 
+rightContr : 0.96 
+rightLeftShift : 0 
+rightUpShift : 0 
+runNb : 14 
+runSaved : [1 1 0 2 NaN NaN 2 4 -4 270 NaN 2 1 1 14 0.591864490806984 0.583005825243163 1;2 1 0 2 NaN NaN 2 4 -4 270 NaN 2 1 0 14 0.562647056392962 0.56365312951948 0;3 1 0 2 NaN NaN 2 4 -4 270 NaN 2 1 0 14 0.563617103904107 0.563748977484465 0;4 1 0 2 NaN NaN 2 4 -4 270 NaN 2 1 0 14 0.563699731460474 0.563616442884268 1;5 1 0 2 NaN NaN 2 4 -4 270 NaN 2 1 0 14 0.56357446808488 0.563802189630223 0;6 1 0 2 NaN NaN 2 4 -4 270 NaN 2 1 0 14 0.563568518900865 0.563693782276459 1;7 1 0 2 NaN NaN 2 4 -4 270 NaN 2 1 0 14 0.563794587894336 0.563597934310565 0;8 1 0 2 NaN NaN 2 4 -4 270 NaN 2 1 0 14 0.56361941747582 0.563781367485717 0;9 1 0 2 NaN NaN 2 4 -4 270 NaN 2 1 0 14 0.563579095227396 0.563687833092445 0;10 1 0 2 NaN NaN 2 4 -4 270 NaN 2 1 0 14 0.563737740136276 0.563649493906269 0;11 1 0 2 NaN NaN 2 4 -4 270 NaN 2 1 0 14 0.563778392894164 0.56363627349765 0;12 1 0 2 NaN NaN 2 4 -4 270 NaN 2 1 0 14 0.563600578392652 0.563678578805593 0;13 1 0 2 NaN NaN 2 4 -4 270 NaN 2 1 0 14 0.563681553398055 0.56360884114838 0;14 1 0 2 NaN NaN 2 4 -4 270 NaN 2 1 0 14 0.563745672382538 0.56360884114838 0;1 1 0 1 NaN NaN 2 4 -4 270 NaN 1 2 1 14 0.568199297666069 0.565825242719256 0;2 1 0 1 NaN NaN 2 4 -4 270 NaN 1 2 1 14 0.563735426564563 0.563647841355305 0;3 1 0 1 NaN NaN 2 4 -4 270 NaN 1 2 1 14 0.563691138195281 0.563689485643408 1;4 1 0 1 NaN NaN 2 4 -4 270 NaN 1 2 0 14 0.563658087171461 0.563659739723335 0;5 1 0 1 NaN NaN 2 4 -4 270 NaN 1 2 0 14 0.563726172278621 0.563623053088122 0;6 1 0 1 NaN NaN 2 4 -4 270 NaN 1 2 0 14 0.563668002479062 0.56369312125571 1;7 1 0 1 NaN NaN 2 4 -4 270 NaN 1 2 0 14 0.563718570543642 0.563660400744084 0;8 1 0 1 NaN NaN 2 4 -4 270 NaN 1 2 0 14 0.563669655030026 0.563685519520732 0;9 1 0 1 NaN NaN 2 4 -4 270 NaN 1 2 0 14 0.564041148522847 0.563283619087088 1;10 1 0 1 NaN NaN 2 4 -4 270 NaN 1 2 0 14 0.563799876058511 0.563562900227225 0;11 1 0 1 NaN NaN 2 4 -4 270 NaN 1 2 0 14 0.563695434827423 0.563651476967607 1;12 1 0 1 NaN NaN 2 4 -4 270 NaN 1 2 0 14 0.563662383805422 0.563685850031106 0;13 1 0 1 NaN NaN 2 4 -4 270 NaN 1 2 0 14 0.56358636645291 0.563789960751819 1;14 1 0 1 NaN NaN 2 4 -4 270 NaN 1 2 0 14 0.563586035942535 0.563789960751819 0;1 1 0 2 NaN NaN 2 4 -4 270 NaN 1 3 1 14 0.566099896715969 0.56583879363734 1;2 1 0 2 NaN NaN 2 4 -4 270 NaN 1 3 0 14 0.563723197686159 0.563608510638005 0;3 1 0 2 NaN NaN 2 4 -4 270 NaN 1 3 0 14 0.563672299112113 0.563701384012347 0;4 1 0 2 NaN NaN 2 4 -4 270 NaN 1 3 0 14 0.563689816153783 0.563692129725496 0;5 1 0 2 NaN NaN 2 4 -4 270 NaN 1 3 0 14 0.563577773186807 0.563735096054188 0;6 1 0 2 NaN NaN 2 4 -4 270 NaN 1 3 0 14 0.563668663499811 0.563656434621407 0;7 1 0 2 NaN NaN 2 4 -4 270 NaN 1 3 0 14 0.563716587481395 0.563680231356557 1;8 1 0 2 NaN NaN 2 4 -4 270 NaN 1 3 0 14 0.563531832265653 0.563856062796731 0;9 1 0 2 NaN NaN 2 4 -4 270 NaN 1 3 0 14 0.563560586655512 0.56370501962374 0;10 1 0 2 NaN NaN 2 4 -4 270 NaN 1 3 0 14 0.563702706052027 0.563662053295047 1;11 1 0 2 NaN NaN 2 4 -4 270 NaN 1 3 0 14 0.563612146250307 0.563780045445128 0;12 1 0 2 NaN NaN 2 4 -4 270 NaN 1 3 0 14 0.563596612269976 0.563663044825262 0;13 1 0 2 NaN NaN 2 4 -4 270 NaN 1 3 0 14 0.563731460441886 0.563598595332223 1;14 1 0 2 NaN NaN 2 4 -4 270 NaN 1 3 0 14 0.563644205743003 0.563598595332223 0;1 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 1 14 0.563954885354178 0.565779301797193 0;2 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 1 14 0.563754596158105 0.563637595538239 1;3 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 0 14 0.563638917578828 0.563719562073857 0;4 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 0 14 0.563618756455071 0.563621731046624 1;5 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 0 14 0.563752613096767 0.563631646354224 0;6 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 0 14 0.563663375335636 0.563764841975171 1;7 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 0 14 0.56365379053932 0.563587688494408 0;8 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 0 14 0.563734435034348 0.563623714108871 0;9 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 0 14 0.563680231357466 0.563732782483385 1;10 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 0 14 0.563614790332394 0.56370997727754 0;11 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 0 14 0.563677917784844 0.563701714521812 0;12 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 0 14 0.563601239413401 0.563786325139517 1;13 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 0 14 0.563595620739761 0.563695765337798 0;14 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 0 14 0.563688824622659 0.563695765337798 0] 
+runperf : [0 0 15 41] 
+score : [0 0 0 0 0 0 0 0 0 0 0 0 0 46.4285714285714] 
+scr : 
+      screenNumber = 1
+      res = [0 0 800 600]
+      box = 23
+      W = 43.4
+      H = 29.6
+      frameSep = 0
+      distFromScreen = 10
+      FOV = 30
+      ppBymm = 18.4331797235023
+      VA2pxConstant = 26.6666666666667
+      backgr = 5
+      fontColor = 0
+      keyboardNum = -1
+      w = 10
+      LEtxt = 11
+      REtxt = 12
+      fontSize = 30
+      centerX = 400
+      centerY = 300
+      stereoDeviation = 0
+      LcenterX = 400
+      RcenterX = 400
+      LcenterXLine = 400
+      RcenterXLine = 400
+      centerYLine = 300
+      LcenterXDot = 399
+      RcenterXDot = 399
+      centerYDot = 301
+      frameRate = 60
+      frameTime = 0.0166666666666667
+      LcenterYLine = 300
+      RcenterYLine = 300
+      LcenterYDot = 301
+      RcenterYDot = 301 
+sessionFile : defaut_sessionFile.mat 
+sessionNb : 12 
+sounds : 
+      success = 
+           duration = 0.2
+           sampleRate = 44100
+           f = 1000
+           F = 8820
+           obj = 
+                SampleRate = 44100
+                BitsPerSample = 16
+                NumberOfChannels = 1
+                DeviceID = -1
+                CurrentSample = 1
+                TotalSamples = 8821
+                Running = off
+                StartFcn = []
+                StopFcn = []
+                TimerFcn = []
+                TimerPeriod = 0.05
+                Tag = 
+                UserData = []
+                Type = audioplayer
+      fail = 
+           duration = 0.2
+           sampleRate = 44100
+           f = 500
+           F = 8820
+           obj = 
+                SampleRate = 44100
+                BitsPerSample = 16
+                NumberOfChannels = 1
+                DeviceID = -1
+                CurrentSample = 1
+                TotalSamples = 8821
+                Running = off
+                StartFcn = []
+                StopFcn = []
+                TimerFcn = []
+                TimerPeriod = 0.05
+                Tag = 
+                UserData = []
+                Type = audioplayer
+      outFixation = 
+           duration = 0.2
+           sampleRate = 44100
+           f = 2000
+           F = 8820
+           obj = 
+                SampleRate = 44100
+                BitsPerSample = 16
+                NumberOfChannels = 1
+                DeviceID = -1
+                CurrentSample = 1
+                TotalSamples = 8821
+                Running = off
+                StartFcn = []
+                StopFcn = []
+                TimerFcn = []
+                TimerPeriod = 0.05
+                Tag = 
+                UserData = []
+                Type = audioplayer 
+startRunTime : 4915.8194455691 
+stereoMode : 1 
+stim : 
+      fixationLengthMin = 30
+      fixationLineWidthMin = 15
+      fixationOffsetMin = 15
+      fixationDotSizeMin = 15
+      frameLineWidthVA = 0.3
+      frameWidthVA = 20
+      frameHeightVA = 18
+      frameContrast = 0.96
+      framePhase = 3.14159265358979
+      horiz = 
+           widthVA = 20
+           heightVA = 0.3
+           averageL = 5
+           contrast = 0.96
+           tilt = 90
+           spatialFrequencyDeg = 0.4
+           phase = 3.14159265358979
+           FWHM = 100
+           discrete = 1
+           width = 533
+           height = 8
+      vert = 
+           widthVA = 0.3
+           heightVA = 18
+           averageL = 5
+           contrast = 0.96
+           tilt = 0
+           spatialFrequencyDeg = 0.4
+           phase = 3.14159265358979
+           FWHM = 100
+           discrete = 1
+           width = 8
+           height = 480
+      RDSwidthVA = 8
+      RDSheightVA = 10.00008
+      RDS_edge_eccVA = 0
+      RDSeccVA = 4
+      backgrWidthVA = 19
+      backgrHeightVA = 17.1
+      dotDensity = 25
+      coherence = 0
+      apparentSizeVA = 0.3
+      apparentSize = 8
+      gaussianD = 0
+      dotSize = 10
+      speed = 1
+      dotContrast = 0.96
+      polarity = 4
+      maxLum = 60
+      minLum = 0
+      itemDuration = 560.75
+      interTrial = 0
+      fixationDuration = 1000
+      frameTime = 0.0166666666666667
+      attentionalP = 0.3
+      feedbackSizeMin = 11.25
+      fixationLength = 13
+      fixationLineWidth = 7
+      fixationOffset = 7
+      fixationDotSize = 7
+      frameLineWidth = 8
+      RDSwidth = 213
+      RDSheight = 267
+      RDSecc = 107
+      backgrWidth = 504
+      backgrHeight = 455
+      feedbackSizePp = 5
+      LmaxL = 9.8
+      LminL = 0.199999999999999
+      LmaxR = 9.8
+      LminR = 0.199999999999999
+      fixL = 0.199999999999999
+      fixR = 0.199999999999999 
+trials : [1 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 1 14 0.563954885354178 0.565779301797193 0;2 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 1 14 0.563754596158105 0.563637595538239 1;3 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 0 14 0.563638917578828 0.563719562073857 0;4 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 0 14 0.563618756455071 0.563621731046624 1;5 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 0 14 0.563752613096767 0.563631646354224 0;6 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 0 14 0.563663375335636 0.563764841975171 1;7 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 0 14 0.56365379053932 0.563587688494408 0;8 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 0 14 0.563734435034348 0.563623714108871 0;9 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 0 14 0.563680231357466 0.563732782483385 1;10 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 0 14 0.563614790332394 0.56370997727754 0;11 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 0 14 0.563677917784844 0.563701714521812 0;12 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 0 14 0.563601239413401 0.563786325139517 1;13 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 0 14 0.563595620739761 0.563695765337798 0;14 1 0 1 NaN NaN 2 4 -4 270 NaN 2 4 0 14 0.563688824622659 0.563695765337798 0] 
+waitingScreen1 : Take a break but do not move :) 
+waitingScreen2 : Current Run is 14. 
+waitingScreen3 : Your score is 46.4286
