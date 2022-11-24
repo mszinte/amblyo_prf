@@ -23,16 +23,17 @@ preprocessed files
 -----------------------------------------------------------------------------------------
 To run:
 1. cd to function
->> cd ~/projects/stereo_prf/analysis_code/preproc/
+>> cd ~/projects/stereo_prf/analysis_code/preproc/functional
 2. run python command
 python fmriprep_sbatch.py [main directory] [project name] [subject num]
                           [hour proc.] [anat only] [aroma] [fmapfree] 
                           [skip bids validation] [cifti] [dof] [email account]
 -----------------------------------------------------------------------------------------
 Exemple:
+python fmriprep_sbatch.py /scratch/mszinte/data stereo_prf sub-01 40 1 0 1 0 1 12 martin.szinte
 python fmriprep_sbatch.py /scratch/mszinte/data stereo_prf sub-01 40 0 0 1 0 1 12 martin.szinte
 -----------------------------------------------------------------------------------------
-Written by Martin Szinte (martin.szinte@gmail.com)
+Written by Martin Szinte (mail@martinszinte.net)
 -----------------------------------------------------------------------------------------
 """
 

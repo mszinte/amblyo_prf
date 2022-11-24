@@ -24,7 +24,7 @@ python sagital_view.py [main directory] [project name] [subject num] [video name
 Exemple:
 python sagital_view.py ~/disks/meso_S/data/ stereo_prf sub-01 before_edit
 -----------------------------------------------------------------------------------------
-Written by Martin Szinte (martin.szinte@gmail.com)
+# Written by Martin Szinte (mail@martinszinte.net)
 -----------------------------------------------------------------------------------------
 """
 
@@ -55,18 +55,17 @@ anat_cmd = '-v {}:grayscale=10,100'.format('{}/mri/T1.mgz'.format(fs_dir))
 volumes_cmd = '-f {fs_dir}/surf/lh.white:color=red:edgecolor=red \
 -f {fs_dir}/surf/rh.white:color=red:edgecolor=red \
 -f {fs_dir}/surf/lh.pial:color=white:edgecolor=white \
--f {fs_dir}/surf/rh.pial:color=white:edgecolor=white '.format(fs_dir = fs_dir)
+-f {fs_dir}/surf/rh.pial:color=white:edgecolor=white \
+-layout 1'.format(fs_dir = fs_dir)
 
 slice_cmd = ''
-x_start, x_end = 50, 250
+x_start, x_end = 50, 210
 for x in np.arange(x_start,x_end):
     if x < 10:x_name = '00{}'.format(x)
     elif x >= 10 and x < 100:x_name = '0{}'.format(x)
     else: x_name = '{}'.format(x)
 
     slice_cmd += ' -slice {} 127 127 \n -ss {}/{}.png \n'.format(x,image_dir,x_name)
-
-
 
 # main command
 freeview_cmd = '{} {} -viewport sagittal {}-quit '.format(anat_cmd, volumes_cmd, slice_cmd)

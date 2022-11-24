@@ -11,19 +11,19 @@ Adrien CHOPIN, Uriel LASCOMBES, Margot CHEVILLARD, Jian DING, Michael SILVER, Ya
 
 ### Main dependencies
 ---
-_[dcm2niix](https://github.com/rordenlab/dcm2niix); 
+[dcm2niix](https://github.com/rordenlab/dcm2niix); 
 [PyDeface](https://github.com/poldracklab/pydeface); 
 [fMRIprep](https://fmriprep.org/en/stable/); 
 [pRFpy](https://github.com/VU-Cog-Sci/prfpy); 
 [pybest](https://github.com/lukassnoek/pybest);
 [FreeSurfer](https://surfer.nmr.mgh.harvard.edu/);
 [FFmpeg](https://ffmpeg.org/)
-_</br>
+[FSL](https://fsl.fmrib.ox.ac.uk)
+</br>
 
 
 ## Data analysis
 ---
-
 
 ### Pre-processing
 
@@ -33,18 +33,20 @@ _</br>
 - [x] deface participants t1w image [deface_sbatch.py](analysis_code/preproc/bids/deface_sbatch.py)
 
 #### Structural preprocessing
-- [x] create sagital view video before and after manual edit [sagital_view.py](analysis_code/preproc/anatomical/sagital_view.py)
-- [ ] manual edit of brain segmentation
-- [ ] cut the brain and flatten it
-- [ ] create pycortex dataset
+- [x] fMRIprep with anat-only option [fmriprep_sbatch.py](analysis_code/preproc/functional/fmriprep_sbatch.py)
+- [x] create sagital view video before manual edit [sagital_view.py](analysis_code/preproc/anatomical/sagital_view.py)
+- [x] manual edit of brain segmentation [pial_edits.sh](analysis_code/preproc/anatomical/pial_edits.sh)
+- [x] FreeSurfer with new brainmask manually edited [freesurfer_pial.py](analysis_code/preproc/anatomical/freesurfer_pial.py)
+- [x] create sagital view video before after edit [sagital_view.py](analysis_code/preproc/anatomical/sagital_view.py)
+- [x] make cut in the brains for flattening [cortex_cuts.sh](analysis_code/preproc/anatomical/cortex_cuts.sh)
+- [x] flatten the cut brains [flatten_sbatch.py](analysis_code/preproc/anatomical/flatten_sbatch.py)
 
 #### Functional preprocessing
 - [x] fMRIprep [fmriprep_sbatch.py](analysis_code/preproc/functional/fmriprep_sbatch.py)
-- [x] slow drift correction and z-score [pybest_sbatch.py](analysis_code/preproc/functional/pybest_sbatch.py)
-- [x] average and leave-one-out averaging of runs together [preproc_end.py](analysis_code/preproc/functional/preproc_end.py)
+- [x] high-pass, z-score, average and leave-one-out average [preproc_end.py](analysis_code/preproc/functional/preproc_end.py)
+- [x] create pycortex dataset [pycortex_import.py](analysis_code/preproc/functional/pycortex_import.py)
 
 ### Post-processing
-- [x] Enter the correct values in the file settings.json (postproc folder)
 
 #### PRF analysis
 - [x] create the visual matrix design [vdm_builder.ipynb](analysis_code/postproc/prf/fit/vdm_builder.ipynb)

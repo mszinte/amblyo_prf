@@ -23,20 +23,6 @@ python preproc/deface_sbatch.py [main directory] [project name] [subject num] [o
 -----------------------------------------------------------------------------------------
 Exemple:
 python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-01 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-02 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-03 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-04 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-05 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-06 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-07 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-08 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-09 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-10 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-11 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-12 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-13 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-14 0 0
-python analysis_code/preproc/deface_sbatch.py /scratch/mszinte/data stereo_prf sub-15 0 0
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
 -----------------------------------------------------------------------------------------
@@ -56,7 +42,7 @@ ovewrite_in = int(sys.argv[4])
 server_in = int(sys.argv[5])
 hour_proc = 4
 nb_procs = 8
-log_dir = "{}/{}/derivatives/pp_data/logs".format(main_dir, project_dir, subject)
+log_dir = "{}/{}/derivatives/deface/logs".format(main_dir, project_dir, subject)
 try: os.makedirs(log_dir)
 except: pass
 
@@ -77,7 +63,7 @@ session = 'ses-02'
 t1w_filename = "{}/{}/sourcedata/dcm2niix/{}/{}/anat/{}_{}_T1w.nii.gz".format(main_dir,project_dir,subject,session,subject,session)
 
 # sh folder & file
-sh_folder = "{}/{}/derivatives/pp_data/jobs".format(main_dir, project_dir, subject)
+sh_folder = "{}/{}/derivatives/deface/jobs".format(main_dir, project_dir, subject)
 try: os.makedirs(sh_folder)
 except: pass
 sh_file = "{}/{}_deface.sh".format(sh_folder,subject)

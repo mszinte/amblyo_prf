@@ -9,7 +9,6 @@ Input(s):
 sys.argv[1]: main project directory
 sys.argv[2]: project name (correspond to directory)
 sys.argv[3]: subject (e.g. sub-01)
-sys.argv[4]: server nb of hour to request (e.g 10)
 -----------------------------------------------------------------------------------------
 Output(s):
 new freesurfer segmentation files
@@ -20,10 +19,8 @@ To run:
 2. run python command
 python freesurfer_pial.py [main directory] [project name] [subject]
 -----------------------------------------------------------------------------------------
-Executions:
-python freesurfer_pial.py /scratch/mszinte/data/ stereo_prf sub-01 (21/11/2022, MS)
-python freesurfer_pial.py /scratch/mszinte/data/ stereo_prf sub-02 (21/11/2022, MS)
-python freesurfer_pial.py /scratch/mszinte/data/ stereo_prf sub-03 (21/11/2022, MS)
+Exemple:
+python freesurfer_pial.py /scratch/mszinte/data/ stereo_prf sub-01
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (mail@martinszinte.net)
 -----------------------------------------------------------------------------------------

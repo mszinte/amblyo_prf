@@ -1,6 +1,6 @@
 import numpy as np
 
-def set_pycortex_config_file(data_folder):
+def set_pycortex_config_file(cortex_folder):
 
     # Import necessary modules
     import os
@@ -8,9 +8,9 @@ def set_pycortex_config_file(data_folder):
     from pathlib import Path
 
     # Define the new database and colormaps folder
-    pycortex_db_folder = data_folder + '/derivatives/pp_data/cortex/db/'
-    pycortex_cm_folder = data_folder + '/derivatives/pp_data/cortex/colormaps/'
-
+    pycortex_db_folder = "{}/db/".format(cortex_folder)
+    pycortex_cm_folder = "{}/colormaps/".format(cortex_folder)
+    
     # Get pycortex config file location
     pycortex_config_file  = cortex.options.usercfg
 
