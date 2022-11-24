@@ -18,9 +18,9 @@ Find where dcm2nii_bids_rename.py is located (say in ~/XX/), and where your proj
 >> python ~/XX/dcm2nii_bids_rename.py ~/path2stereo_prf/
 Example:
 From mesocentre:
->> python  ~/projects/stereo_prf/analysis_code/preproc/dcm2nii_bids_rename.py '/scratch/mszinte/data/stereo_prf/'
+>> python  ~/projects/stereo_prf/analysis_code/preproc/bids/dcm2nii_bids_rename.py '/scratch/mszinte/data/stereo_prf/'
 From invibe nohost:
->> python  ~/disks/meso_H/projects/stereo_prf/analysis_code/preproc/dcm2nii_bids_rename.py '~/disks/meso_S/data/stereo_prf/' -o
+>> python  ~/disks/meso_H/projects/stereo_prf/analysis_code/preproc/bids/dcm2nii_bids_rename.py '~/disks/meso_S/data/stereo_prf/' -o
 -----------------------------------------------------------------------------------------
 Written by Adrien Chopin (adrien.chopin@gmail.com) - 2022
 -----------------------------------------------------------------------------------------
