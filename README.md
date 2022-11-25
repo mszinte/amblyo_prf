@@ -7,7 +7,7 @@ In this repository is kept all code allowing us to analyse our dataset [OpenNeur
 ---
 ## Authors: 
 ---
-Adrien CHOPIN, Uriel LASCOMBES, Margot CHEVILLARD, Jian DING, Michael SILVER, Yasha SHEYNIN, Denis LEVI, & Martin SZINTE
+Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Margot CHEVILLARD, Michael SILVER, & Martin SZINTE
 
 ### Main dependencies
 ---
@@ -27,9 +27,14 @@ Adrien CHOPIN, Uriel LASCOMBES, Margot CHEVILLARD, Jian DING, Michael SILVER, Ya
 ### Pre-processing
 
 #### BIDS
-- [x] convert dicom to niix [dcm2nii_bids_rename.py](analysis_code/preproc/bids/dcm2nii_bids_rename.py)
-- [x] create events files [event_files_bidify.py](analysis_code/preproc/bids/event_files_bidify.py)
-- [x] deface participants t1w image [deface_sbatch.py](analysis_code/preproc/bids/deface_sbatch.py)
+- [x] convert dicom to niix [dcm2nii_bids_rename.py](analysis_code/preproc/bids/dcm2nii_bids_rename.py) 
+    </br>Note: each created .json file will miss a field "TaskName":"prf", to add manually for each functionnal scan, saved explicitly with encoding utf-8.
+- [x] create events files [event_files_bidify.py](analysis_code/preproc/bids/event_files_bidify.py) 
+    </br>Note: for missing event files, create a file with a column header line and an n/a line.
+- [x] deface participants t1w image [deface_sbatch.py](analysis_code/preproc/bids/deface_sbatch.py) 
+    </br>Note: run script for each subject separately.
+- [x] validate bids format [https://bids-standard.github.io/bids-validator/] / alternately, use a docker [https://pypi.org/project/bids-validator/]
+    </br>Note: for the webpage, use Chrome and wait for at least 30 min, even if nothing seems to happen.
 
 #### Structural preprocessing
 - [x] fMRIprep with anat-only option [fmriprep_sbatch.py](analysis_code/preproc/functional/fmriprep_sbatch.py)
