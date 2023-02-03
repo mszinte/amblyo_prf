@@ -51,7 +51,7 @@ deb = ipdb.set_trace
 main_dir = sys.argv[1]
 project_dir = sys.argv[2]
 subject = sys.argv[3]
-session = 'ses-02'
+
 
 # load settings
 with open('../../settings.json') as f:
@@ -61,6 +61,7 @@ TR = analysis_info['TR']
 task = analysis_info['task']
 high_pass_threshold = analysis_info['high_pass_threshold'] 
 high_pass_type = analysis_info['high_pass_type'] 
+session = analysis_info['session']
 
 # Get fmriprep filenames
 fmriprep_dir = "{}/{}/derivatives/fmriprep/fmriprep/{}/{}/func/".format(main_dir, project_dir, subject, session)

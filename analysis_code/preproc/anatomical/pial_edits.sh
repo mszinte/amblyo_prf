@@ -41,7 +41,7 @@ else
 fi
 
 # Check + edit pial surface
-echo "\n>> Edit the brain mask following https://surfer.nmr.mgh.harvard.edu/fswiki/FsTutorial/PialEdits_freeview"
+echo "\n>> Edit the brain mask following https://invibe.nohost.me/bookstack/books/preprocessing/page/manual-edition-of-the-brain-segmentation"
 echo ">> When you are done, save the brainmask and quit freeview"
 freeview -v ~/Desktop/temp_data/$3/mri/T1.mgz \
 ~/Desktop/temp_data/$3/mri/brainmask.mgz:opacity=0.5 \
