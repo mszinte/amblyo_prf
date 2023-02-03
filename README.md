@@ -57,7 +57,7 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Margot CH
 - [x] Fit pRF parameters (eccentricity, size, amplitude, baseline, rsquare)
   - pRF fitting code [prf_fit.py](analysis_code/postproc/prf/fit/prf_fit.py)
   - submit fit [submit_fit_jobs.py](analysis_code/postproc/prf/fit/submit_fit_jobs.py)
-- [x] Compute all pRF parameters [post_fit.py](analysis_code/postproc/prf/post_fit/post_fit.py)
+- [x] Compute pRF derivatives [compute_derivatives.py](analysis_code/postproc/prf/post_fit/compute_derivatives.py)
     - [ ] add Dumoulin magnification factor
     - [ ] add pRF coverage
 - [ ] make pycortex maps

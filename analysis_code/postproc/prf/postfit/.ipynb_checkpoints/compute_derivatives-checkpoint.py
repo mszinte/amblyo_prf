@@ -1,9 +1,9 @@
 """
 -----------------------------------------------------------------------------------------
-post_fit.py
+compute_derivatives.py
 -----------------------------------------------------------------------------------------
 Goal of the script:
-Combine fit files, compute pRF derivatives
+Compute pRF derivatives
 -----------------------------------------------------------------------------------------
 Input(s):
 sys.argv[1]: main project directory
@@ -14,14 +14,13 @@ Output(s):
 Combined estimate nifti file and pRF derivative nifti file
 -----------------------------------------------------------------------------------------
 To run:
->> cd to function
->> python prf/post_fit/post_fit.py [main directory] [project name] [subject num]
+1. cd to function
+>> cd ~/projects/stereo_prf/analysis_code/postproc/prf/postfit/
+2. run python command
+>> python compute_derivatives.py [main directory] [project name] [subject num]
 -----------------------------------------------------------------------------------------
 Exemple:
-cd ~/projects/stereo_prf/analysis_code/postproc/
-ipython prf/post_fit/post_fit.py /scratch/mszinte/data stereo_prf sub-01
-ipython prf/post_fit/post_fit.py /scratch/mszinte/data stereo_prf sub-02
-ipython prf/post_fit/post_fit.py /scratch/mszinte/data stereo_prf sub-03
+python compute_derivatives.py /scratch/mszinte/data stereo_prf sub-01
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
 -----------------------------------------------------------------------------------------
@@ -37,15 +36,15 @@ import numpy as np
 import ipdb
 import glob
 import nibabel as nb
+sys.path.append("{}/../../../utils".format(os.getcwd()))
+from prf_utils import fit2deriv
 deb = ipdb.set_trace
 
-# Functions import
-from utils.prf_utils import fit2deriv
-
 # Define analysis parameters
-with open('settings.json') as f:
+with open('../../../settings.json') as f:
     json_s = f.read()
     analysis_info = json.loads(json_s)
+task = analysis_info['task']
 
 # Inputs
 main_dir = sys.argv[1]
@@ -54,7 +53,7 @@ subject = sys.argv[3]
 
 # Define directories
 pp_dir = "{}/{}/derivatives/pp_data".format(main_dir, project_dir)
-prf_fit_dir = "{}/{}/derivatives/pp_data/{}/prf/fit".format(main_dir, project_dir, subject,)
+prf_fit_dir = "{}/{}/prf/fit".format(pp_dir, subject)
 
 # Get timeseries filenames
 pp_avg_fns = glob.glob("{}/{}/func/fmriprep_dct_avg/*avg*.nii.gz".format(pp_dir,subject))
@@ -83,10 +82,10 @@ for pp_avg_fn in pp_avg_fns:
         deriv_img.to_filename(deriv_fn)
 
 # compute average loo derivatives
-loo_deriv_avg_fn = "{}/{}_task-prf_fmriprep_dct_bold_loo_avg_prf-deriv.nii.gz".format(prf_fit_dir,subject)
+loo_deriv_avg_fn = "{}/{}_task-{}_fmriprep_dct_bold_loo_avg_prf-deriv.nii.gz".format(prf_fit_dir, subject, task)
 print('Computing derivatives: {}'.format(loo_deriv_avg_fn))
 
-loo_deriv_fns = glob.glob("{}/*loo*prf-deriv.nii.gz".format(prf_fit_dir))
+loo_deriv_fns = glob.glob("{}/*loo*{}-deriv.nii.gz".format(prf_fit_dir, task))
 loo_deriv_array = np.zeros_like(deriv_array)
 for loo_deriv_fn in loo_deriv_fns:
     loo_deriv_array += nb.load(loo_deriv_fn).get_fdata()/len(loo_deriv_fns)

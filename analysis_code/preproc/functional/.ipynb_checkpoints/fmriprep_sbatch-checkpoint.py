@@ -30,8 +30,7 @@ python fmriprep_sbatch.py [main directory] [project name] [subject num]
                           [skip bids validation] [cifti] [dof] [email account]
 -----------------------------------------------------------------------------------------
 Exemple:
-python fmriprep_sbatch.py /scratch/mszinte/data stereo_prf sub-01 40 1 0 1 0 1 12 martin.szinte
-python fmriprep_sbatch.py /scratch/mszinte/data stereo_prf sub-01 40 0 0 1 0 1 12 martin.szinte
+python fmriprep_sbatch.py /scratch/mszinte/data amblyo_prf sub-01 15 1 0 1 0 1 12 martin.szinte@univ-amu.fr
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (mail@martinszinte.net)
 -----------------------------------------------------------------------------------------
@@ -40,9 +39,10 @@ Written by Martin Szinte (mail@martinszinte.net)
 # imports modules
 import sys
 import os
-import time
 import json
+import ipdb
 opj = os.path.join
+deb = ipdb.set_trace
 
 # inputs
 main_dir = sys.argv[1]
@@ -56,39 +56,47 @@ fmapfree = int(sys.argv[7])
 skip_bids_val = int(sys.argv[8])
 hcp_cifti_val = int(sys.argv[9])
 dof = int(sys.argv[10])
-email_account = sys.argv[11]
+email = sys.argv[11]
 
 # Define cluster/server specific parameters
 cluster_name  = 'skylake'
-proj_name = 'b161'
-singularity_dir = '/scratch/mszinte/softwares/fmriprep-20.2.3.simg'
+proj_name = 'a327'
+singularity_dir = "{main_dir}/{project_dir}/code/singularity/fmriprep-20.2.3.simg".format(
+    main_dir=main_dir, project_dir=project_dir)
 nb_procs = 32
 memory_val = 100
-log_dir = opj(main_dir,project_dir,'derivatives','fmriprep','log_outputs')
+log_dir = "{main_dir}/{project_dir}/derivatives/fmriprep/log_outputs".format(
+    main_dir=main_dir, project_dir=project_dir)
 
 # special input
-anat_only, use_aroma, use_fmapfree, anat_only_end, use_skip_bids_val, hcp_cifti, tf_export, tf_bind = '','','','','', '', '', ''
+anat_only, use_aroma, use_fmapfree, anat_only_end, use_skip_bids_val, \
+    hcp_cifti, tf_export, tf_bind = '','','','','', '', '', ''
 if anat == 1:
     anat_only = ' --anat-only'
     anat_only_end = '_anat'
     nb_procs = 8
+
 if aroma == 1:
     use_aroma = ' --use-aroma'
+
 if fmapfree == 1:
     use_fmapfree= ' --use-syn-sdc'
+
 if skip_bids_val == 1:
     use_skip_bids_val = ' --skip_bids_validation'
+
 if hcp_cifti_val == 1:
     tf_export = 'export SINGULARITYENV_TEMPLATEFLOW_HOME=/opt/templateflow'
-    tf_bind = ' -B /scratch/mszinte/softwares/fmriprep_tf/:/opt/templateflow'
+    tf_bind = "-B {main_dir}/{project_dir}/code/singularity/fmriprep_tf/:/opt/templateflow".format(
+        main_dir=main_dir, project_dir=project_dir)
     hcp_cifti = ' --cifti-output 170k'
-
+    
 # define SLURM cmd
 slurm_cmd = """\
 #!/bin/bash
 #SBATCH --mail-type=ALL
-#SBATCH -p skylake
-#SBATCH --mail-user={email_account}@univ-amu.fr
+#SBATCH -p {cluster_name}
+#SBATCH --mail-user={email}
 #SBATCH -A {proj_name}
 #SBATCH --nodes=1
 #SBATCH --mem={memory_val}gb
@@ -98,29 +106,37 @@ slurm_cmd = """\
 #SBATCH -o {log_dir}/{subject}_fmriprep{anat_only_end}_%N_%j_%a.out
 #SBATCH -J {subject}_fmriprep{anat_only_end}
 #SBATCH --mail-type=BEGIN,END\n\n{tf_export}
-""".format(proj_name=proj_name, nb_procs=nb_procs, hour_proc=hour_proc, subject=subject, anat_only_end=anat_only_end,
-           memory_val=memory_val, log_dir=log_dir, email_account=email_account, tf_export=tf_export)
+""".format(proj_name=proj_name, nb_procs=nb_procs, hour_proc=hour_proc, 
+           subject=subject, anat_only_end=anat_only_end, memory_val=memory_val,
+           log_dir=log_dir, email=email, tf_export=tf_export,
+           cluster_name=cluster_name)
 
 # define singularity cmd
-singularity_cmd = "singularity run --cleanenv{tf_bind} -B {main_dir}:/work_dir {simg} --fs-license-file /work_dir/freesurfer/license.txt /work_dir/{project_dir}/ /work_dir/{project_dir}/derivatives/fmriprep/ participant --participant-label {sub_num} -w /work_dir/temp_data/ --bold2t1w-dof {dof} --bold2t1w-init header --output-spaces T1w fsaverage{hcp_cifti} --low-mem --mem-mb {memory_val}000 --nthreads {nb_procs:.0f}{anat_only}{use_aroma}{use_fmapfree}{use_skip_bids_val}".format(tf_bind=tf_bind, main_dir=main_dir, project_dir=project_dir,
-                              simg=singularity_dir, sub_num=sub_num, nb_procs=nb_procs,
-                              anat_only=anat_only, use_aroma=use_aroma, use_fmapfree=use_fmapfree,
-                              use_skip_bids_val=use_skip_bids_val, hcp_cifti=hcp_cifti, memory_val=memory_val,
-                              dof=dof)
+singularity_cmd = "singularity run --cleanenv{tf_bind} -B {main_dir}:/work_dir {simg} --fs-license-file /work_dir/{project_dir}/code/freesurfer/license.txt /work_dir/{project_dir}/ /work_dir/{project_dir}/derivatives/fmriprep/ participant --participant-label {sub_num} -w /work_dir/temp_data/ --bold2t1w-dof {dof} --bold2t1w-init header --output-spaces T1w fsaverage{hcp_cifti} --low-mem --mem-mb {memory_val}000 --nthreads {nb_procs:.0f} {anat_only}{use_aroma}{use_fmapfree}{use_skip_bids_val}".format(
+        tf_bind=tf_bind, main_dir=main_dir, project_dir=project_dir,
+        simg=singularity_dir, sub_num=sub_num, nb_procs=nb_procs,
+        anat_only=anat_only, use_aroma=use_aroma, use_fmapfree=use_fmapfree,
+        use_skip_bids_val=use_skip_bids_val, hcp_cifti=hcp_cifti, memory_val=memory_val,
+        dof=dof)
+
+
 # create sh folder and file
-sh_dir = "{main_dir}/{project_dir}/derivatives/fmriprep/jobs/sub-{sub_num}_fmriprep{anat_only_end}.sh".format(main_dir=main_dir, sub_num=sub_num,project_dir=project_dir, anat_only_end=anat_only_end)
+sh_fn = "{main_dir}/{project_dir}/derivatives/fmriprep/jobs/sub-{sub_num}_fmriprep{anat_only_end}.sh".format(
+        main_dir=main_dir, sub_num=sub_num,
+        project_dir=project_dir, anat_only_end=anat_only_end)
 
-try:
-    os.makedirs(opj(main_dir,project_dir,'derivatives','fmriprep','jobs'))
-    os.makedirs(opj(main_dir,project_dir,'derivatives','fmriprep','log_outputs'))
-except:
-    pass
 
-of = open(sh_dir, 'w')
-of.write("{slurm_cmd}{singularity_cmd}".format(slurm_cmd=slurm_cmd, singularity_cmd=singularity_cmd))
+os.makedirs("{main_dir}/{project_dir}/derivatives/fmriprep/jobs".format(
+                main_dir=main_dir,project_dir=project_dir), exist_ok=True)
+os.makedirs("{main_dir}/{project_dir}/derivatives/fmriprep/log_outputs".format(
+                main_dir=main_dir,project_dir=project_dir), exist_ok=True)
+
+of = open(sh_fn, 'w')
+of.write("{slurm_cmd}{singularity_cmd}".format(
+    slurm_cmd=slurm_cmd, singularity_cmd=singularity_cmd))
 of.close()
 
 # Submit jobs
-print("Submitting {sh_dir} to queue".format(sh_dir=sh_dir))
+print("Submitting {sh_fn} to queue".format(sh_fn=sh_fn))
 os.chdir(log_dir)
-os.system("sbatch {sh_dir}".format(sh_dir=sh_dir))
+os.system("sbatch {sh_fn}".format(sh_fn=sh_fn))

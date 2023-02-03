@@ -1,4 +1,5 @@
 {   "task": "prf",
+    "session": "ses-02",
     "TR": 1.8,
     "TRs": 135,
     "high_pass_threshold": 0.01,
@@ -13,5 +14,9 @@
     "bar_width_dva": 3.65,
     "vdm_size_pix": [140,140],
     "grid_nr": 40,
-    "max_ecc_size": 19
+    "max_ecc_size": 19,
+    "ecc_th": [0.1,20],
+    "size_th": [0.1,20],
+    "rsqr_th": [0.1,1],
+    "alpha_range": [0,0.4]
 }

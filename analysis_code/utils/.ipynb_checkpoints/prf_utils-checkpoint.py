@@ -14,16 +14,7 @@ def fit2deriv(fit_array, data_array, pred_array):
 
     stucture output:
     columns: 1->size of input
-    row-00: R2
-    row-01: eccentricity in deg
-    row-02: polar angle real component in deg
-    row-03: polar angle imaginary component in deg
-    row-04: size in deg
-    row-05: amplitude
-    row-06: baseline
-    row-07: x
-    row-08: y
-    row-09: data/prediction R2
+    rows: derivatives parameters
     
     """
 
@@ -86,16 +77,16 @@ def fit2deriv(fit_array, data_array, pred_array):
     elif np.ndim(fit_array) == 2:
         deriv_array = np.zeros((fit_array.shape[0],10))*np.nan
 
-    deriv_array[...,0]  = rsq
-    deriv_array[...,1]  = ecc
-    deriv_array[...,2]  = polar_real
-    deriv_array[...,3]  = polar_imag
-    deriv_array[...,4]  = size_
-    deriv_array[...,5]  = amp
-    deriv_array[...,6]  = baseline
-    deriv_array[...,7]  = x
-    deriv_array[...,8]  = y
-    deriv_array[...,9]  = rsq_pred
+    deriv_array[...,0] = rsq
+    deriv_array[...,1] = rsq_pred
+    deriv_array[...,2] = ecc
+    deriv_array[...,3] = polar_real
+    deriv_array[...,4] = polar_imag
+    deriv_array[...,5] = size_
+    deriv_array[...,6] = amp
+    deriv_array[...,7] = baseline
+    deriv_array[...,8] = x
+    deriv_array[...,9] = y
 
     deriv_array = deriv_array.astype(np.float32)
 

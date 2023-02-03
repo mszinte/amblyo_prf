@@ -40,7 +40,6 @@ import ipdb
 import platform
 import importlib
 import cortex
-from cortex.fmriprep import *
 import nibabel as nb
 deb = ipdb.set_trace
 
