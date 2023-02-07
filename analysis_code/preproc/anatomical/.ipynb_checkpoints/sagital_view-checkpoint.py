@@ -22,7 +22,7 @@ To run:
 python sagital_view.py [main directory] [project name] [subject num] [video name]
 -----------------------------------------------------------------------------------------
 Exemple:
-python sagital_view.py ~/disks/meso_S/data/ stereo_prf sub-01 before_edit
+python sagital_view.py ~/disks/meso_S/data/ amblyo_prf sub-01 before_edit
 -----------------------------------------------------------------------------------------
 # Written by Martin Szinte (mail@martinszinte.net)
 -----------------------------------------------------------------------------------------
