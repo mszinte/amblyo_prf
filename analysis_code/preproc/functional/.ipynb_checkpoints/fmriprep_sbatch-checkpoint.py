@@ -87,7 +87,7 @@ if skip_bids_val == 1:
 
 if hcp_cifti_val == 1:
     tf_export = 'export SINGULARITYENV_TEMPLATEFLOW_HOME=/opt/templateflow'
-    tf_bind = "-B {main_dir}/{project_dir}/code/singularity/fmriprep_tf/:/opt/templateflow".format(
+    tf_bind = "{main_dir}/{project_dir}/code/singularity/fmriprep_tf/:/opt/templateflow".format(
         main_dir=main_dir, project_dir=project_dir)
     hcp_cifti = ' --cifti-output 170k'
     
