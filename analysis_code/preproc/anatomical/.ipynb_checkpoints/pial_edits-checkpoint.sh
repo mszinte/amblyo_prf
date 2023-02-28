@@ -29,7 +29,7 @@
 
 # rsync to desktop (faster processing)
 echo "\n>> Copying the files to the desktop"
-rsync -azuv  --progress $4@login.mesocentre.univ-amu.fr:$1/$2/derivatives/fmriprep/freesurfer/$3 ~/temp_data/
+rsync -azuv --rsh='ssh -p 8822' --progress $4@login.mesocentre.univ-amu.fr:$1/$2/derivatives/fmriprep/freesurfer/$3 ~/temp_data/
 
 # create a copy of the origninal brainmask
 NEWFILE=~/temp_data/$3/mri/brainmask_orig.mgz
@@ -55,8 +55,8 @@ while true; do
     read -p "Do you wish to transfer the edited brainmask to the mesocentre? (y/n) " yn
     case $yn in
         [Yy]* ) echo "\n>> Uploading of the brainmasks to mesocentre";\
-                rsync -avuz ~/temp_data/$3/mri/brainmask.mgz $4@login.mesocentre.univ-amu.fr:$1/$2/derivatives/fmriprep/freesurfer/$3/mri/
-                rsync -avuz ~/temp_data/$3/mri/brainmask_orig.mgz $4@login.mesocentre.univ-amu.fr:$1/$2/derivatives/fmriprep/freesurfer/$3/mri/
+                rsync -azuv --rsh='ssh -p 8822' ~/temp_data/$3/mri/brainmask.mgz $4@login.mesocentre.univ-amu.fr:$1/$2/derivatives/fmriprep/freesurfer/$3/mri/
+                rsync -azuv --rsh='ssh -p 8822' ~/temp_data/$3/mri/brainmask_orig.mgz $4@login.mesocentre.univ-amu.fr:$1/$2/derivatives/fmriprep/freesurfer/$3/mri/
         break;;
         [Nn]* ) echo "\n>> No uploading of the brainmasks to mesocentre";\
                 exit;;
