@@ -69,22 +69,22 @@ slurm_cmd = """\
                                                     hour_proc=hour_proc, log_dir=log_dir, proj_name=proj_name)
 
 # define permission cmd
-chmod_cmd = "chmod -Rf 771 {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir)
-chgrp_cmd = "\nchgrp -Rf {group} {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir, group=group)
+chmod_cmd = "chmod -Rf 771 {main_dir}/{project_dir}\n".format(main_dir=main_dir, project_dir=project_dir)
+chgrp_cmd = "chgrp -Rf {group} {main_dir}/{project_dir}\n".format(main_dir=main_dir, project_dir=project_dir, group=group)
 
 # define freesurfer command
-freesurfer_cmd = """\n\
+freesurfer_cmd = """\
 export FREESURFER_HOME={}/{}/code/freesurfer
 source $FREESURFER_HOME/SetUpFreeSurfer.sh
 export SUBJECTS_DIR={}\n\
 export FS_LICENSE={}\n\
-recon-all -autorecon-pial -subjid {}""".format(main_dir, project_dir, fs_dir, fs_licence, subject)
+recon-all -autorecon-pial -subjid {}\n""".format(main_dir, project_dir, fs_dir, fs_licence, subject)
 
 # create sh folder and file
 sh_dir = "{}/{}_freesurfer-pial.sh".format(job_dir, subject)
 
 of = open(sh_dir, 'w')
-of.write("{}{}{}{}".format(slurm_cmd, chmod_cmd, chgrp_cmd, freesurfer_cmd))
+of.write("{}{}{}{}".format(slurm_cmd, chmod_cmd, chgrp_cmd, freesurfer_cmd, chmod_cmd, chgrp_cmd))
 of.close()
 
 # submit jobs
