@@ -9,18 +9,19 @@ Input(s):
 sys.argv[1]: main project directory
 sys.argv[2]: project name (correspond to directory)
 sys.argv[3]: subject (e.g. sub-01)
+sys.argv[4]: group of shared data (e.g. 327)
 -----------------------------------------------------------------------------------------
 Output(s):
 new freesurfer segmentation files
 -----------------------------------------------------------------------------------------
 To run:
 1. cd to function
->> ~/projects/stereo_prf/analysis_code/preproc/anatomical/
+>> cd ~/projects/stereo_prf/analysis_code/preproc/anatomical/
 2. run python command
 python freesurfer_pial.py [main directory] [project name] [subject]
 -----------------------------------------------------------------------------------------
 Exemple:
-python freesurfer_pial.py /scratch/mszinte/data/ stereo_prf sub-01
+python freesurfer_pial.py /scratch/mszinte/data amblyo_prf sub-01 327
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (mail@martinszinte.net)
 -----------------------------------------------------------------------------------------
@@ -35,18 +36,19 @@ import json
 main_dir = sys.argv[1]
 project_dir = sys.argv[2]
 subject = sys.argv[3]
+group = sys.argv[4]
 
 # Define cluster/server specific parameters
 cluster_name = 'skylake'
 hour_proc = 20
 nb_procs = 8
 memory_val = 48
-proj_name = 'b161'
+proj_name = 'a327'
 
 # define directory and freesurfer licence
 log_dir = "{}/{}/derivatives/freesurfer_pial/log_outputs".format(main_dir,project_dir)
 job_dir = "{}/{}/derivatives/freesurfer_pial/jobs".format(main_dir,project_dir)
-fs_dir = "{}{}/derivatives/fmriprep/freesurfer/".format(main_dir, project_dir)
+fs_dir = "{}/{}/derivatives/fmriprep/freesurfer/".format(main_dir, project_dir)
 fs_licence = '/scratch/mszinte/freesurfer/license.txt'
 os.makedirs(log_dir, exist_ok=True)
 os.makedirs(job_dir, exist_ok=True)
@@ -66,8 +68,12 @@ slurm_cmd = """\
 #SBATCH -J {subject}_freesurfer-pial\n\n""".format( nb_procs=nb_procs, subject=subject, memory_val = memory_val, 
                                                     hour_proc=hour_proc, log_dir=log_dir, proj_name=proj_name)
 
+# define permission cmd
+chmod_cmd = "chmod -Rf 771 {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir)
+chgrp_cmd = "\nchgrp -Rf {group} {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir, group=group)
+
 # define freesurfer command
-freesurfer_cmd = """\
+freesurfer_cmd = """\n\
 export SUBJECTS_DIR={}\n\
 export FS_LICENSE={}\n\
 recon-all -autorecon-pial -subjid {}""".format(fs_dir, fs_licence, subject)
@@ -76,10 +82,10 @@ recon-all -autorecon-pial -subjid {}""".format(fs_dir, fs_licence, subject)
 sh_dir = "{}/{}_freesurfer-pial.sh".format(job_dir, subject)
 
 of = open(sh_dir, 'w')
-of.write("{}{}".format(slurm_cmd,freesurfer_cmd))
+of.write("{}{}{}{}".format(slurm_cmd, chmod_cmd, chgrp_cmd, freesurfer_cmd))
 of.close()
 
 # submit jobs
 print("Submitting {} to queue".format(sh_dir))
-os.chdir(log_dir)
-os.system("sbatch {}".format(sh_dir))
+# os.chdir(log_dir)
+# os.system("sbatch {}".format(sh_dir))
