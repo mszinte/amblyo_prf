@@ -17,6 +17,7 @@ sys.argv[8]: skip BIDS validation (1) or not (0)
 sys.argv[9]: save cifti hcp format data with 170k vertices
 sys.argv[10]: dof number (e.g. 12)
 sys.argv[11]: email account
+sys.argv[11]: data group (e.g. 327)
 -----------------------------------------------------------------------------------------
 Output(s):
 preprocessed files
@@ -27,7 +28,7 @@ To run:
 2. run python command
 python fmriprep_sbatch.py [main directory] [project name] [subject num]
                           [hour proc.] [anat only] [aroma] [fmapfree] 
-                          [skip bids validation] [cifti] [dof] [email account]
+                          [skip bids validation] [cifti] [dof] [email account] [group]
 -----------------------------------------------------------------------------------------
 Exemple:
 python fmriprep_sbatch.py /scratch/mszinte/data amblyo_prf sub-01 15 1 0 1 0 1 12 martin.szinte@univ-amu.fr
@@ -61,6 +62,7 @@ email = sys.argv[11]
 # Define cluster/server specific parameters
 cluster_name  = 'skylake'
 proj_name = 'a327'
+group = '327'
 singularity_dir = "{main_dir}/{project_dir}/code/singularity/fmriprep-20.2.3.simg".format(
     main_dir=main_dir, project_dir=project_dir)
 nb_procs = 32
@@ -119,6 +121,9 @@ singularity_cmd = "singularity run --cleanenv -B {tf_bind} -B {main_dir}:/work_d
         use_skip_bids_val=use_skip_bids_val, hcp_cifti=hcp_cifti, memory_val=memory_val,
         dof=dof)
 
+# define permission cmd
+chmod_cmd = "\nchmod -Rf 771 {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir)
+chgrp_cmd = "\nchgrp -Rf {group} {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir, group=group)
 
 # create sh folder and file
 sh_fn = "{main_dir}/{project_dir}/derivatives/fmriprep/jobs/sub-{sub_num}_fmriprep{anat_only_end}.sh".format(
@@ -132,11 +137,12 @@ os.makedirs("{main_dir}/{project_dir}/derivatives/fmriprep/log_outputs".format(
                 main_dir=main_dir,project_dir=project_dir), exist_ok=True)
 
 of = open(sh_fn, 'w')
-of.write("{slurm_cmd}{singularity_cmd}".format(
-    slurm_cmd=slurm_cmd, singularity_cmd=singularity_cmd))
+of.write("{slurm_cmd}{singularity_cmd}{chmod_cmd}{chgrp_cmd}".format(
+    slurm_cmd=slurm_cmd, singularity_cmd=singularity_cmd, 
+    chmod_cmd=chmod_cmd, chgrp_cmd=chgrp_cmd))
 of.close()
 
 # Submit jobs
 print("Submitting {sh_fn} to queue".format(sh_fn=sh_fn))
-os.chdir(log_dir)
-os.system("sbatch {sh_fn}".format(sh_fn=sh_fn))
+# os.chdir(log_dir)
+# os.system("sbatch {sh_fn}".format(sh_fn=sh_fn))
