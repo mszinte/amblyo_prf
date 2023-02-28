@@ -74,9 +74,11 @@ chgrp_cmd = "\nchgrp -Rf {group} {main_dir}/{project_dir}".format(main_dir=main_
 
 # define freesurfer command
 freesurfer_cmd = """\n\
+export FREESURFER_HOME={}/{}/code/freesurfer
+source $FREESURFER_HOME/SetUpFreeSurfer.sh
 export SUBJECTS_DIR={}\n\
 export FS_LICENSE={}\n\
-recon-all -autorecon-pial -subjid {}""".format(fs_dir, fs_licence, subject)
+recon-all -autorecon-pial -subjid {}""".format(main_dir, project_dir, fs_dir, fs_licence, subject)
 
 # create sh folder and file
 sh_dir = "{}/{}_freesurfer-pial.sh".format(job_dir, subject)
