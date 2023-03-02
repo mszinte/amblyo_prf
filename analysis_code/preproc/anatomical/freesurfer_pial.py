@@ -18,7 +18,7 @@ To run:
 1. cd to function
 >> cd ~/projects/stereo_prf/analysis_code/preproc/anatomical/
 2. run python command
-python freesurfer_pial.py [main directory] [project name] [subject]
+python freesurfer_pial.py [main directory] [project name] [subject] [group]
 -----------------------------------------------------------------------------------------
 Exemple:
 python freesurfer_pial.py /scratch/mszinte/data amblyo_prf sub-01 327
@@ -78,7 +78,7 @@ export FREESURFER_HOME={}/{}/code/freesurfer
 export SUBJECTS_DIR={}\n\
 export FS_LICENSE={}\n\
 source $FREESURFER_HOME/SetUpFreeSurfer.sh
-recon-all -autorecon-pial -subjid {}\n""".format(main_dir, project_dir, fs_dir, fs_licence, subject)
+recon-all -autorecon-pial -subjid {} -no-isrunning\n""".format(main_dir, project_dir, fs_dir, fs_licence, subject)
 
 # create sh folder and file
 sh_dir = "{}/{}_freesurfer-pial.sh".format(job_dir, subject)
@@ -89,5 +89,5 @@ of.close()
 
 # submit jobs
 print("Submitting {} to queue".format(sh_dir))
-# os.chdir(log_dir)
-# os.system("sbatch {}".format(sh_dir))
+os.chdir(log_dir)
+os.system("sbatch {}".format(sh_dir))
