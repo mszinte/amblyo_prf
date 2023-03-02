@@ -22,27 +22,29 @@
 # sh preproc/cortex_cuts.sh [main directory] [project name] [subject name] [mesocentre_ID] [hemisphere]
 # -----------------------------------------------------------------------------------------
 # Exemple:
-# sh cortex_cuts.sh /scratch/mszinte/data/ stereo_prf sub-01 mszinte
+# sh cortex_cuts.sh /scratch/mszinte/data amblyo_prf sub-01 mszinte lh
+# sh cortex_cuts.sh /scratch/mszinte/data amblyo_prf sub-01 mszinte rh
 # -----------------------------------------------------------------------------------------
 # Written by Martin Szinte (mail@martinszinte.net)
 # -----------------------------------------------------------------------------------------
 
 # rsync to desktop (faster processing)
 echo "\n>> Copying the files to the desktop"
-rsync -azuv  --progress $4@login.mesocentre.univ-amu.fr:$1/$2/derivatives/fmriprep/freesurfer/$3 ~/Desktop/temp_data/
+rsync -azuv --rsh='ssh -p 8822' --progress $4@login.mesocentre.univ-amu.fr:$1/$2/derivatives/fmriprep/freesurfer/$3 ~/temp_data/
 
 # Check + edit pial surface
 echo "\n>> Proceed to the cortex cuts : "
+echo "\n>> https://invibe.nohost.me/bookstack/books/preprocessing/page/cutting-inflated-brains-to-obtain-a-flattened-cortical-surface"
 echo "\n>> When you are done, save the patch as '$3/surf/$5.full.patch.3d'\n"
 
-freeview -f ~/Desktop/temp_data/$3/surf/$5.inflated:annot=aparc.a2009s -layout 1 -viewport 3d
+freeview -f ~/temp_data/$3/surf/$5.inflated:annot=aparc.a2009s -layout 1 -viewport 3d
 
 # move the file to the right place
 while true; do
     read -p "Do you wish to transfer the patch to the mesocentre? (y/n) " yn
     case $yn in
         [Yy]* ) echo "\n>> Uploading the $3 patch to mesocentre";\
-                rsync -avuz ~/Desktop/temp_data/$3/surf/$5.full.patch.3d $4@login.mesocentre.univ-amu.fr:$1/$2/derivatives/fmriprep/freesurfer/$3/surf/
+                rsync -avuz --rsh='ssh -p 8822' ~/temp_data/$3/surf/$5.full.patch.3d $4@login.mesocentre.univ-amu.fr:$1/$2/derivatives/fmriprep/freesurfer/$3/surf/
         break;;
         [Nn]* ) echo "\n>> No uploading of the brainmasks to mesocentre";\
                 exit;;
