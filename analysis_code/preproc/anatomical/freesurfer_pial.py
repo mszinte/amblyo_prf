@@ -75,9 +75,9 @@ chgrp_cmd = "chgrp -Rf {group} {main_dir}/{project_dir}\n".format(main_dir=main_
 # define freesurfer command
 freesurfer_cmd = """\
 export FREESURFER_HOME={}/{}/code/freesurfer
-source $FREESURFER_HOME/SetUpFreeSurfer.sh
 export SUBJECTS_DIR={}\n\
 export FS_LICENSE={}\n\
+source $FREESURFER_HOME/SetUpFreeSurfer.sh
 recon-all -autorecon-pial -subjid {}\n""".format(main_dir, project_dir, fs_dir, fs_licence, subject)
 
 # create sh folder and file
