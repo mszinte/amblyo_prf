@@ -49,7 +49,7 @@ proj_name = 'a327'
 log_dir = "{}/{}/derivatives/freesurfer_pial/log_outputs".format(main_dir,project_dir)
 job_dir = "{}/{}/derivatives/freesurfer_pial/jobs".format(main_dir,project_dir)
 fs_dir = "{}/{}/derivatives/fmriprep/freesurfer/".format(main_dir, project_dir)
-fs_licence = '/scratch/mszinte/freesurfer/license.txt'
+fs_licence = '{}/{}/code/freesurfer/license.txt'.format(main_dir, project_dir)
 os.makedirs(log_dir, exist_ok=True)
 os.makedirs(job_dir, exist_ok=True)
 
