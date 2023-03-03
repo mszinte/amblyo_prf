@@ -45,7 +45,7 @@ hemis = ['lh', 'rh']
 # Define cluster/server specific parameters
 cluster_name  = 'skylake'
 proj_name = 'a327'
-nb_procs = 32
+nb_procs = 8
 memory_val = 48
 hour_proc = 20
 

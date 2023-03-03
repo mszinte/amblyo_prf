@@ -65,7 +65,7 @@ proj_name = 'a327'
 group = '327'
 singularity_dir = "{main_dir}/{project_dir}/code/singularity/fmriprep-20.2.3.simg".format(
     main_dir=main_dir, project_dir=project_dir)
-nb_procs = 32
+nb_procs = 8
 memory_val = 100
 log_dir = "{main_dir}/{project_dir}/derivatives/fmriprep/log_outputs".format(
     main_dir=main_dir, project_dir=project_dir)
