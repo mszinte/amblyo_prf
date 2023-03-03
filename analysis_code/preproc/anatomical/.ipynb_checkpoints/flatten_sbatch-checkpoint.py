@@ -9,6 +9,7 @@ Input(s):
 sys.argv[1]: main project directory
 sys.argv[2]: project name (correspond to directory)
 sys.argv[3]: subject (e.g. sub-01)
+sys.argv[4]: group (e.g. 327)
 -----------------------------------------------------------------------------------------
 Output(s):
 preprocessed files
@@ -17,10 +18,10 @@ To run:
 1. cd to function
 >> cd ~/projects/stereo_prf/analysis_code/preproc/anatomical/
 2. run python command
-python flatten_sbatch.py [main directory] [project name] [subject]
+python flatten_sbatch.py [main directory] [project name] [subject] [group]
 -----------------------------------------------------------------------------------------
 Example:
-python flatten_sbatch.py /scratch/mszinte/data stereo_prf sub-01
+python flatten_sbatch.py /scratch/mszinte/data amblyo_prf sub-01 327
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (mail@martinszinte.net)
 -----------------------------------------------------------------------------------------
@@ -37,6 +38,7 @@ opj = os.path.join
 main_dir = sys.argv[1]
 project_dir = sys.argv[2]
 subject = sys.argv[3]
+group = sys.argv[4]
 sub_num = subject[-2:]
 hemis = ['lh', 'rh']
 
@@ -71,19 +73,23 @@ export SUBJECTS_DIR='{fs_dir}'
 cd '{fs_dir}/{subject}/surf/'\n\n""".format(proj_name=proj_name, nb_procs=nb_procs, hour_proc=hour_proc, 
                                             subject=subject, memory_val=memory_val, log_dir=log_dir, 
                                             fs_dir=fs_dir, hemi=hemi)
+
+# define permission cmd
+chmod_cmd = "\nchmod -Rf 771 {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir)
+chgrp_cmd = "\nchgrp -Rf {group} {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir, group=group)    
     
-    # define flatten cmd
-    flatten_cmd = "mris_flatten {}.full.patch.3d {}.full.flat.patch.3d".format(hemi, hemi)
+# define flatten cmd
+flatten_cmd = "mris_flatten {}.full.patch.3d {}.full.flat.patch.3d".format(hemi, hemi)
 
-    # create sh fn
-    sh_fn = "{}/{}_{}_flatten.sh".format(job_dir, subject, hemi)
+# create sh fn
+sh_fn = "{}/{}_{}_flatten.sh".format(job_dir, subject, hemi)
 
-    of = open(sh_fn, 'w')
-    of.write("{}".format(slurm_cmd))
-    of.write("{}".format(flatten_cmd))
-    of.close()
+of = open(sh_fn, 'w')
+of.write("{}".format(slurm_cmd))
+of.write("{}".format(flatten_cmd))
+of.close()
 
-    # Submit jobs
-    print("Submitting {} to queue".format(sh_fn))
-    os.chdir(log_dir)
-    os.system("sbatch {}".format(sh_fn))
+# Submit jobs
+print("Submitting {} to queue".format(sh_fn))
+os.chdir(log_dir)
+os.system("sbatch {}".format(sh_fn))
