@@ -44,7 +44,7 @@ hemis = ['lh', 'rh']
 
 # Define cluster/server specific parameters
 cluster_name  = 'skylake'
-proj_name = 'b161'
+proj_name = 'a327'
 nb_procs = 32
 memory_val = 48
 hour_proc = 20
@@ -53,6 +53,7 @@ hour_proc = 20
 log_dir = "{}/{}/derivatives/flatten/log_outputs".format(main_dir,project_dir)
 fs_dir = "{}/{}/derivatives/fmriprep/freesurfer".format(main_dir, project_dir)
 job_dir = "{}/{}/derivatives/flatten/jobs".format(main_dir,project_dir)
+fs_licence = '{}/{}/code/freesurfer/license.txt'.format(main_dir, project_dir)
 os.makedirs(log_dir, exist_ok=True)
 os.makedirs(job_dir, exist_ok=True)
 
@@ -74,22 +75,27 @@ cd '{fs_dir}/{subject}/surf/'\n\n""".format(proj_name=proj_name, nb_procs=nb_pro
                                             subject=subject, memory_val=memory_val, log_dir=log_dir, 
                                             fs_dir=fs_dir, hemi=hemi)
 
-# define permission cmd
-chmod_cmd = "\nchmod -Rf 771 {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir)
-chgrp_cmd = "\nchgrp -Rf {group} {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir, group=group)    
-    
-# define flatten cmd
-flatten_cmd = "mris_flatten {}.full.patch.3d {}.full.flat.patch.3d".format(hemi, hemi)
+    # define permission cmd
+    chmod_cmd = "\nchmod -Rf 771 {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir)
+    chgrp_cmd = "\nchgrp -Rf {group} {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir, group=group)    
 
-# create sh fn
-sh_fn = "{}/{}_{}_flatten.sh".format(job_dir, subject, hemi)
+    # define flatten cmd
+    flatten_cmd = """\
+    export FREESURFER_HOME={}/{}/code/freesurfer
+    export SUBJECTS_DIR={}\n\
+    export FS_LICENSE={}\n\
+    source $FREESURFER_HOME/SetUpFreeSurfer.sh
+    mris_flatten {}.full.patch.3d {}.full.flat.patch.3d""".format(main_dir, project_dir, fs_dir, fs_licence, hemi, hemi)
 
-of = open(sh_fn, 'w')
-of.write("{}".format(slurm_cmd))
-of.write("{}".format(flatten_cmd))
-of.close()
+    # create sh fn
+    sh_fn = "{}/{}_{}_flatten.sh".format(job_dir, subject, hemi)
 
-# Submit jobs
-print("Submitting {} to queue".format(sh_fn))
-os.chdir(log_dir)
-os.system("sbatch {}".format(sh_fn))
+    of = open(sh_fn, 'w')
+    of.write("{}".format(slurm_cmd))
+    of.write("{}".format(flatten_cmd))
+    of.close()
+
+    # Submit jobs
+    print("Submitting {} to queue".format(sh_fn))
+    #os.chdir(log_dir)
+    #os.system("sbatch {}".format(sh_fn))
