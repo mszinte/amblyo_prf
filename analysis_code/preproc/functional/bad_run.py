@@ -16,12 +16,12 @@ Supposed to have change the 'setting.json'.
 -----------------------------------------------------------------------------------------
 To run:
 1. cd to function
->> cd ~/projects/stereo_prf/analysis_code/preproc/functional
+>> cd ~/disks/meso_H/projects/stereo_prf/analysis_code/preproc/functional
 2. run python command
 python bad_run.py [main directory] [project name] [subject num]
 -----------------------------------------------------------------------------------------
 Exemple:
-python fmriprep_sbatch.py /scratch/mszinte/data amblyo_prf
+python bad_run.py ~/disks/meso_shared amblyo_prf
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (mail@martinszinte.net)
 -----------------------------------------------------------------------------------------
@@ -44,13 +44,10 @@ subject_exluded = analysis_info['subject_exluded']
 run_exluded = analysis_info['run_exluded']
 exclusion_nb = len(run_exluded)
 
-#change the current directory 
-os.chdir("{main_dir}/{project_name}/derivatives/fmriprep/fmriprep/\
-         {subject_exluded}/ses-02/func/".format(main_dir=main_dir,
-         project_name=project_name,subject_exluded=subject_exluded))
 
 # add the _exluded extention to bad run 
 for t in range(exclusion_nb):
+    os.chdir("{main_dir}/{project_name}/derivatives/fmriprep/fmriprep/{subject_exluded}/ses-02/func".format(main_dir=main_dir,project_name=project_name,subject_exluded=subject_exluded[t]))
     os.rename("{subject_exluded}_ses-02_task-prf_{run_exluded}_space-T1w_desc-aseg_dseg.nii.gz"
               .format(subject_exluded=subject_exluded[t],run_exluded=run_exluded[t]),
               "{subject_exluded}_ses-02_task-prf_{run_exluded}_space-T1w_desc-aseg_dseg_exluded.nii.gz"
