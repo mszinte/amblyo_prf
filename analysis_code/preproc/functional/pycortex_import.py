@@ -15,12 +15,12 @@ None
 -----------------------------------------------------------------------------------------
 To run:
 1. cd to function
->> ~/projects/stereo_prf/analysis_code/preproc/functional/
+>> cd ~/projects/stereo_prf/analysis_code/preproc/functional/
 2. run python command
 python pycortex_import.py [main directory] [project name] [subject]
 -----------------------------------------------------------------------------------------
 Executions:
-python pycortex_import.py /scatch/mszinte/data stereo_prf sub-01
+python pycortex_import.py /scratch/mszinte/data amblyo_prf sub-01
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (mail@martinszinte.net)
 -----------------------------------------------------------------------------------------
