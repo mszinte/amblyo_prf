@@ -30,7 +30,8 @@ Written by Martin Szinte (mail@martinszinte.net)
 import json
 import os
 import sys
-
+import glob
+from pathlib import Path
 # Inputs
 main_dir = sys.argv[1]
 project_name = sys.argv[2]
@@ -44,14 +45,16 @@ subject_exluded = analysis_info['subject_exluded']
 run_exluded = analysis_info['run_exluded']
 exclusion_nb = len(run_exluded)
 
-
-# add the _exluded extention to bad run 
+# add the _excluded extention to the bad_run 
 for t in range(exclusion_nb):
-    os.chdir("{main_dir}/{project_name}/derivatives/fmriprep/fmriprep/{subject_exluded}/ses-02/func".format(main_dir=main_dir,project_name=project_name,subject_exluded=subject_exluded[t]))
-    os.rename("{subject_exluded}_ses-02_task-prf_{run_exluded}_space-T1w_desc-aseg_dseg.nii.gz"
-              .format(subject_exluded=subject_exluded[t],run_exluded=run_exluded[t]),
-              "{subject_exluded}_ses-02_task-prf_{run_exluded}_space-T1w_desc-aseg_dseg_exluded.nii.gz"
-              .format(subject_exluded=subject_exluded[t],run_exluded=run_exluded[t]))
-    
-     
+    folder_path = "{main_dir}/{project_name}/derivatives/fmriprep/fmriprep/{subject_exluded}/ses-02/func".format(main_dir=main_dir,project_name=project_name,subject_exluded=subject_exluded[t])  
+    prefix = "{subject_exluded}_ses-02_task-prf_{run_exluded}_".format(subject_exluded=subject_exluded[t],run_exluded=run_exluded[t]  
+
+    for filename in os.listdir(folder_path):
+        if filename.startswith(prefix):
+            new_filename = filename + "_exluded"
+            os.rename(os.path.join(folder_path, filename), os.path.join(folder_path, new_filename))
+
+
+
 
