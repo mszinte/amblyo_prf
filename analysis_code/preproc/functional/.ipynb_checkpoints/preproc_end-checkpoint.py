@@ -9,6 +9,7 @@ Input(s):
 sys.argv[1]: main project directory
 sys.argv[2]: project name (correspond to directory)
 sys.argv[3]: subject name
+sys.argv[4]: group of shared data (e.g. 327)
 -----------------------------------------------------------------------------------------
 Output(s):
 # Preprocessed and averaged timeseries files
@@ -17,10 +18,10 @@ To run:
 1. cd to function
 >> cd /home/mszinte/projects/stereo_prf/analysis_code/preproc/functional/
 2. run python command
-python preproc_end.py [main directory] [project name] [subject name]
+python preproc_end.py [main directory] [project name] [subject name] [group]
 -----------------------------------------------------------------------------------------
 Exemple:
-python preproc_end.py /scratch/mszinte/data stereo_prf sub-01
+python preproc_end.py /scratch/mszinte/data amblyo_prf sub-01 327
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (mail@martinszinte.net)
 -----------------------------------------------------------------------------------------
@@ -41,6 +42,7 @@ import platform
 import numpy as np
 import nibabel as nb
 import itertools as it
+import stats
 from nilearn import signal, masking
 from nilearn.glm.first_level.design_matrix import _cosine_drift
 from scipy.signal import savgol_filter
@@ -51,6 +53,7 @@ deb = ipdb.set_trace
 main_dir = sys.argv[1]
 project_dir = sys.argv[2]
 subject = sys.argv[3]
+group = sys.argv[4]
 
 
 # load settings
@@ -151,3 +154,8 @@ for output_file in output_files:
     orig_file = "{}/{}_{}_{}.nii.gz".format(orig_dir_anat, subject, session, output_file)
     dest_file = "{}/{}_{}.nii.gz".format(dest_dir_anat, subject, output_file)
     os.system("{} {} {}".format(trans_cmd, orig_file, dest_file))
+    
+
+# Define permission cmd
+os.chmod("{main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir),stat.S_IRWXG)
+os.chmod("{main_dir}/project_dir}".format(main_dir=main_dir, project_dir=project_dir),stat.S_IXOTH)
