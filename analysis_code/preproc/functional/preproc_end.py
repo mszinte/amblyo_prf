@@ -42,7 +42,6 @@ import platform
 import numpy as np
 import nibabel as nb
 import itertools as it
-import stats
 from nilearn import signal, masking
 from nilearn.glm.first_level.design_matrix import _cosine_drift
 from scipy.signal import savgol_filter
@@ -54,7 +53,6 @@ main_dir = sys.argv[1]
 project_dir = sys.argv[2]
 subject = sys.argv[3]
 group = sys.argv[4]
-
 
 # load settings
 with open('../../settings.json') as f:
@@ -157,5 +155,5 @@ for output_file in output_files:
     
 
 # Define permission cmd
-os.chmod("{main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir),stat.S_IRWXG)
-os.chmod("{main_dir}/project_dir}".format(main_dir=main_dir, project_dir=project_dir),stat.S_IXOTH)
+os.system("chmod -Rf 771 {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir))
+os.system("chgrp -Rf {group} {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir, group=group))
