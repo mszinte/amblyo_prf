@@ -42,6 +42,7 @@ import platform
 import numpy as np
 import nibabel as nb
 import itertools as it
+import stats
 from nilearn import signal, masking
 from nilearn.glm.first_level.design_matrix import _cosine_drift
 from scipy.signal import savgol_filter
@@ -154,7 +155,7 @@ for output_file in output_files:
     dest_file = "{}/{}_{}.nii.gz".format(dest_dir_anat, subject, output_file)
     os.system("{} {} {}".format(trans_cmd, orig_file, dest_file))
     
-    
-# define permission cmd
-chmod_cmd = "chmod -Rf 771 {main_dir}/{project_dir}\n".format(main_dir=main_dir, project_dir=project_dir)
-chgrp_cmd = "chgrp -Rf {group} {main_dir}/{project_dir}\n".format(main_dir=main_dir, project_dir=project_dir, group=group)
+
+# Define permission cmd
+os.chmod("{main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir),stat.S_IRWXG)
+os.chmod("{main_dir}/project_dir}".format(main_dir=main_dir, project_dir=project_dir),stat.S_IXOTH)
