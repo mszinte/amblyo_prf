@@ -30,8 +30,7 @@ Written by Martin Szinte (mail@martinszinte.net)
 import json
 import os
 import sys
-import glob
-from pathlib import Path
+
 # Inputs
 main_dir = sys.argv[1]
 project_name = sys.argv[2]
