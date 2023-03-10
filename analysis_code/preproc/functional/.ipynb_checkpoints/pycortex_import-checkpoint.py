@@ -9,6 +9,7 @@ Input(s):
 sys.argv[1]: main project directory
 sys.argv[2]: project name (correspond to directory)
 sys.argv[3]: subject (e.g. sub-01)
+sys.argv[4]: group (e.g. 327)
 -----------------------------------------------------------------------------------------
 Output(s):
 None
@@ -17,10 +18,10 @@ To run:
 1. cd to function
 >> cd ~/projects/stereo_prf/analysis_code/preproc/functional/
 2. run python command
-python pycortex_import.py [main directory] [project name] [subject]
+python pycortex_import.py [main directory] [project name] [subject] [group]
 -----------------------------------------------------------------------------------------
 Executions:
-python pycortex_import.py /scratch/mszinte/data amblyo_prf sub-01
+python pycortex_import.py /scratch/mszinte/data amblyo_prf sub-01 327
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (mail@martinszinte.net)
 -----------------------------------------------------------------------------------------
@@ -51,6 +52,7 @@ from pycortex_utils import set_pycortex_config_file
 main_dir = sys.argv[1]
 project_dir = sys.argv[2]
 subject = sys.argv[3]
+group = sys.argv[4]
 
 # define analysis parameters
 with open('../../settings.json') as f:
@@ -62,9 +64,18 @@ task = analysis_info['task']
 # define directories and get fns
 fmriprep_dir = "{}/{}/derivatives/fmriprep".format(main_dir, project_dir)
 fs_dir = "{}/{}/derivatives/fmriprep/freesurfer".format(main_dir, project_dir)
+fs_licence = "{}/{}/code/freesurfer/license.txt".format(main_dir, project_dir)
 cortex_dir = "{}/{}/derivatives/pp_data/cortex".format(main_dir, project_dir)
 temp_dir = "{}/{}/derivatives/temp_data/{}_rand_ds/".format(main_dir, project_dir, subject)
 file_list = sorted(glob.glob("{}/{}/derivatives/pp_data/{}/func/fmriprep_dct/*{}*.nii.gz".format(main_dir, project_dir, subject, task)))
+
+#Define freesurfer cmd
+freesurfer_cmd = """\
+export FREESURFER_HOME={}/{}/code/freesurfer
+export SUBJECTS_DIR={}\n\
+export FS_LICENSE={}\n\
+source $FREESURFER_HOME/SetUpFreeSurfer.sh""".format(main_dir, project_dir, fs_dir, fs_licence)
+os.system("{}".format(freesurfer_cmd))
 
 # set pycortex db and colormaps
 set_pycortex_config_file(cortex_dir)
@@ -100,3 +111,7 @@ print('create subject pycortex overlays to check')
 voxel_vol = cortex.Volume(np.random.randn(ref.shape[2], ref.shape[1], ref.shape[0]), subject = subject, xfmname = xfm_name)
 ds = cortex.Dataset(rand=voxel_vol)
 cortex.webgl.make_static(outpath=temp_dir, data=ds)
+
+# Define permission cmd
+os.system("chmod -Rf 771 {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir))
+os.system("chgrp -Rf {group} {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir, group=group))
