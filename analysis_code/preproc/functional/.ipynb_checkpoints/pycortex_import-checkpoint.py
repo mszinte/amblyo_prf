@@ -42,6 +42,7 @@ import platform
 import importlib
 import cortex
 import nibabel as nb
+import subprocess 
 deb = ipdb.set_trace
 
 # functions import
@@ -63,19 +64,49 @@ task = analysis_info['task']
 
 # define directories and get fns
 fmriprep_dir = "{}/{}/derivatives/fmriprep".format(main_dir, project_dir)
+#jobs_dir = "{}/{}/derivatives/pp_data/jobs".format(main_dir, project_dir)
 fs_dir = "{}/{}/derivatives/fmriprep/freesurfer".format(main_dir, project_dir)
-fs_licence = "{}/{}/code/freesurfer/license.txt".format(main_dir, project_dir)
+#fs_license = "{}/{}/code/freesurfer/license.txt".format(main_dir, project_dir)
 cortex_dir = "{}/{}/derivatives/pp_data/cortex".format(main_dir, project_dir)
 temp_dir = "{}/{}/derivatives/temp_data/{}_rand_ds/".format(main_dir, project_dir, subject)
 file_list = sorted(glob.glob("{}/{}/derivatives/pp_data/{}/func/fmriprep_dct/*{}*.nii.gz".format(main_dir, project_dir, subject, task)))
+#os.makedirs(jobs_dir, exist_ok=True)
 
-#Define freesurfer cmd
-freesurfer_cmd = """\
-export FREESURFER_HOME={}/{}/code/freesurfer
-export SUBJECTS_DIR={}\n\
-export FS_LICENSE={}\n\
-source $FREESURFER_HOME/SetUpFreeSurfer.sh""".format(main_dir, project_dir, fs_dir, fs_licence)
-os.system("{}".format(freesurfer_cmd))
+# # Define freesurfer cmd
+# freesurfer_cmd = """\
+# export FREESURFER_HOME={}/{}/code/freesurfer
+# export SUBJECTS_DIR={}\n\
+# export FS_LICENSE={}\n\
+# source $FREESURFER_HOME/SetUpFreeSurfer.sh\n""".format(main_dir, project_dir, fs_dir, fs_license)
+
+
+# subprocess.run(["bash", "-c", freesurfer_cmd])
+
+
+
+
+
+# # define freesurfer command
+# freesurfer_cmd = """\
+# export FREESURFER_HOME={}/{}/code/freesurfer
+# export SUBJECTS_DIR={}\n\
+# export FS_LICENSE={}\n\
+# source $FREESURFER_HOME/SetUpFreeSurfer.sh\n""".format(main_dir, project_dir, fs_dir, fs_license)
+
+# # define permission cmd
+# chmod_cmd = "chmod -Rf 771 {main_dir}/{project_dir}\n".format(main_dir=main_dir, project_dir=project_dir)
+# chgrp_cmd = "chgrp -Rf {group} {main_dir}/{project_dir}\n".format(main_dir=main_dir, project_dir=project_dir, group=group)
+
+
+# # create sh folder and file
+# import_freesurfer = "{}/import_freesurfer.sh".format(jobs_dir)
+
+# of = open(import_freesurfer, 'w')
+# of.write("{}{}{}".format(freesurfer_cmd,chmod_cmd,chgrp_cmd))
+# of.close()
+
+
+# subprocess.run("import_freesurfer.sh")
 
 # set pycortex db and colormaps
 set_pycortex_config_file(cortex_dir)

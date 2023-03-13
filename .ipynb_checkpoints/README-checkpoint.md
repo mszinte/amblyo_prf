@@ -47,9 +47,9 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Margot CH
 
 #### Functional preprocessing
 - [x] fMRIprep [fmriprep_sbatch.py](analysis_code/preproc/functional/fmriprep_sbatch.py)
-- [ ] supress bad run [bad_run.py](analysis_code/preproc/functional/bad_run.py)
+- [x] supress bad run [bad_run.py](analysis_code/preproc/functional/bad_run.py)
 - [x] high-pass, z-score, average and leave-one-out average [preproc_end.py](analysis_code/preproc/functional/preproc_end.py)
-- [x] create pycortex dataset [pycortex_import.py](analysis_code/preproc/functional/pycortex_import.py)
+- [x] Load freesurfer and execute [pycortex_import.py](analysis_code/preproc/functional/pycortex_import.py) : [freesurfer_import_pycortex.py](analysis_code/preproc/functional/freesurfer_import_pycortex.py)
 
 ### Post-processing
 
