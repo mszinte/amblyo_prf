@@ -38,7 +38,6 @@ import json
 import glob
 import numpy as np
 import ipdb
-import platform
 import importlib
 import cortex
 import nibabel as nb
@@ -64,18 +63,10 @@ task = analysis_info['task']
 # define directories and get fns
 fmriprep_dir = "{}/{}/derivatives/fmriprep".format(main_dir, project_dir)
 fs_dir = "{}/{}/derivatives/fmriprep/freesurfer".format(main_dir, project_dir)
-fs_licence = "{}/{}/code/freesurfer/license.txt".format(main_dir, project_dir)
 cortex_dir = "{}/{}/derivatives/pp_data/cortex".format(main_dir, project_dir)
 temp_dir = "{}/{}/derivatives/temp_data/{}_rand_ds/".format(main_dir, project_dir, subject)
 file_list = sorted(glob.glob("{}/{}/derivatives/pp_data/{}/func/fmriprep_dct/*{}*.nii.gz".format(main_dir, project_dir, subject, task)))
 
-#Define freesurfer cmd
-freesurfer_cmd = """\
-export FREESURFER_HOME={}/{}/code/freesurfer
-export SUBJECTS_DIR={}\n\
-export FS_LICENSE={}\n\
-source $FREESURFER_HOME/SetUpFreeSurfer.sh""".format(main_dir, project_dir, fs_dir, fs_licence)
-os.system("{}".format(freesurfer_cmd))
 
 # set pycortex db and colormaps
 set_pycortex_config_file(cortex_dir)
