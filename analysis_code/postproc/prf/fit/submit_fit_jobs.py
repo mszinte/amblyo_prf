@@ -24,7 +24,7 @@ Exemple:
 python submit_fit_jobs.py [main directory] [project name] [subject num]
 -----------------------------------------------------------------------------------------
 Exemple:
-python submit_fit_jobs.py /scratch/mszinte/data stereo_prf sub-01
+python submit_fit_jobs.py /scratch/mszinte/data amblyo_prf sub-01
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (mail@martinszinte.net)
 -----------------------------------------------------------------------------------------
@@ -90,7 +90,7 @@ for fit_num, pp_avg_fn in enumerate(pp_avg_fns):
     slurm_cmd = """\
 #!/bin/bash
 #SBATCH -p skylake
-#SBATCH -A b161
+#SBATCH -A a327
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task={nb_procs}
 #SBATCH --time={job_dur}
