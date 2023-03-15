@@ -9,6 +9,7 @@ Input(s):
 sys.argv[1]: main project directory
 sys.argv[2]: project name (correspond to directory)
 sys.argv[3]: subject name (e.g. sub-01)
+sys.argv[4]: group (e.g. 327)
 -----------------------------------------------------------------------------------------
 Output(s):
 Combined estimate nifti file and pRF derivative nifti file
@@ -17,25 +18,27 @@ To run:
 1. cd to function
 >> cd ~/projects/stereo_prf/analysis_code/postproc/prf/postfit/
 2. run python command
->> python compute_derivatives.py [main directory] [project name] [subject num]
+>> python compute_derivatives.py [main directory] [project name] [subject num] [group]
 -----------------------------------------------------------------------------------------
 Exemple:
-python compute_derivatives.py /scratch/mszinte/data stereo_prf sub-01
+python compute_derivatives.py /scratch/mszinte/data amblyo_prf sub-01 327
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
 -----------------------------------------------------------------------------------------
 """
 
-# General imports
+# Stop warnings
 import warnings
 warnings.filterwarnings("ignore")
+
+# General imports
+import glob
+import ipdb
+import json
+import nibabel as nb
+import numpy as np
 import os
 import sys
-import json
-import numpy as np
-import ipdb
-import glob
-import nibabel as nb
 sys.path.append("{}/../../../utils".format(os.getcwd()))
 from prf_utils import fit2deriv
 deb = ipdb.set_trace
@@ -50,6 +53,7 @@ task = analysis_info['task']
 main_dir = sys.argv[1]
 project_dir = sys.argv[2]
 subject = sys.argv[3]
+group = sys.argv[4]
 
 # Define directories
 pp_dir = "{}/{}/derivatives/pp_data".format(main_dir, project_dir)
@@ -91,3 +95,7 @@ for loo_deriv_fn in loo_deriv_fns:
     loo_deriv_array += nb.load(loo_deriv_fn).get_fdata()/len(loo_deriv_fns)
 loo_deriv_img = nb.Nifti1Image(dataobj=loo_deriv_array, affine=fit_img.affine, header=fit_img.header)
 loo_deriv_img.to_filename(loo_deriv_avg_fn)
+
+# Define permission cmd
+os.system("chmod -Rf 771 {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir))
+os.system("chgrp -Rf {group} {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir, group=group))
