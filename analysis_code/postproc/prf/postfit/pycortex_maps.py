@@ -9,6 +9,7 @@ Input(s):
 sys.argv[1]: main project directory
 sys.argv[2]: project name (correspond to directory)
 sys.argv[3]: subject name (e.g. sub-01)
+sys.argv[4]: group (e.g. 327)
 -----------------------------------------------------------------------------------------
 Output(s):
 Pycortex flatmaps figures
@@ -16,39 +17,48 @@ Pycortex flatmaps figures
 To run:
 0. TO RUN ON INVIBE SERVER (with Inkscape)
 1. cd to function
->> cd ~/disks/meso_H/projects/stereo_prf/analysis_code/postproc/prf/postfit/
+>> cd ~/projects/stereo_prf/analysis_code/postproc/prf/postfit/
 2. run python command
->> python pyxcortex_maps.py [main directory] [project name] [subject num]
+>> python pyxcortex_maps.py [main directory] [project name] [subject num] [group]
 -----------------------------------------------------------------------------------------
 Exemple:
-python pycortex_maps.py ~/disks/meso_S/data stereo_prf sub-01
+python pycortex_maps.py /scratch/mszinte/data amblyo_prf sub-01 327
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (mail@martinszinte.net)
 -----------------------------------------------------------------------------------------
 """
 
-# stop warnings
+# Stop warnings
 import warnings
 warnings.filterwarnings("ignore")
 
-# imports
-import os
-import sys
-import json
-import numpy as np
-import matplotlib.pyplot as plt
-import ipdb
-import nibabel as nb
+# General imports
 import cortex
 import importlib
+import ipdb
+import json
+import matplotlib.pyplot as plt
+import nibabel as nb
+import numpy as np
+import os
+import sys
 sys.path.append("{}/../../../utils".format(os.getcwd()))
 from pycortex_utils import draw_cortex_vertex, set_pycortex_config_file
 deb = ipdb.set_trace
 
-# inputs
+# Define analysis parameters
+with open('../../../settings.json') as f:
+    json_s = f.read()
+    analysis_info = json.loads(json_s)
+xfm_name = analysis_info["xfm_name"]
+task = analysis_info["task"]
+
+# Inputs
 main_dir = sys.argv[1]
 project_dir = sys.argv[2]
 subject = sys.argv[3]
+group = sys.argv[4]
+
 try:
     save_svg_in = input("Save maps in overlay.svg ? Yes or No: ")
     if save_svg_in == 'Yes':
@@ -58,15 +68,9 @@ try:
 except ValueError:
     sys.exit('Error: incorrect input (Yes or No)')
 
-# define analysis parameters
-with open('../../../settings.json') as f:
-    json_s = f.read()
-    analysis_info = json.loads(json_s)
-xfm_name = analysis_info["xfm_name"]
-task = analysis_info["task"]
     
-# define folder and fn
-cortex_dir = "{}/{}/derivatives/pp_data/cortex".format(main_dir, project_dir, subject)
+# Define directories and fn
+cortex_dir = "{}/{}/derivatives/pp_data/cortex".format(main_dir, project_dir)
 fit_dir = "{}/{}/derivatives/pp_data/{}/prf/fit".format(main_dir, project_dir, subject)
 flatmaps_dir = '{}/{}/derivatives/pp_data/{}/prf/pycortex/flatmaps'.format(main_dir, project_dir, subject)
 datasets_dir = '{}/{}/derivatives/pp_data/{}/prf/pycortex/datasets'.format(main_dir, project_dir, subject)
@@ -77,11 +81,11 @@ deriv_avg_loo_fn = "{}/{}_task-{}_fmriprep_dct_bold_loo_avg_prf-deriv.nii.gz".fo
 deriv_fns = [deriv_avg_fn,deriv_avg_loo_fn]
 deriv_fn_labels = ['avg','loo_avg']
 
-# set pycortex db and colormaps
+# Set pycortex db and colormaps
 set_pycortex_config_file(cortex_dir)
 importlib.reload(cortex)
 
-# maps settings
+# Maps settings
 rsq_idx, rsq_loo_idx, ecc_idx, polar_real_idx, polar_imag_idx , size_idx, \
     amp_idx, baseline_idx, x_idx, y_idx = 0,1,2,3,4,5,6,7,8,9
 cmap_polar, cmap_uni, cmap_ecc_size = 'hsv', 'Reds', 'Spectral'
@@ -162,3 +166,7 @@ for deriv_fn, deriv_fn_label in zip(deriv_fns,deriv_fn_labels):
     dataset_file = "{}/{}_task-{}_{}.hdf".format(datasets_dir, subject, task, deriv_fn_label)
     dataset = cortex.Dataset(data=volumes)
     dataset.save(dataset_file)
+    
+# Define permission cmd
+os.system("chmod -Rf 771 {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir))
+os.system("chgrp -Rf {group} {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir, group=group))
