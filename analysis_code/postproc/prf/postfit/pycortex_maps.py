@@ -57,7 +57,7 @@ task = analysis_info["task"]
 main_dir = sys.argv[1]
 project_dir = sys.argv[2]
 subject = sys.argv[3]
-group = sys.argv[4]
+#group = sys.argv[4]
 
 try:
     save_svg_in = input("Save maps in overlay.svg ? Yes or No: ")
