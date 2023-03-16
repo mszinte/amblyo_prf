@@ -9,7 +9,6 @@ Input(s):
 sys.argv[1]: main project directory
 sys.argv[2]: project name (correspond to directory)
 sys.argv[3]: subject name (e.g. sub-01)
-sys.argv[4]: group (e.g. 327)
 -----------------------------------------------------------------------------------------
 Output(s):
 Pycortex flatmaps figures
@@ -17,12 +16,12 @@ Pycortex flatmaps figures
 To run:
 0. TO RUN ON INVIBE SERVER (with Inkscape)
 1. cd to function
->> cd ~/projects/stereo_prf/analysis_code/postproc/prf/postfit/
+>> cd ~/disks/meso_H/projects/stereo_prf/analysis_code/postproc/prf/postfit/
 2. run python command
->> python pyxcortex_maps.py [main directory] [project name] [subject num] [group]
+>> python pyxcortex_maps.py [main directory] [project name] [subject num]
 -----------------------------------------------------------------------------------------
 Exemple:
-python pycortex_maps.py /scratch/mszinte/data amblyo_prf sub-01 327
+python pycortex_maps.py ~/disks/meso_shared amblyo_prf sub-01
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (mail@martinszinte.net)
 -----------------------------------------------------------------------------------------
@@ -57,16 +56,16 @@ task = analysis_info["task"]
 main_dir = sys.argv[1]
 project_dir = sys.argv[2]
 subject = sys.argv[3]
-#group = sys.argv[4]
-
 try:
-    save_svg_in = input("Save maps in overlay.svg ? Yes or No: ")
-    if save_svg_in == 'Yes':
+    save_svg_in = input("Save maps in overlay.svg? (Yes/No): ").lower()
+    if save_svg_in == 'yes' or save_svg_in == 'y':
         save_svg = True
-    elif save_svg_in == 'No':
+    elif save_svg_in == 'no' or save_svg_in == 'n':
         save_svg = False
+    else:
+        raise ValueError
 except ValueError:
-    sys.exit('Error: incorrect input (Yes or No)')
+    sys.exit('Error: incorrect input (Yes, yes, y or No, no, n)')
 
     
 # Define directories and fn
@@ -167,6 +166,6 @@ for deriv_fn, deriv_fn_label in zip(deriv_fns,deriv_fn_labels):
     dataset = cortex.Dataset(data=volumes)
     dataset.save(dataset_file)
     
-# Define permission cmd
-os.system("chmod -Rf 771 {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir))
-os.system("chgrp -Rf {group} {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir, group=group))
+# # Define permission cmd
+# os.system("chmod -Rf 771 {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir))
+# os.system("chgrp -Rf {group} {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir, group=group))
