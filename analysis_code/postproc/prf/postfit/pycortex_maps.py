@@ -165,7 +165,3 @@ for deriv_fn, deriv_fn_label in zip(deriv_fns,deriv_fn_labels):
     dataset_file = "{}/{}_task-{}_{}.hdf".format(datasets_dir, subject, task, deriv_fn_label)
     dataset = cortex.Dataset(data=volumes)
     dataset.save(dataset_file)
-    
-# # Define permission cmd
-# os.system("chmod -Rf 771 {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir))
-# os.system("chgrp -Rf {group} {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir, group=group))
