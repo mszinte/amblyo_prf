@@ -59,8 +59,7 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Margot CH
 - [x] Compute pRF derivatives [compute_derivatives.py](analysis_code/postproc/prf/postfit/compute_derivatives.py)
     - [ ] add Dumoulin magnification factor
     - [ ] add pRF coverage
-- [ ] make pycortex maps
+- [x] make pycortex maps [pycortex_maps.py](analysis_code/postproc/prf/postfit/pycortex_maps.py)
 - [ ] make webgl
 - [ ] send index.py to webapp
-
 ### ROI analysis
