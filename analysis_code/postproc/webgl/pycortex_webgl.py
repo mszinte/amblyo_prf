@@ -15,18 +15,21 @@ sys.argv[5]: send to invibe server (1 = True, 0 = False)
 Output(s):
 pycortex webgl per subject
 -----------------------------------------------------------------------------------------
-To run:
->> cd to function
+To run: 
+0. ON MESO SERVER
+1. cd to function
+>> cd ~/projects/pRF3T7T/mri_analysis/
+2. run python command
 >> python webgl/pycortex_webgl.py [base_dir] [subject] [preproc] [reg] [recache] [invibe]
 -----------------------------------------------------------------------------------------
-Exemple: on mesocentre
-cd ~/projects/pRF3T7T/mri_analysis/
+Exemple:
 python webgl/pycortex_webgl.py sub-01 fmriprep_dct T1w 1 1
 python webgl/pycortex_webgl.py sub-04 fmriprep_dct T1w 1 1
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
 -----------------------------------------------------------------------------------------
 """
+
 # Stop warnings
 # -------------
 import warnings
