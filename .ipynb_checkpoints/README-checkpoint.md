@@ -60,6 +60,7 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Margot CH
     - [ ] add Dumoulin magnification factor
     - [ ] add pRF coverage
 - [x] make pycortex maps [pycortex_maps.py](analysis_code/postproc/prf/postfit/pycortex_maps.py)
+- [X] make pdf files with the maps [pdf_maps.py](analysis_code/postproc/prf/postfit/pdf_maps.py)
 - [ ] make webgl
 - [ ] send index.py to webapp
 ### ROI analysis
