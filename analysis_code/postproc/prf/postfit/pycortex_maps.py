@@ -116,7 +116,7 @@ for deriv_fn, deriv_fn_label in zip(deriv_fns,deriv_fn_labels):
     alpha_range = analysis_info["alpha_range"]
     alpha = (rsq_data - alpha_range[0])/(alpha_range[1]-alpha_range[0])
     alpha[alpha>1]=1
-    param_rsq = {'data': rsq_data, 'cmap': cmap_uni, 'alpha': rsq_data, 'vmin': 0,'vmax': 1,'cbar': 'discrete', 'cortex_type': 'VolumeRGB',
+    param_rsq = {'data': rsq_data, 'cmap': cmap_uni, 'alpha': rsq_data, 'vmin': 0,'vmax': 0.4,'cbar': 'discrete', 'cortex_type': 'VolumeRGB',
                  'description': '{} rsquare'.format(task), 'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': False}
     maps_names.append('rsq')
 
@@ -139,7 +139,7 @@ for deriv_fn, deriv_fn_label in zip(deriv_fns,deriv_fn_labels):
 
     # size
     size_data = deriv_mat[...,size_idx]
-    param_size = {'data': size_data, 'cmap': cmap_ecc_size, 'alpha': alpha, 'vmin': 0, 'vmax': 10, 'cbar': 'discrete', 'cortex_type': 'VolumeRGB',
+    param_size = {'data': size_data, 'cmap': cmap_ecc_size, 'alpha': alpha, 'vmin': 0.1, 'vmax': 10, 'cbar': 'discrete', 'cortex_type': 'VolumeRGB',
                   'description': '{} size'.format(task), 'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': False}
     maps_names.append('size')
 
