@@ -139,7 +139,7 @@ for deriv_fn, deriv_fn_label in zip(deriv_fns,deriv_fn_labels):
 
     # size
     size_data = deriv_mat[...,size_idx]
-    param_size = {'data': size_data, 'cmap': cmap_ecc_size, 'alpha': alpha, 'vmin': 0, 'vmax': 10, 'cbar': 'discrete', 'cortex_type': 'VolumeRGB',
+    param_size = {'data': size_data, 'cmap': cmap_ecc_size, 'alpha': alpha, 'vmin': 0.1, 'vmax': 10, 'cbar': 'discrete', 'cortex_type': 'VolumeRGB',
                   'description': '{} size'.format(task), 'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': False}
     maps_names.append('size')
 
