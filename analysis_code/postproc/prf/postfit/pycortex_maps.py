@@ -18,7 +18,7 @@ To run:
 1. cd to function
 >> cd ~/disks/meso_H/projects/stereo_prf/analysis_code/postproc/prf/postfit/
 2. run python command
->> python pyxcortex_maps.py [main directory] [project name] [subject num]
+>> python pycortex_maps.py [main directory] [project name] [subject num]
 -----------------------------------------------------------------------------------------
 Exemple:
 python pycortex_maps.py ~/disks/meso_shared amblyo_prf sub-01
