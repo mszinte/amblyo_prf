@@ -64,3 +64,5 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Margot CH
 - [ ] make webgl
 - [ ] send index.py to webapp
 ### ROI analysis
+
+- [x] extract ROIs masks [roi_masks.ipynb](analysis_code/ROIs/roi_masks.ipynb)
