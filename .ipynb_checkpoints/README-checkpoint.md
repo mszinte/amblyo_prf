@@ -5,7 +5,7 @@ We study the organization of the cortical visual system of a population of ambli
 In this repository is kept all code allowing us to analyse our dataset [OpenNeuro:DSXXXXX](https://openneuro.org/datasets/dsXXXX).</br>
 
 ---
-## Authors: 
+## Authors (alphabetic order): 
 ---
 Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Margot CHEVILLARD, Michael SILVER, & Martin SZINTE
 
@@ -18,6 +18,7 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Margot CH
 [FreeSurfer](https://surfer.nmr.mgh.harvard.edu/);
 [FFmpeg](https://ffmpeg.org/)
 [FSL](https://fsl.fmrib.ox.ac.uk)
+[Inkscape](https://inkscape.org/)
 </br>
 
 
