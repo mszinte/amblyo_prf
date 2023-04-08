@@ -60,9 +60,10 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Margot CH
 - [x] Compute pRF derivatives [compute_derivatives.py](analysis_code/postproc/prf/postfit/compute_derivatives.py)
     - [ ] add magnification factor see https://github.com/noahbenson/cortical-magnification-tutorial
 - [x] make pycortex maps [pycortex_maps.py](analysis_code/postproc/prf/postfit/pycortex_maps.py)
-- [X] make pdf files with the maps [pdf_maps.py](analysis_code/postproc/prf/postfit/pdf_maps.py)
-- [ ] make webgl
-- [ ] send index.py to webapp
-
-### ROI analysis
+- [x] draw ROIs using Inkscape
 - [x] extract ROIs masks [roi_masks.ipynb](analysis_code/ROIs/roi_masks.ipynb)
+- [X] make pdf files with the maps [pdf_maps.py](analysis_code/postproc/prf/postfit/pdf_maps.py)
+- [x] make webgl with the pycortex dataset [pycortex_maps.py](analysis_code/postproc/prf/webgl/pycortex_webgl.py) 
+- [x] send the files [send_index.sh](analysis_code/postproc/prf/webgl/send_index.sh)
+
+### Main analysis
