@@ -162,10 +162,10 @@ for deriv_fn, deriv_fn_label in zip(deriv_fns,deriv_fn_labels):
         exec("plt.savefig('{}/{}_task-{}_{}_{}.pdf')".format(flatmaps_dir, subject, task,  maps_name, deriv_fn_label))
         plt.close()
 
-    # save flatmap as dataset
-    exec('vol_description = param_{}["description"]'.format(maps_name))
-    exec('volume = volume_{}'.format(maps_name))
-    volumes.update({vol_description:volume})
+        # save flatmap as dataset
+        exec('vol_description = param_{}["description"]'.format(maps_name))
+        exec('volume = volume_{}'.format(maps_name))
+        volumes.update({vol_description:volume})
 
     # save dataset
     dataset_file = "{}/{}_task-{}_{}.hdf".format(datasets_dir, subject, task, deriv_fn_label)
