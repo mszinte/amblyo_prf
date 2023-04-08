@@ -1,4 +1,4 @@
-# STEREO_PRF
+# AMBLYO_PRF
 ## About
 ---
 We study the organization of the cortical visual system of a population of ambliopic patients.</br>
@@ -57,12 +57,11 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Margot CH
 - [x] create the visual matrix design [vdm_builder.py](analysis_code/postproc/prf/vdm_builder.py)
 - [x] Execute [prf_fit.py](analysis_code/postproc/prf/fit/prf_fit.py) to fit pRF parameters (eccentricity, size, amplitude, baseline, rsquare): run only [submit_fit_jobs.py](analysis_code/postproc/prf/fit/submit_fit_jobs.py)
 - [x] Compute pRF derivatives [compute_derivatives.py](analysis_code/postproc/prf/postfit/compute_derivatives.py)
-    - [ ] add Dumoulin magnification factor
-    - [ ] add pRF coverage
+    - [ ] add magnification factor see https://github.com/noahbenson/cortical-magnification-tutorial
 - [x] make pycortex maps [pycortex_maps.py](analysis_code/postproc/prf/postfit/pycortex_maps.py)
 - [X] make pdf files with the maps [pdf_maps.py](analysis_code/postproc/prf/postfit/pdf_maps.py)
 - [ ] make webgl
 - [ ] send index.py to webapp
-### ROI analysis
 
+### ROI analysis
 - [x] extract ROIs masks [roi_masks.ipynb](analysis_code/ROIs/roi_masks.ipynb)
