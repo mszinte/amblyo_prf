@@ -16,7 +16,7 @@ Pycortex flatmaps figures
 To run:
 0. TO RUN ON INVIBE SERVER (with Inkscape)
 1. cd to function
->> cd ~/disks/meso_H/projects/stereo_prf/analysis_code/postproc/prf/postfit/
+>> cd ~/disks/meso_H/projects/amblyo_prf/analysis_code/postproc/prf/postfit/
 2. run python command
 >> python pycortex_maps.py [main directory] [project name] [subject num]
 -----------------------------------------------------------------------------------------
@@ -96,6 +96,10 @@ for deriv_fn, deriv_fn_label in zip(deriv_fns,deriv_fn_labels):
     
     if 'loo' in deriv_fn: 
         save_svg = False
+        description_end = ' (leave-one-out fit)'
+    else:
+        description_end = ' (all-runs fit)'
+    
     maps_names = []
 
     # load data    
@@ -128,7 +132,7 @@ for deriv_fn, deriv_fn_label in zip(deriv_fns,deriv_fn_labels):
     ang_norm = (polar_ang + np.pi) / (np.pi * 2.0)
     ang_norm = np.fmod(ang_norm + col_offset,1)
     param_polar = { 'data': ang_norm, 'cmap': cmap_polar, 'alpha': alpha, 'vmin': 0, 'vmax': 1, 'cmap_steps': cmap_steps, 'cortex_type': 'VolumeRGB',
-                    'cbar': 'polar', 'col_offset': col_offset, 'description': '{task} polar:{cmap_steps:3.0f} steps'.format(cmap_steps=cmap_steps, task=task), 
+                    'cbar': 'polar', 'col_offset': col_offset, 'description': '{} polar:{:3.0f} steps{}'.format(task, cmap_steps, description_end), 
                     'curv_brightness': 0.1, 'curv_contrast': 0.25, 'add_roi': save_svg}
     exec('param_polar_{cmap_steps} = param_polar'.format(cmap_steps = int(cmap_steps)))
     exec('maps_names.append("polar_{cmap_steps}")'.format(cmap_steps = int(cmap_steps)))
@@ -136,13 +140,13 @@ for deriv_fn, deriv_fn_label in zip(deriv_fns,deriv_fn_labels):
     # eccentricity
     ecc_data = deriv_mat[...,ecc_idx]
     param_ecc = {'data': ecc_data, 'cmap': cmap_ecc_size, 'alpha': alpha, 'vmin': 0, 'vmax': 10,'cbar': 'ecc', 'cortex_type': 'VolumeRGB',
-                 'description': '{} eccentricity'.format(task), 'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': save_svg}
+                 'description': '{} eccentricity{}'.format(task,description_end), 'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': save_svg}
     maps_names.append('ecc')
 
     # size
     size_data = deriv_mat[...,size_idx]
     param_size = {'data': size_data, 'cmap': cmap_ecc_size, 'alpha': alpha, 'vmin': 0.1, 'vmax': 10, 'cbar': 'discrete', 'cortex_type': 'VolumeRGB',
-                  'description': '{} size'.format(task), 'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': False}
+                  'description': '{} size{}'.format(task, description_end), 'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': False}
     maps_names.append('size')
 
     # draw flatmaps
@@ -158,10 +162,10 @@ for deriv_fn, deriv_fn_label in zip(deriv_fns,deriv_fn_labels):
         exec("plt.savefig('{}/{}_task-{}_{}_{}.pdf')".format(flatmaps_dir, subject, task,  maps_name, deriv_fn_label))
         plt.close()
 
-    # save flatmap as dataset
-    exec('vol_description = param_{}["description"]'.format(maps_name))
-    exec('volume = volume_{}'.format(maps_name))
-    volumes.update({vol_description:volume})
+        # save flatmap as dataset
+        exec('vol_description = param_{}["description"]'.format(maps_name))
+        exec('volume = volume_{}'.format(maps_name))
+        volumes.update({vol_description:volume})
 
     # save dataset
     dataset_file = "{}/{}_task-{}_{}.hdf".format(datasets_dir, subject, task, deriv_fn_label)
