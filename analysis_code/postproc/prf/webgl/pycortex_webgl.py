@@ -18,7 +18,8 @@ pycortex webgl per subject
 To run: 
 0. ON MESO SERVER
 1. cd to function
->> cd ~/projects/pRF3T7T/mri_analysis/
+>> cd ~/projects/stereo_prf/
+>> cd ~/disks/meso_H/projects/stereo_prf/analysis_code/postproc/webgl/
 2. run python command
 >> python webgl/pycortex_webgl.py [base_dir] [subject] [preproc] [reg] [recache] [invibe]
 -----------------------------------------------------------------------------------------

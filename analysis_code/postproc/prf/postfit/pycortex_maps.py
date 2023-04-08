@@ -66,7 +66,6 @@ try:
         raise ValueError
 except ValueError:
     sys.exit('Error: incorrect input (Yes, yes, y or No, no, n)')
-
     
 # Define directories and fn
 cortex_dir = "{}/{}/derivatives/pp_data/cortex".format(main_dir, project_dir)
@@ -94,6 +93,9 @@ cmap_steps = 255
 print('Creating flatmaps...')
 
 for deriv_fn, deriv_fn_label in zip(deriv_fns,deriv_fn_labels):
+    
+    if 'loo' in deriv_fn: 
+        save_svg = False
     maps_names = []
 
     # load data    
