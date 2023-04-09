@@ -2,7 +2,7 @@
 ## About
 ---
 We study the organization of the cortical visual system of a population of ambliopic patients.</br>
-In this repository is kept all code allowing us to analyse our dataset [OpenNeuro:DSXXXXX](https://openneuro.org/datasets/dsXXXX).</br>
+This repository contain all code allowing us to analyse our dataset [OpenNeuro:DSXXXXX](https://openneuro.org/datasets/dsXXXX).</br>
 
 ---
 ## Authors (alphabetic order): 
@@ -16,11 +16,10 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Margot CH
 [fMRIprep](https://fmriprep.org/en/stable/); 
 [pRFpy](https://github.com/VU-Cog-Sci/prfpy); 
 [FreeSurfer](https://surfer.nmr.mgh.harvard.edu/);
-[FFmpeg](https://ffmpeg.org/)
-[FSL](https://fsl.fmrib.ox.ac.uk)
+[FFmpeg](https://ffmpeg.org/);
+[FSL](https://fsl.fmrib.ox.ac.uk);
 [Inkscape](https://inkscape.org/)
 </br>
-
 
 ## Data analysis
 ---
@@ -67,3 +66,5 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Margot CH
 - [x] send the files [send_index.sh](analysis_code/postproc/prf/webgl/send_index.sh)
 
 ### Main analysis
+- [ ] extract all data as pickle files or tsv
+- [ ] think about the individual participants figures
