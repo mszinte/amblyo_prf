@@ -66,5 +66,5 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Margot CH
 - [x] send the files [send_index.sh](analysis_code/postproc/prf/webgl/send_index.sh)
 
 ### Main analysis
-- [ ] extract all data as pickle files or tsv
+- [x] extract all data as pickle files or tsv [make_tsv.ipynb](analysis_code/postproc/prf/postfit/make_tsv.ipynb)
 - [ ] think about the individual participants figures
