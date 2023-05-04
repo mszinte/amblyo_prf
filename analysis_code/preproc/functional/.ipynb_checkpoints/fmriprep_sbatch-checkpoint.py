@@ -17,7 +17,8 @@ sys.argv[8]: skip BIDS validation (1) or not (0)
 sys.argv[9]: save cifti hcp format data with 170k vertices
 sys.argv[10]: dof number (e.g. 12)
 sys.argv[11]: email account
-sys.argv[11]: data group (e.g. 327)
+sys.argv[12]: data group (e.g. 327)
+sys.argv[13]: project name (e.g. b327)
 -----------------------------------------------------------------------------------------
 Output(s):
 preprocessed files
@@ -31,7 +32,8 @@ python fmriprep_sbatch.py [main directory] [project name] [subject num]
                           [skip bids validation] [cifti] [dof] [email account] [group]
 -----------------------------------------------------------------------------------------
 Exemple:
-python fmriprep_sbatch.py /scratch/mszinte/data amblyo_prf sub-01 15 1 0 1 0 1 12 martin.szinte@univ-amu.fr
+python fmriprep_sbatch.py /scratch/mszinte/data amblyo_prf sub-01 15 1 0 1 0 1 12 
+                            martin.szinte@univ-amu.fr 327 b327
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (mail@martinszinte.net)
 -----------------------------------------------------------------------------------------
@@ -58,14 +60,14 @@ skip_bids_val = int(sys.argv[8])
 hcp_cifti_val = int(sys.argv[9])
 dof = int(sys.argv[10])
 email = sys.argv[11]
+group = sys.argv[12]
+project_name = sys.argv[13]
 
 # Define cluster/server specific parameters
 cluster_name  = 'skylake'
-proj_name = 'a327'
-group = '327'
 singularity_dir = "{main_dir}/{project_dir}/code/singularity/fmriprep-20.2.3.simg".format(
     main_dir=main_dir, project_dir=project_dir)
-nb_procs = 8
+nb_procs = 32
 memory_val = 100
 log_dir = "{main_dir}/{project_dir}/derivatives/fmriprep/log_outputs".format(
     main_dir=main_dir, project_dir=project_dir)
