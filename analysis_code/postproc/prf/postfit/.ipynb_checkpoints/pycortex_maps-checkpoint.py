@@ -97,8 +97,10 @@ for deriv_fn, deriv_fn_label in zip(deriv_fns,deriv_fn_labels):
     if 'loo' in deriv_fn: 
         save_svg = False
         description_end = ' (leave-one-out fit)'
+        rsq_idx = rsq_loo_idx
     else:
         description_end = ' (all-runs fit)'
+        
     
     maps_names = []
 
@@ -118,7 +120,7 @@ for deriv_fn, deriv_fn_label in zip(deriv_fns,deriv_fn_labels):
     deriv_mat[np.logical_and.reduce(all_th)==False,rsq_idx]=0
 
     # r-square
-    rsq_data = deriv_mat[...,rsq_loo_idx]
+    rsq_data = deriv_mat[...,rsq_idx]
     alpha_range = analysis_info["alpha_range"]
     alpha = (rsq_data - alpha_range[0])/(alpha_range[1]-alpha_range[0])
     alpha[alpha>1]=1
@@ -139,13 +141,13 @@ for deriv_fn, deriv_fn_label in zip(deriv_fns,deriv_fn_labels):
 
     # eccentricity
     ecc_data = deriv_mat[...,ecc_idx]
-    param_ecc = {'data': ecc_data, 'cmap': cmap_ecc_size, 'alpha': alpha, 'vmin': 0, 'vmax': 10,'cbar': 'ecc', 'cortex_type': 'VolumeRGB',
+    param_ecc = {'data': ecc_data, 'cmap': cmap_ecc_size, 'alpha': alpha, 'vmin': 0, 'vmax': 15,'cbar': 'ecc', 'cortex_type': 'VolumeRGB',
                  'description': '{} eccentricity{}'.format(task,description_end), 'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': save_svg}
     maps_names.append('ecc')
 
     # size
     size_data = deriv_mat[...,size_idx]
-    param_size = {'data': size_data, 'cmap': cmap_ecc_size, 'alpha': alpha, 'vmin': 0.1, 'vmax': 10, 'cbar': 'discrete', 'cortex_type': 'VolumeRGB',
+    param_size = {'data': size_data, 'cmap': cmap_ecc_size, 'alpha': alpha, 'vmin': 0, 'vmax': 15, 'cbar': 'discrete', 'cortex_type': 'VolumeRGB',
                   'description': '{} size{}'.format(task, description_end), 'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': False}
     maps_names.append('size')
 

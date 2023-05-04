@@ -63,7 +63,11 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Margot CH
 - [x] extract ROIs masks [roi_masks.ipynb](analysis_code/postproc/prf/postfit/roi_masks.ipynb) 
 - [X] make pdf files with the maps [pdf_maps.py](analysis_code/postproc/prf/postfit/pdf_maps.py)
 - [x] make webgl with the pycortex dataset [pycortex_maps.py](analysis_code/postproc/prf/webgl/pycortex_webgl.py) 
+<<<<<<< HEAD
 - [x] send the files [send_index.sh](analysis_code/postproc/prf/webgl/send_index.sh)
+=======
+- [x] send the files [send_data.sh](analysis_code/postproc/prf/webgl/send_data.sh)
+>>>>>>> bfc4b179ca1431f2ce4284aef144455f6508c28f
 
 ### Main analysis
 - [x] extract all data as pickle files or tsv [make_tsv.ipynb](analysis_code/postproc/prf/postfit/make_tsv.ipynb)
