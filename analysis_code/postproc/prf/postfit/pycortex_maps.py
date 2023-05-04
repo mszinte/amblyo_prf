@@ -18,10 +18,10 @@ To run:
 1. cd to function
 >> cd ~/disks/meso_H/projects/amblyo_prf/analysis_code/postproc/prf/postfit/
 2. run python command
->> python pycortex_maps.py [main directory] [project name] [subject num]
+>> python pycortex_maps.py [main directory] [project name] [subject num] [save_svg_in]
 -----------------------------------------------------------------------------------------
 Exemple:
-python pycortex_maps.py ~/disks/meso_shared amblyo_prf sub-01
+python pycortex_maps.py ~/disks/meso_shared amblyo_prf sub-01 n
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (mail@martinszinte.net)
 -----------------------------------------------------------------------------------------
@@ -42,7 +42,7 @@ import numpy as np
 import os
 import sys
 sys.path.append("{}/../../../utils".format(os.getcwd()))
-from pycortex_utils import draw_cortex_vertex, set_pycortex_config_file
+from pycortex_utils import draw_cortex, set_pycortex_config_file
 deb = ipdb.set_trace
 
 # Define analysis parameters
@@ -56,6 +56,7 @@ task = analysis_info["task"]
 main_dir = sys.argv[1]
 project_dir = sys.argv[2]
 subject = sys.argv[3]
+save_svg_in = sys.argv[4]
 try:
     save_svg_in = input("Save maps in overlay.svg? (Yes/No): ").lower()
     if save_svg_in == 'yes' or save_svg_in == 'y':
@@ -118,7 +119,7 @@ for deriv_fn, deriv_fn_label in zip(deriv_fns,deriv_fn_labels):
     deriv_mat[np.logical_and.reduce(all_th)==False,rsq_idx]=0
 
     # r-square
-    rsq_data = deriv_mat[...,rsq_loo_idx]
+    rsq_data = deriv_mat[...,rsq_idx]
     alpha_range = analysis_info["alpha_range"]
     alpha = (rsq_data - alpha_range[0])/(alpha_range[1]-alpha_range[0])
     alpha[alpha>1]=1
@@ -158,7 +159,7 @@ for deriv_fn, deriv_fn_label in zip(deriv_fns,deriv_fn_labels):
         roi_param = {'subject': subject, 'xfmname': xfm_name, 'roi_name': roi_name}
         print(roi_name)
         exec('param_{}.update(roi_param)'.format(maps_name))
-        exec('volume_{maps_name} = draw_cortex_vertex(**param_{maps_name})'.format(maps_name=maps_name))
+        exec('volume_{maps_name} = draw_cortex(**param_{maps_name})'.format(maps_name=maps_name))
         exec("plt.savefig('{}/{}_task-{}_{}_{}.pdf')".format(flatmaps_dir, subject, task,  maps_name, deriv_fn_label))
         plt.close()
 

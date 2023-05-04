@@ -20,7 +20,7 @@ To run:
 -----------------------------------------------------------------------------------------
 Exemple:
 1. cd to function
->> cd ~/projects/stereo_prf/analysis_code/postproc/prf/fit
+>> cd ~/projects/amblyo_prf/analysis_code/postproc/prf/fit
 2. run python command
 python submit_fit_jobs.py [main directory] [project name] [subject num] [group]
 -----------------------------------------------------------------------------------------
@@ -96,7 +96,7 @@ for fit_num, pp_avg_fn in enumerate(pp_avg_fns):
     slurm_cmd = """\
 #!/bin/bash
 #SBATCH -p skylake
-#SBATCH -A a327
+#SBATCH -A b327
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task={nb_procs}
 #SBATCH --time={job_dur}
