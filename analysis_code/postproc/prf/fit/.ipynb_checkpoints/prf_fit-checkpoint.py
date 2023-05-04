@@ -18,7 +18,7 @@ Nifti image files with fit parameters for a z slice
 -----------------------------------------------------------------------------------------
 To run :
 >> cd to function directory
-cd ~/projects/stereo_prf/analysis_code/postproc/
+cd ~/projects/amblyo_prf/analysis_code/postproc/
 >> python prf/fit/prf_fit.py [subject] [timeseries] [visual design] 
                      [fit] [prediction] [nb_procs]
 -----------------------------------------------------------------------------------------
@@ -93,7 +93,7 @@ stimulus = PRFStimulus2D(screen_size_cm=screen_size_cm[1],
 
 gauss_model = Iso2DGaussianModel(stimulus=stimulus)
 sizes = max_ecc_size * np.linspace(0.1,1,grid_nr)**2
-eccs = max_ecc_size * np.linspace(0.1,1,grid_nr)**2
+eccs = max_ecc_size * np.linspace(0.25,1,grid_nr)**2
 polars = np.linspace(0, 2*np.pi, grid_nr)
 
 # grid fit
