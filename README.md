@@ -1,11 +1,11 @@
-# STEREO_PRF
+# AMBLYO_PRF
 ## About
 ---
 We study the organization of the cortical visual system of a population of ambliopic patients.</br>
-In this repository is kept all code allowing us to analyse our dataset [OpenNeuro:DSXXXXX](https://openneuro.org/datasets/dsXXXX).</br>
+This repository contain all code allowing us to analyse our dataset [OpenNeuro:DSXXXXX](https://openneuro.org/datasets/dsXXXX).</br>
 
 ---
-## Authors: 
+## Authors (alphabetic order): 
 ---
 Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Margot CHEVILLARD, Michael SILVER, & Martin SZINTE
 
@@ -16,10 +16,10 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Margot CH
 [fMRIprep](https://fmriprep.org/en/stable/); 
 [pRFpy](https://github.com/VU-Cog-Sci/prfpy); 
 [FreeSurfer](https://surfer.nmr.mgh.harvard.edu/);
-[FFmpeg](https://ffmpeg.org/)
-[FSL](https://fsl.fmrib.ox.ac.uk)
+[FFmpeg](https://ffmpeg.org/);
+[FSL](https://fsl.fmrib.ox.ac.uk);
+[Inkscape](https://inkscape.org/)
 </br>
-
 
 ## Data analysis
 ---
@@ -57,10 +57,14 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Margot CH
 - [x] create the visual matrix design [vdm_builder.py](analysis_code/postproc/prf/vdm_builder.py)
 - [x] Execute [prf_fit.py](analysis_code/postproc/prf/fit/prf_fit.py) to fit pRF parameters (eccentricity, size, amplitude, baseline, rsquare): run only [submit_fit_jobs.py](analysis_code/postproc/prf/fit/submit_fit_jobs.py)
 - [x] Compute pRF derivatives [compute_derivatives.py](analysis_code/postproc/prf/postfit/compute_derivatives.py)
-    - [ ] add Dumoulin magnification factor
-    - [ ] add pRF coverage
+    - [ ] add magnification factor see https://github.com/noahbenson/cortical-magnification-tutorial
 - [x] make pycortex maps [pycortex_maps.py](analysis_code/postproc/prf/postfit/pycortex_maps.py)
+- [x] draw ROIs using Inkscape
+- [x] extract ROIs masks [roi_masks.ipynb](analysis_code/postproc/prf/postfit/roi_masks.ipynb) 
 - [X] make pdf files with the maps [pdf_maps.py](analysis_code/postproc/prf/postfit/pdf_maps.py)
-- [ ] make webgl
-- [ ] send index.py to webapp
-### ROI analysis
+- [x] make webgl with the pycortex dataset [pycortex_maps.py](analysis_code/postproc/prf/webgl/pycortex_webgl.py) 
+- [x] send the files [send_index.sh](analysis_code/postproc/prf/webgl/send_index.sh)
+
+### Main analysis
+- [x] extract all data as pickle files or tsv [make_tsv.ipynb](analysis_code/postproc/prf/postfit/make_tsv.ipynb)
+- [ ] think about the individual participants figures
