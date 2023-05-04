@@ -108,6 +108,12 @@ for deriv_fn, deriv_fn_label in zip(deriv_fns,deriv_fn_labels):
         save_svg = False
         description_end = ' (leave-one-out fit)'
         rsq_idx = rsq_loo_idx
+<<<<<<< HEAD
+    else:
+        description_end = ' (all-runs fit)'
+        
+    
+=======
         flatmaps_dir = flatmaps_loo_avg_dir
         datasets_dir = datasets_loo_avg_dir
     else:
@@ -115,6 +121,7 @@ for deriv_fn, deriv_fn_label in zip(deriv_fns,deriv_fn_labels):
         flatmaps_dir = flatmaps_avg_dir
         datasets_dir = datasets_loo_avg_dir
         
+>>>>>>> 6fef52cbf1ab4af6f5822796baf2511cb67a408e
     maps_names = []
 
     # load data
@@ -160,19 +167,29 @@ for deriv_fn, deriv_fn_label in zip(deriv_fns,deriv_fn_labels):
 
     # eccentricity
     ecc_data = deriv_mat[...,ecc_idx]
+<<<<<<< HEAD
+    param_ecc = {'data': ecc_data, 'cmap': cmap_ecc_size, 'alpha': alpha, 'vmin': 0, 'vmax': 15,'cbar': 'ecc', 'cortex_type': 'VolumeRGB',
+                 'description': '{} eccentricity{}'.format(task,description_end), 'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': save_svg}
+=======
     param_ecc = {'data': ecc_data, 'cmap': cmap_ecc_size, 'alpha': alpha,
                  'vmin': ecc_scale[0], 'vmax': ecc_scale[1], 'cbar': 'ecc', 'cortex_type': 'VolumeRGB',
                  'description': '{} eccentricity{}'.format(task,description_end), 'curv_brightness': 1,
                  'curv_contrast': 0.1, 'add_roi': save_svg, 'with_labels': True}
+>>>>>>> 6fef52cbf1ab4af6f5822796baf2511cb67a408e
     maps_names.append('ecc')
 
     # size
     size_data = deriv_mat[...,size_idx]
+<<<<<<< HEAD
+    param_size = {'data': size_data, 'cmap': cmap_ecc_size, 'alpha': alpha, 'vmin': 0, 'vmax': 15, 'cbar': 'discrete', 'cortex_type': 'VolumeRGB',
+                  'description': '{} size{}'.format(task, description_end), 'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': False}
+=======
     param_size = {'data': size_data, 'cmap': cmap_ecc_size, 'alpha': alpha, 
                   'vmin': size_scale[0], 'vmax': size_scale[1], 'cbar': 'discrete', 
                   'cortex_type': 'VolumeRGB', 'description': '{} size{}'.format(task, description_end), 
                   'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': False, 'cbar_label': 'pRF size',
                   'with_labels': True}
+>>>>>>> 6fef52cbf1ab4af6f5822796baf2511cb67a408e
     maps_names.append('size')
 
     # draw flatmaps
