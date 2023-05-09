@@ -21,5 +21,6 @@
     "alpha_range": [0,0.4],
     "subject_exluded": ["sub-13"],
     "run_exluded":["run-5"],
-    "rois":["V1","V2","V3","V3AB","VO","LO","hMT+","iIPS","sIPS"]
+    "rois":["V1","V2","V3","V3AB","VO","LO","hMT+","iIPS","sIPS"],
+    "vertex_pcm_rad": 2
 }

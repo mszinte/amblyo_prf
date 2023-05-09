@@ -16,7 +16,7 @@ Combined estimate nifti file and pRF derivative nifti file
 -----------------------------------------------------------------------------------------
 To run:
 1. cd to function
->> cd ~/projects/stereo_prf/analysis_code/postproc/prf/postfit/
+>> cd ~/projects/amblyo_prf/analysis_code/postproc/prf/postfit/
 2. run python command
 >> python compute_derivatives.py [main directory] [project name] [subject num] [group]
 -----------------------------------------------------------------------------------------
