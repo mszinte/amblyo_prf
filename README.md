@@ -57,17 +57,13 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Margot CH
 - [x] create the visual matrix design [vdm_builder.py](analysis_code/postproc/prf/vdm_builder.py)
 - [x] Execute [prf_fit.py](analysis_code/postproc/prf/fit/prf_fit.py) to fit pRF parameters (eccentricity, size, amplitude, baseline, rsquare): run only [submit_fit_jobs.py](analysis_code/postproc/prf/fit/submit_fit_jobs.py)
 - [x] Compute pRF derivatives [compute_derivatives.py](analysis_code/postproc/prf/postfit/compute_derivatives.py)
-    - [ ] add magnification factor see https://github.com/noahbenson/cortical-magnification-tutorial
 - [x] make pycortex maps [pycortex_maps.py](analysis_code/postproc/prf/postfit/pycortex_maps.py)
 - [x] draw ROIs using Inkscape
+- [x] compute population cortical magnification [compute_pcm.py](analysis_code/postproc/prf/postfit/compute_pcm.py)
 - [x] extract ROIs masks [roi_masks.ipynb](analysis_code/postproc/prf/postfit/roi_masks.ipynb) 
 - [X] make pdf files with the maps [pdf_maps.py](analysis_code/postproc/prf/postfit/pdf_maps.py)
 - [x] make webgl with the pycortex dataset [pycortex_maps.py](analysis_code/postproc/prf/webgl/pycortex_webgl.py) 
-<<<<<<< HEAD
-- [x] send the files [send_index.sh](analysis_code/postproc/prf/webgl/send_index.sh)
-=======
 - [x] send the files [send_data.sh](analysis_code/postproc/prf/webgl/send_data.sh)
->>>>>>> bfc4b179ca1431f2ce4284aef144455f6508c28f
 
 ### Main analysis
 - [x] extract all data as pickle files or tsv [make_tsv.ipynb](analysis_code/postproc/prf/postfit/make_tsv.ipynb)
