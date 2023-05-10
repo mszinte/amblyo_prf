@@ -44,7 +44,6 @@ import sys
 sys.path.append("{}/../../../utils".format(os.getcwd()))
 from pycortex_utils import draw_cortex, set_pycortex_config_file
 import nibabel as nb
-from tqdm import tqdm
 import ipdb
 deb = ipdb.set_trace
 
@@ -137,49 +136,43 @@ for deriv_fn in deriv_fns:
 
             desc = 'ROI -> {} / Hemisphere -> {}'.format(roi, hemi)
 
-            good_vert_num = roi_surf_idx[vert_rsq[roi_surf_idx]>0].size
-            with tqdm(total=good_vert_num, desc=desc) as pbar:
+            for i, (vert_idx, surf_idx) in enumerate(zip(roi_vert_idx, roi_surf_idx)):
 
-                for i, (vert_idx, surf_idx) in enumerate(zip(roi_vert_idx, roi_surf_idx)):
+                if vert_rsq[surf_idx] > 0:
 
-                    if vert_rsq[surf_idx] > 0:
+                    # get geodesic distances (mm)
+                    try :
+                        geo_patch = surf.get_geodesic_patch(radius=vert_dist_th, vertex=surf_idx)
+                    except Exception as e:
+                        print("Vertex #{}: error: {} within {} mm".format(vert_idx, e, vert_dist_th))
+                        geo_patch['vertex_mask'] = np.zeros(surf.pts.shape[0]).astype(bool)
+                        geo_patch['geodesic_distance'] = []
 
-                        # get geodesic distances (mm)
-                        try :
-                            geo_patch = surf.get_geodesic_patch(radius=vert_dist_th, vertex=surf_idx)
-                        except Exception as e:
-                            print("Vertex #{}: error: {} within {} mm".format(vert_idx, e, vert_dist_th))
-                            geo_patch['vertex_mask'] = np.zeros(surf.pts.shape[0]).astype(bool)
-                            geo_patch['geodesic_distance'] = []
+                    vert_dist_th_idx  = geo_patch['vertex_mask']
+                    vert_dist_th_dist = np.ones_like(vert_dist_th_idx)*np.nan
+                    vert_dist_th_dist[vert_dist_th_idx] = geo_patch['geodesic_distance']
 
-                        vert_dist_th_idx  = geo_patch['vertex_mask']
-                        vert_dist_th_dist = np.ones_like(vert_dist_th_idx)*np.nan
-                        vert_dist_th_dist[vert_dist_th_idx] = geo_patch['geodesic_distance']
+                    # exclude vextex out of roi
+                    vert_dist_th_not_in_roi_idx = [idx for idx in np.where(vert_dist_th_idx)[0] if idx not in roi_surf_idx]
+                    vert_dist_th_idx[vert_dist_th_not_in_roi_idx] = False
+                    vert_dist_th_dist[vert_dist_th_not_in_roi_idx] = np.nan
 
-                        # exclude vextex out of roi
-                        vert_dist_th_not_in_roi_idx = [idx for idx in np.where(vert_dist_th_idx)[0] if idx not in roi_surf_idx]
-                        vert_dist_th_idx[vert_dist_th_not_in_roi_idx] = False
-                        vert_dist_th_dist[vert_dist_th_not_in_roi_idx] = np.nan
+                    if np.sum(vert_dist_th_idx) > 0:
 
-                        if np.sum(vert_dist_th_idx) > 0:
+                        # compute average geodesic distance excluding distance to itself (see [1:])
+                        vert_geo_dist_avg = np.nanmean(vert_dist_th_dist[1:])
 
-                            # compute average geodesic distance excluding distance to itself (see [1:])
-                            vert_geo_dist_avg = np.nanmean(vert_dist_th_dist[1:])
+                        # get prf parameters of vertices in geodesic distance threshold
+                        vert_ctr_x, vert_ctr_y = vert_x[surf_idx], vert_y[surf_idx]
+                        vert_dist_th_idx[surf_idx] = False
+                        vert_srd_x, vert_srd_y = np.nanmean(vert_x[vert_dist_th_idx]), np.nanmean(vert_y[vert_dist_th_idx])
 
-                            # get prf parameters of vertices in geodesic distance threshold
-                            vert_ctr_x, vert_ctr_y = vert_x[surf_idx], vert_y[surf_idx]
-                            vert_dist_th_idx[surf_idx] = False
-                            vert_srd_x, vert_srd_y = np.nanmean(vert_x[vert_dist_th_idx]), np.nanmean(vert_y[vert_dist_th_idx])
+                        # compute prf center suround distance (deg)
+                        vert_prf_dist = np.sqrt((vert_ctr_x - vert_srd_x)**2 + (vert_ctr_y - vert_srd_y)**2)
 
-                            # compute prf center suround distance (deg)
-                            vert_prf_dist = np.sqrt((vert_ctr_x - vert_srd_x)**2 + (vert_ctr_y - vert_srd_y)**2)
+                        # compute cortical magnification in mm/deg (surface distance / pRF positon distance)
+                        vert_cm[vert_idx] = vert_geo_dist_avg/vert_prf_dist
 
-                            # compute cortical magnification in mm/deg (surface distance / pRF positon distance)
-                            vert_cm[vert_idx] = vert_geo_dist_avg/vert_prf_dist
-
-                        pbar.update(1)
-
-            pbar.close()
     
     # convert back to volume
     vert_cm_nonan = vert_cm

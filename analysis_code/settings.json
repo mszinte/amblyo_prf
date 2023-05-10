@@ -1,5 +1,7 @@
 {   "task": "prf",
     "session": "ses-02",
+    "cluster_name": "skylake",
+    "proj_name": "b327",
     "TR": 1.8,
     "TRs": 135,
     "high_pass_threshold": 0.01,
@@ -21,6 +23,6 @@
     "alpha_range": [0,0.4],
     "subject_exluded": ["sub-13"],
     "run_exluded":["run-5"],
-    "rois":["V1","V2","V3","V3AB","VO","LO","hMT+","iIPS","sIPS"],
+    "rois":["V1", "V2", "V3", "V3AB", "VO", "LO", "hMT+", "iIPS", "sIPS"],
     "vertex_pcm_rad": 2
 }
