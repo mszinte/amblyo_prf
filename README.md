@@ -68,4 +68,4 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Margot CH
 ### Main analysis
 - [x] extract all data as pickle files or tsv [make_tsv.ipynb](analysis_code/postproc/prf/postfit/make_tsv.ipynb)
 - [ ] think about the individual participants figures
-- [x] Figures and statistics [amblyo_analysis_and_figures.ipynb](analysis_code/postproc/prf/result_analysis/amblyo_analysis_and_figures.ipynb)
+- [x] Figures and statistics [amblyo_analysis_and_figures.ipynb](analysis_code/postproc/result_analysis/amblyo_analysis_and_figures.ipynb)
