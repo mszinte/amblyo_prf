@@ -59,7 +59,7 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Margot CH
 - [x] Compute pRF derivatives [compute_derivatives.py](analysis_code/postproc/prf/postfit/compute_derivatives.py)
 - [x] make pycortex maps [pycortex_maps.py](analysis_code/postproc/prf/postfit/pycortex_maps.py)
 - [x] draw ROIs using Inkscape
-- [x] compute population cortical magnification [compute_pcm.py](analysis_code/postproc/prf/postfit/compute_pcm.py)
+- [x] compute population cortical magnification [compute_pcm.py](analysis_code/postproc/prf/postfit/compute_pcm.py): run only [pcm_sbatch.py](analysis_code/postproc/prf/postfit/pcm_sbatch.py)
 - [x] extract ROIs masks [roi_masks.ipynb](analysis_code/postproc/prf/postfit/roi_masks.ipynb) 
 - [X] make pdf files with the maps [pdf_maps.py](analysis_code/postproc/prf/postfit/pdf_maps.py)
 - [x] make webgl with the pycortex dataset [pycortex_maps.py](analysis_code/postproc/prf/webgl/pycortex_webgl.py) 
