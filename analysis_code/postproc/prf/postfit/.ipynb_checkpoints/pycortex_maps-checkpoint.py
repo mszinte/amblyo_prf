@@ -113,7 +113,7 @@ for deriv_fn, deriv_fn_label in zip(deriv_fns,deriv_fn_labels):
     else:
         description_end = ' (all-runs fit)'
         flatmaps_dir = flatmaps_avg_dir
-        datasets_dir = datasets_loo_avg_dir
+        datasets_dir = datasets_avg_dir
 
     maps_names = []
 
@@ -164,6 +164,7 @@ for deriv_fn, deriv_fn_label in zip(deriv_fns,deriv_fn_labels):
                  'vmin': ecc_scale[0], 'vmax': ecc_scale[1], 'cbar': 'ecc', 'cortex_type': 'VolumeRGB',
                  'description': '{} eccentricity{}'.format(task,description_end), 'curv_brightness': 1,
                  'curv_contrast': 0.1, 'add_roi': save_svg, 'with_labels': True}
+
     maps_names.append('ecc')
 
     # size
@@ -173,7 +174,6 @@ for deriv_fn, deriv_fn_label in zip(deriv_fns,deriv_fn_labels):
                   'cortex_type': 'VolumeRGB', 'description': '{} size{}'.format(task, description_end), 
                   'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': False, 'cbar_label': 'pRF size',
                   'with_labels': True}
-
     maps_names.append('size')
 
     # draw flatmaps
