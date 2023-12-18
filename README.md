@@ -7,7 +7,7 @@ This repository contain all code allowing us to analyse our dataset [OpenNeuro:D
 ---
 ## Authors (alphabetic order): 
 ---
-Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Margot CHEVILLARD, Michael SILVER, & Martin SZINTE
+Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael SILVER, & Martin SZINTE
 
 ### Main dependencies
 ---
@@ -19,6 +19,7 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Margot CH
 [FFmpeg](https://ffmpeg.org/);
 [FSL](https://fsl.fmrib.ox.ac.uk);
 [Inkscape](https://inkscape.org/)
+[workbench](https://humanconnectome.org/software/connectome-workbench)
 </br>
 
 ## Data analysis
@@ -47,23 +48,23 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Margot CH
 
 #### Functional preprocessing
 - [x] fMRIprep [fmriprep_sbatch.py](analysis_code/preproc/functional/fmriprep_sbatch.py)
-- [x] supress bad run [bad_run.py](analysis_code/preproc/functional/bad_run.py)
-- [x] high-pass, z-score, average and leave-one-out average [preproc_end.py](analysis_code/preproc/functional/preproc_end.py)
-- [x] Load freesurfer and execute [pycortex_import.py](analysis_code/preproc/functional/pycortex_import.py): run only [freesurfer_import_pycortex.py](analysis_code/preproc/functional/freesurfer_import_pycortex.py)
+- [ ] supress bad run [bad_run.py](analysis_code/preproc/functional/bad_run.py)
+- [ ] high-pass, z-score, average and leave-one-out average [preproc_end.py](analysis_code/preproc/functional/preproc_end.py)
+- [ ] Load freesurfer and execute [pycortex_import.py](analysis_code/preproc/functional/pycortex_import.py): run only [freesurfer_import_pycortex.py](analysis_code/preproc/functional/freesurfer_import_pycortex.py)
 
 ### Post-processing
 
 #### PRF analysis
 - [x] create the visual matrix design [vdm_builder.py](analysis_code/postproc/prf/vdm_builder.py)
-- [x] Execute [prf_fit.py](analysis_code/postproc/prf/fit/prf_fit.py) to fit pRF parameters (eccentricity, size, amplitude, baseline, rsquare): run only [submit_fit_jobs.py](analysis_code/postproc/prf/fit/submit_fit_jobs.py)
-- [x] Compute pRF derivatives [compute_derivatives.py](analysis_code/postproc/prf/postfit/compute_derivatives.py)
-- [x] make pycortex maps [pycortex_maps.py](analysis_code/postproc/prf/postfit/pycortex_maps.py)
-- [x] draw ROIs using Inkscape
-- [x] compute population cortical magnification [compute_pcm.py](analysis_code/postproc/prf/postfit/compute_pcm.py): run only [pcm_sbatch.py](analysis_code/postproc/prf/postfit/pcm_sbatch.py)
-- [x] extract ROIs masks [roi_masks.ipynb](analysis_code/postproc/prf/postfit/roi_masks.ipynb) 
-- [X] make pdf files with the maps [pdf_maps.py](analysis_code/postproc/prf/postfit/pdf_maps.py)
-- [x] make webgl with the pycortex dataset [pycortex_maps.py](analysis_code/postproc/prf/webgl/pycortex_webgl.py) 
-- [x] send the files [send_data.sh](analysis_code/postproc/prf/webgl/send_data.sh)
+- [ ] get gaussian pRF parameters with simple GLM [submit_fit_jobs.py](analysis_code/postproc/prf/fit/submit_gridfit_jobs.py)
+- [ ] compute gaussian pRF derivatives [compute_derivatives.py](analysis_code/postproc/prf/postfit/compute_derivatives.py)
+- [ ] make pycortex maps [pycortex_maps.py](analysis_code/postproc/prf/postfit/pycortex_maps.py)
+- [ ] draw ROIs using Inkscape
+- [ ] extract ROIs masks [roi_masks.ipynb](analysis_code/postproc/prf/postfit/roi_masks.ipynb) 
+- [ ] get css pRF derivatives in ROIs
+- [ ] compute population cortical magnification [pcm_sbatch.py](analysis_code/postproc/prf/postfit/pcm_sbatch.py)
+- [ ] make webgl with the pycortex dataset [pycortex_maps.py](analysis_code/postproc/prf/webgl/pycortex_webgl.py) 
+- [ ] send the files [send_data.sh](analysis_code/postproc/prf/webgl/send_data.sh)
 
 ### Main analysis
 - [x] extract all data as pickle files or tsv [make_tsv.ipynb](analysis_code/postproc/prf/postfit/make_tsv.ipynb)
