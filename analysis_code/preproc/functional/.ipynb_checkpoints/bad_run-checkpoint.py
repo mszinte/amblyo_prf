@@ -46,14 +46,13 @@ exclusion_nb = len(run_exluded)
 
 # add the _excluded extention to the bad_run 
 for t in range(exclusion_nb):
-    folder_path = "{main_dir}/{project_name}/derivatives/fmriprep/fmriprep/{subject_exluded}/ses-02/func".format(main_dir=main_dir,project_name=project_name,subject_exluded=subject_exluded[t])  
-    prefix = "{subject_exluded}_ses-02_task-prf_{run_exluded}_".format(subject_exluded=subject_exluded[t],run_exluded=run_exluded[t]  
-
+    folder_path = "{main_dir}/{project_name}/derivatives/fmriprep/fmriprep/{subject_exluded}/ses-02/func".format(
+        main_dir=main_dir, 
+        project_name=project_name, 
+        subject_exluded=subject_exluded[t]) 
+    prefix = "{subject_exluded}_ses-02_task-prf_{run_exluded}_".format(subject_exluded=subject_exluded[t],
+                                                                       run_exluded=run_exluded[t])  
     for filename in os.listdir(folder_path):
         if filename.startswith(prefix):
             new_filename = filename + "_exluded"
             os.rename(os.path.join(folder_path, filename), os.path.join(folder_path, new_filename))
-
-
-
-
