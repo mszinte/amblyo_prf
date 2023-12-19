@@ -229,22 +229,68 @@ for preproc_files in preproc_files_list:
             task_cor = np.zeros((preproc_data.shape[1]))
             a_img, a_data = load_surface(fn=combi[0])
             b_img, b_data = load_surface(fn=combi[1])
-
-            deb()
             for vertices in range(a_data.shape[1]):
-                corr, _ = stats.pearsonr(a_data[:, vertices], b_data[:, vertices])
-                task_cor[vertices] = corr
+                if np.sum(np.isnan(a_data[:, vertices])) == 0 and np.sum(np.isnan(b_data[:, vertices])) == 0:
+                    corr, _ = stats.pearsonr(a_data[:, vertices], b_data[:, vertices])
+                    task_cor[vertices] = corr
+                else:
+                    task_cor[vertices] = np.nan                    
             cor_final += task_cor / len(combis)
-            
+
         if hemi:
-            cor_fn = "{}/{}/derivatives/pp_data/{}/fsnative/func/fmriprep_dct_corr/{}_task-{}_{}_fmriprep_dct_corr_bold.func.gii".format(
+            cor_fn = "{}/{}/derivatives/pp_data/{}/fsnative/fmriprep_dct_corr/{}_task-{}_{}_fmriprep_dct_corr_bold.func.gii".format(
                     main_dir, project_dir, subject, subject, task, hemi)
         else:
-            cor_fn = "{}/{}/derivatives/pp_data/{}/170k/func/fmriprep_dct_corr/{}_task-{}_fmriprep_dct_corr_bold.dtseries.nii".format(
+            cor_fn = "{}/{}/derivatives/pp_data/{}/170k/fmriprep_dct_corr/{}_task-{}_fmriprep_dct_corr_bold.dtseries.nii".format(
                     main_dir, project_dir, subject, subject, task)
-            
+
         print("corr save: {}".format(cor_fn))
         corr_img = make_surface_image(data=cor_final, source_img=preproc_img)
         nb.save(corr_img, cor_fn)
         os.system('wb_command -set-map-names {} -map {} {}'.format(
-                cor_fn,1,'runs_correlations'))
+                cor_fn, 1, 'runs_correlations'))
+        deb()
+
+# # Anatomy
+# print("getting anatomy...")
+# orig_dir_anat = "{}/{}/derivatives/fmriprep/fmriprep/{}/ses-01/anat/".format(
+#     main_dir, project_dir, subject)
+# pycortex_flat_dir = '{}/{}/derivatives/pp_data/cortex/db/{}/surfaces'.format(
+#     main_dir,project_dir,subject)
+# anat_files = glob.glob("{}/*.surf.gii".format(orig_dir_anat))
+# dest_dir_anat = "{}/{}/derivatives/pp_data/{}/anat".format(
+#     main_dir, project_dir, subject)
+
+# os.makedirs(dest_dir_anat, exist_ok=True)
+# hemis = ['L','R']
+# # load flat data and change medadata to make them readable by wb_view
+# for hemi in hemis : 
+#     if hemi == 'L' :
+#         flat_img_l = nb.load('{}/flat_lh.gii'.format(pycortex_flat_dir))
+#         flat_img_l.darrays[0].meta['AnatomicalStructurePrimary'] = 'CortexLeft'
+#         flat_img_l.darrays[0].meta['GeometricType']= 'Flat'
+#         nb.save(flat_img_l,'{}/{}_flat_lh.surf.gii'.format(
+#             dest_dir_anat,subject))
+        
+#     elif hemi == 'R' :
+#         flat_img_r = nb.load('{}/flat_rh.gii'.format(pycortex_flat_dir))
+#         flat_img_r.darrays[0].meta['AnatomicalStructurePrimary'] = 'CortexRight'
+#         flat_img_r.darrays[0].meta['GeometricType']= 'Flat'
+#         nb.save(flat_img_r,'{}/{}_flat_rh.surf.gii'.format(
+#             dest_dir_anat,subject))
+
+# # import surface anat data 
+# for orig_file in anat_files:
+#     file_name = os.path.basename(orig_file)
+#     dest_file = os.path.join(dest_dir_anat, file_name)
+#     shutil.copyfile(orig_file, dest_file)
+    
+# end_time = datetime.datetime.now()
+# print("\nStart time:\t{start_time}\nEnd time:\t{end_time}\nDuration:\t{dur}".format(
+#         start_time=start_time,
+#         end_time=end_time,
+#         dur=end_time - start_time))
+    
+    
+        
+                                                                   
