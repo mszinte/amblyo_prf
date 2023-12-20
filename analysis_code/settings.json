@@ -2,6 +2,7 @@
     "project_name": "amblyo_prf",
     "task_names": ["prf"],
     "sessions" : ["ses-02"], 
+    "anat_session": ["ses-02"], 
     "cluster_name": "skylake",
     "proj_name": "b327",
     "TR": 1.8,

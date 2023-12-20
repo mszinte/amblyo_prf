@@ -68,9 +68,9 @@ TR = analysis_info['TR']
 tasks = analysis_info['task_names']
 high_pass_threshold = analysis_info['high_pass_threshold'] 
 sessions = analysis_info['sessions']
+anat_session = analysis_info['anat_session'][0]
 formats = analysis_info['formats']
 extensions = analysis_info['extensions']
-
 
 # make extension folders
 for format_, extension in zip(formats, extensions):
@@ -83,41 +83,46 @@ for format_, extension in zip(formats, extensions):
     os.makedirs("{}/{}/derivatives/pp_data/{}/{}/func/fmriprep_dct_loo_avg".format(
         main_dir, project_dir, subject, format_), exist_ok=True)
 
-# # high pass filtering
-# for format_, extension in zip(formats, extensions):
-#     print('high pass filtering : {}'.format(format_)
-#     for session in sessions:
-#         # find outputs from fMRIprep
-#         fmriprep_func_fns = glob.glob("{}/{}/derivatives/fmriprep/fmriprep/{}/{}/func/*{}*.{}".format(main_dir, project_dir, subject, session, format_, extension)) 
+# high pass filtering
+for format_, extension in zip(formats, extensions):
+    print('high pass filtering : {}'.format(format_)
+    for session in sessions:
+        # find outputs from fMRIprep
+        fmriprep_func_fns = glob.glob("{}/{}/derivatives/fmriprep/fmriprep/{}/{}/func/*{}*.{}".format(main_dir, 
+                                                                                                      project_dir, 
+                                                                                                      subject, 
+                                                                                                      session, 
+                                                                                                      format_, 
+                                                                                                      extension)) 
 
-#         for func_fn in fmriprep_func_fns :
+        for func_fn in fmriprep_func_fns :
 
-#             # make output filtered filenames
-#             filtered_data_fn_end = func_fn.split('/')[-1].replace('bold', 'dct_bold')
+            # make output filtered filenames
+            filtered_data_fn_end = func_fn.split('/')[-1].replace('bold', 'dct_bold')
 
-#             # Load data
-#             surf_img, surf_data = load_surface(fn=func_fn)
+            # Load data
+            surf_img, surf_data = load_surface(fn=func_fn)
            
-#             # High pass filtering 
-#             nb_tr = surf_data.shape[0]
-#             ft = np.linspace(0.5 * TR, (nb_tr + 0.5) * TR, nb_tr, endpoint=False)
-#             high_pass_set = _cosine_drift(high_pass_threshold, ft)
-#             surf_data = signal.clean(surf_data, 
-#                                      detrend=False,
-#                                      standardize=False, 
-#                                      confounds=high_pass_set)
+            # High pass filtering 
+            nb_tr = surf_data.shape[0]
+            ft = np.linspace(0.5 * TR, (nb_tr + 0.5) * TR, nb_tr, endpoint=False)
+            high_pass_set = _cosine_drift(high_pass_threshold, ft)
+            surf_data = signal.clean(surf_data, 
+                                     detrend=False,
+                                     standardize=False, 
+                                     confounds=high_pass_set)
            
-#             # Compute the Z-score 
-#             surf_data =  (surf_data - np.mean(surf_data, axis=0)) / np.std(surf_data, axis=0)
+            # Compute the Z-score 
+            surf_data =  (surf_data - np.mean(surf_data, axis=0)) / np.std(surf_data, axis=0)
             
-#             # Make an image with the preproceced data
-#             filtered_img = make_surface_image(data=surf_data, source_img=surf_img)
+            # Make an image with the preproceced data
+            filtered_img = make_surface_image(data=surf_data, source_img=surf_img)
 
-#             # save surface
-#             filtered_fn = "{}/{}/derivatives/pp_data/{}/{}/func/fmriprep_dct/{}".format(
-#                 main_dir, project_dir, subject, format_, filtered_data_fn_end)
+            # save surface
+            filtered_fn = "{}/{}/derivatives/pp_data/{}/{}/func/fmriprep_dct/{}".format(
+                main_dir, project_dir, subject, format_, filtered_data_fn_end)
 
-#             nb.save(filtered_img, filtered_fn)
+            nb.save(filtered_img, filtered_fn)
 
 # find all the filtered files 
 preproc_fns = []
@@ -140,71 +145,71 @@ preproc_files_list = [preproc_fsnative_hemi_L,
                       preproc_fsnative_hemi_R,
                       preproc_170k]
 
-# # Averaging
-# for preproc_files in preproc_files_list:
-#     for task in tasks:
-#         # defind output files names 
-#         preproc_files_task = [file for file in preproc_files if task in file]
-#         if preproc_files_task[0].find('hemi-L') != -1: hemi = 'hemi-L'
-#         elif preproc_files_task[0].find('hemi-R') != -1: hemi = 'hemi-R'
-#         else: hemi = None
+# Averaging
+for preproc_files in preproc_files_list:
+    for task in tasks:
+        # defind output files names 
+        preproc_files_task = [file for file in preproc_files if task in file]
+        if preproc_files_task[0].find('hemi-L') != -1: hemi = 'hemi-L'
+        elif preproc_files_task[0].find('hemi-R') != -1: hemi = 'hemi-R'
+        else: hemi = None
 
-#         # Averaging computation
-#         preproc_img, preproc_data = load_surface(fn=preproc_files_task[0])
-#         data_avg = np.zeros(preproc_data.shape)
-#         for preproc_file in preproc_files_task:
-#             preproc_img, preproc_data = load_surface(fn=preproc_file)
-#             data_avg += preproc_data/len(preproc_files_task)
+        # Averaging computation
+        preproc_img, preproc_data = load_surface(fn=preproc_files_task[0])
+        data_avg = np.zeros(preproc_data.shape)
+        for preproc_file in preproc_files_task:
+            preproc_img, preproc_data = load_surface(fn=preproc_file)
+            data_avg += preproc_data/len(preproc_files_task)
     
-#         # export averaged data
-#         if hemi:
-#             avg_fn = "{}/{}/derivatives/pp_data/{}/fsnative/func/fmriprep_dct_avg/{}_task-{}_{}_fmriprep_dct_avg_bold.func.gii".format(
-#                 main_dir, project_dir, subject, subject, task, hemi)
-#         else:
-#             avg_fn = "{}/{}/derivatives/pp_data/{}/170k/func/fmriprep_dct_avg/{}_task-{}_fmriprep_dct_avg_bold.dtseries.nii".format(
-#                 main_dir, project_dir, subject, subject, task)
+        # export averaged data
+        if hemi:
+            avg_fn = "{}/{}/derivatives/pp_data/{}/fsnative/func/fmriprep_dct_avg/{}_task-{}_{}_fmriprep_dct_avg_bold.func.gii".format(
+                main_dir, project_dir, subject, subject, task, hemi)
+        else:
+            avg_fn = "{}/{}/derivatives/pp_data/{}/170k/func/fmriprep_dct_avg/{}_task-{}_fmriprep_dct_avg_bold.dtseries.nii".format(
+                main_dir, project_dir, subject, subject, task)
 
-#         print('avg save: {}'.format(avg_fn))
-#         avg_img = make_surface_image(data=data_avg, source_img=preproc_img)
-#         nb.save(avg_img, avg_fn)
+        print('avg save: {}'.format(avg_fn))
+        avg_img = make_surface_image(data=data_avg, source_img=preproc_img)
+        nb.save(avg_img, avg_fn)
 
-#         # Leave-one-out averaging
-#         if len(preproc_files_task):
-#             combi = []
-#             combi = list(it.combinations(preproc_files_task, len(preproc_files_task)-1))
+        # Leave-one-out averaging
+        if len(preproc_files_task):
+            combi = []
+            combi = list(it.combinations(preproc_files_task, len(preproc_files_task)-1))
 
-#         for loo_num, avg_runs in enumerate(combi):
+        for loo_num, avg_runs in enumerate(combi):
             
-#             # load data and make the loo_avg object
-#             preproc_img, preproc_data = load_surface(fn=preproc_files_task[0])
-#             data_loo_avg = np.zeros(preproc_data.shape)
+            # load data and make the loo_avg object
+            preproc_img, preproc_data = load_surface(fn=preproc_files_task[0])
+            data_loo_avg = np.zeros(preproc_data.shape)
         
-#             # compute leave on out averagin
-#             for avg_run in avg_runs:
-#                 print('loo_avg-{} add: {}'.format(loo_num+1, avg_run))
-#                 preproc_img, preproc_data = load_surface(fn=avg_run)
-#                 data_loo_avg += preproc_data/len(avg_runs)
+            # compute leave on out averagin
+            for avg_run in avg_runs:
+                print('loo_avg-{} add: {}'.format(loo_num+1, avg_run))
+                preproc_img, preproc_data = load_surface(fn=avg_run)
+                data_loo_avg += preproc_data/len(avg_runs)
                 
-#             # export leave one out file 
-#             if hemi:
-#                 loo_avg_fn = "{}/{}/derivatives/pp_data/{}/fsnative/corr/fmriprep_dct_loo_avg/{}_task-{}_{}_fmriprep_dct_avg_loo-{}_bold.func.gii".format(
-#                     main_dir, project_dir, subject, subject, task, hemi, loo_num+1)
-#                 loo_fn = "{}/{}/derivatives/pp_data/{}/fsnative/func/fmriprep_dct_loo_avg/{}_task-{}_{}_fmriprep_dct_loo-{}_bold.func.gii".format(
-#                     main_dir, project_dir, subject, subject, task, hemi, loo_num+1)
-#             else:
-#                 loo_avg_fn = "{}/{}/derivatives/pp_data/{}/170k/func/fmriprep_dct_loo_avg/{}_task-{}_fmriprep_dct_avg_loo-{}_bold.dtseries.nii".format(
-#                     main_dir, project_dir, subject, subject, task, loo_num+1)
-#                 loo_fn = "{}/{}/derivatives/pp_data/{}/170k/func/fmriprep_dct_loo_avg/{}_task-{}_fmriprep_dct_loo-{}_bold.dtseries.nii".format(
-#                     main_dir, project_dir, subject, subject, task, loo_num+1)
-#             print('loo_avg save: {}'.format(loo_avg_fn))
-#             loo_avg_img = make_surface_image(data = data_loo_avg, source_img=preproc_img)
-#             nb.save(loo_avg_img, loo_avg_fn)
+            # export leave one out file 
+            if hemi:
+                loo_avg_fn = "{}/{}/derivatives/pp_data/{}/fsnative/corr/fmriprep_dct_loo_avg/{}_task-{}_{}_fmriprep_dct_avg_loo-{}_bold.func.gii".format(
+                    main_dir, project_dir, subject, subject, task, hemi, loo_num+1)
+                loo_fn = "{}/{}/derivatives/pp_data/{}/fsnative/func/fmriprep_dct_loo_avg/{}_task-{}_{}_fmriprep_dct_loo-{}_bold.func.gii".format(
+                    main_dir, project_dir, subject, subject, task, hemi, loo_num+1)
+            else:
+                loo_avg_fn = "{}/{}/derivatives/pp_data/{}/170k/func/fmriprep_dct_loo_avg/{}_task-{}_fmriprep_dct_avg_loo-{}_bold.dtseries.nii".format(
+                    main_dir, project_dir, subject, subject, task, loo_num+1)
+                loo_fn = "{}/{}/derivatives/pp_data/{}/170k/func/fmriprep_dct_loo_avg/{}_task-{}_fmriprep_dct_loo-{}_bold.dtseries.nii".format(
+                    main_dir, project_dir, subject, subject, task, loo_num+1)
+            print('loo_avg save: {}'.format(loo_avg_fn))
+            loo_avg_img = make_surface_image(data = data_loo_avg, source_img=preproc_img)
+            nb.save(loo_avg_img, loo_avg_fn)
         
-#             for loo in preproc_files_task:
-#                 if loo not in avg_runs:
-#                     print('loo_avg left: {}'.format(loo))
-#                     print("loo save: {}".format(loo_fn))
-#                     shutil.copyfile(loo, loo_fn)
+            for loo in preproc_files_task:
+                if loo not in avg_runs:
+                    print('loo_avg left: {}'.format(loo))
+                    print("loo save: {}".format(loo_fn))
+                    shutil.copyfile(loo, loo_fn)
 
 # Inter-run correlations
 for preproc_files in preproc_files_list:
@@ -221,8 +226,6 @@ for preproc_files in preproc_files_list:
         # compute the combination 
         combis = list(it.combinations(preproc_files_task, 2))
 
-        ## I'm here, do something to avoid nan vertices as partial scanning in this experiment
-        
         # load data and comute the correaltions
         cor_final = np.zeros((1, preproc_data.shape[1]))
         for combi in combis:
@@ -238,10 +241,10 @@ for preproc_files in preproc_files_list:
             cor_final += task_cor / len(combis)
 
         if hemi:
-            cor_fn = "{}/{}/derivatives/pp_data/{}/fsnative/fmriprep_dct_corr/{}_task-{}_{}_fmriprep_dct_corr_bold.func.gii".format(
+            cor_fn = "{}/{}/derivatives/pp_data/{}/fsnative/corr/fmriprep_dct_corr/{}_task-{}_{}_fmriprep_dct_corr_bold.func.gii".format(
                     main_dir, project_dir, subject, subject, task, hemi)
         else:
-            cor_fn = "{}/{}/derivatives/pp_data/{}/170k/fmriprep_dct_corr/{}_task-{}_fmriprep_dct_corr_bold.dtseries.nii".format(
+            cor_fn = "{}/{}/derivatives/pp_data/{}/170k/corr/fmriprep_dct_corr/{}_task-{}_fmriprep_dct_corr_bold.dtseries.nii".format(
                     main_dir, project_dir, subject, subject, task)
 
         print("corr save: {}".format(cor_fn))
@@ -249,48 +252,73 @@ for preproc_files in preproc_files_list:
         nb.save(corr_img, cor_fn)
         os.system('wb_command -set-map-names {} -map {} {}'.format(
                 cor_fn, 1, 'runs_correlations'))
-        deb()
 
-# # Anatomy
-# print("getting anatomy...")
-# orig_dir_anat = "{}/{}/derivatives/fmriprep/fmriprep/{}/ses-01/anat/".format(
-#     main_dir, project_dir, subject)
-# pycortex_flat_dir = '{}/{}/derivatives/pp_data/cortex/db/{}/surfaces'.format(
-#     main_dir,project_dir,subject)
-# anat_files = glob.glob("{}/*.surf.gii".format(orig_dir_anat))
-# dest_dir_anat = "{}/{}/derivatives/pp_data/{}/anat".format(
-#     main_dir, project_dir, subject)
+# Anatomy
+for format, pycortex_subject in zip(formats, [subject, 'sub-170k']):
+    # define folders
+    orig_dir_anat = "{}/{}/derivatives/fmriprep/fmriprep/{}/{}/anat".format(
+        main_dir, project_dir, pycortex_subject, anat_session)
+    pycortex_flat_dir = '{}/{}/derivatives/pp_data/cortex/db/{}/surfaces'.format(
+        main_dir, project_dir, pycortex_subject)
 
-# os.makedirs(dest_dir_anat, exist_ok=True)
-# hemis = ['L','R']
-# # load flat data and change medadata to make them readable by wb_view
-# for hemi in hemis : 
-#     if hemi == 'L' :
-#         flat_img_l = nb.load('{}/flat_lh.gii'.format(pycortex_flat_dir))
-#         flat_img_l.darrays[0].meta['AnatomicalStructurePrimary'] = 'CortexLeft'
-#         flat_img_l.darrays[0].meta['GeometricType']= 'Flat'
-#         nb.save(flat_img_l,'{}/{}_flat_lh.surf.gii'.format(
-#             dest_dir_anat,subject))
-        
-#     elif hemi == 'R' :
-#         flat_img_r = nb.load('{}/flat_rh.gii'.format(pycortex_flat_dir))
-#         flat_img_r.darrays[0].meta['AnatomicalStructurePrimary'] = 'CortexRight'
-#         flat_img_r.darrays[0].meta['GeometricType']= 'Flat'
-#         nb.save(flat_img_r,'{}/{}_flat_rh.surf.gii'.format(
-#             dest_dir_anat,subject))
+    anat_files = glob.glob("{}/*.surf.gii".format(orig_dir_anat))
+    dest_dir_anat = "{}/{}/derivatives/pp_data/{}/{}/anat".format(
+        main_dir, project_dir, subject, format)
+    os.makedirs(dest_dir_anat, exist_ok=True)
 
-# # import surface anat data 
-# for orig_file in anat_files:
-#     file_name = os.path.basename(orig_file)
-#     dest_file = os.path.join(dest_dir_anat, file_name)
-#     shutil.copyfile(orig_file, dest_file)
-    
-# end_time = datetime.datetime.now()
-# print("\nStart time:\t{start_time}\nEnd time:\t{end_time}\nDuration:\t{dur}".format(
-#         start_time=start_time,
-#         end_time=end_time,
-#         dur=end_time - start_time))
-    
-    
-        
-                                                                   
+    # import surface anat data
+    print("Copying anatomy {}".format(format))
+    for orig_file in anat_files:
+        file_name = os.path.basename(orig_file)
+        dest_file = os.path.join(dest_dir_anat, file_name)
+        shutil.copyfile(orig_file, dest_file)
+
+    # particular case of 170k
+    if format == '170k':
+        # pial
+        pial_img_lh = nb.load('{}/pia_lh.gii'.format(pycortex_flat_dir))
+        pial_img_lh.darrays[0].meta['AnatomicalStructurePrimary'] = 'CortexLeft'
+        pial_img_lh.darrays[0].meta['AnatomicalStructureSecondary'] = 'Pial'
+        pial_img_lh.darrays[0].meta['GeometricType'] = 'Anatomical'
+        nb.save(pial_img_lh, '{}/{}_hemi-L_pial.surf.gii'.format(
+                dest_dir_anat, subject))
+
+        pial_img_rh = nb.load('{}/pia_rh.gii'.format(pycortex_flat_dir))
+        pial_img_rh.darrays[0].meta['AnatomicalStructurePrimary'] = 'CortexRight'
+        pial_img_rh.darrays[0].meta['AnatomicalStructureSecondary'] = 'Pial'
+        pial_img_rh.darrays[0].meta['GeometricType'] = 'Anatomical'
+        nb.save(pial_img_rh, '{}/{}_hemi-R_pial.surf.gii'.format(
+                dest_dir_anat, subject))
+
+        # inflated
+        inflated_img_rh = nb.load('{}/inflated_rh.gii'.format(pycortex_flat_dir))
+        inflated_img_rh.darrays[0].meta['AnatomicalStructurePrimary'] = 'CortexLeft'
+        inflated_img_rh.darrays[0].meta['GeometricType'] = 'Inflated'
+        nb.save(inflated_img_rh, '{}/{}_hemi-L_inflated.surf.gii'.format(
+                dest_dir_anat, subject))
+
+        inflated_img_rh = nb.load('{}/pia_rh.gii'.format(pycortex_flat_dir))
+        inflated_img_rh.darrays[0].meta['AnatomicalStructurePrimary'] = 'CortexRight'
+        inflated_img_rh.darrays[0].meta['GeometricType'] = 'Inflated'
+        nb.save(inflated_img_rh, '{}/{}_hemi-R_inflated.surf.gii'.format(
+                dest_dir_anat, subject))
+
+    # flatmap anatomy
+    flat_img_lh = nb.load('{}/flat_lh.gii'.format(pycortex_flat_dir))
+    flat_img_lh.darrays[0].meta['AnatomicalStructurePrimary'] = 'CortexLeft'
+    flat_img_lh.darrays[0].meta['GeometricType']= 'Flat'
+    nb.save(flat_img_lh,'{}/{}_hemi-L_flat.surf.gii'.format(
+        dest_dir_anat, subject))
+
+    flat_img_rh = nb.load('{}/flat_rh.gii'.format(pycortex_flat_dir))
+    flat_img_rh.darrays[0].meta['AnatomicalStructurePrimary'] = 'CortexRight'
+    flat_img_rh.darrays[0].meta['GeometricType']= 'Flat'
+    nb.save(flat_img_rh,'{}/{}_hemi-R_flat.surf.gii'.format(
+        dest_dir_anat, subject))
+
+# time
+end_time = datetime.datetime.now()
+print("\nStart time:\t{start_time}\nEnd time:\t{end_time}\nDuration:\t{dur}".format(
+        start_time=start_time,
+        end_time=end_time,
+        dur=end_time - start_time))
