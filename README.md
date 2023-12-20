@@ -25,7 +25,6 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 
 ## To do
 ---
-- [ ] run and check fmriprep (sub 07 / 10 / 11 / 12 / 13 / 14 / 15 / 16 / 17 /18
 - [ ] run and check preproc_end on all participants
 - [ ] work on pycortext correlation once we have a surface_pycortex loader (see uriel's code)
 - [ ] fit data prf with gridfit
