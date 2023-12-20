@@ -1,6 +1,6 @@
 """
 -----------------------------------------------------------------------------------------
-preproc_end_sbatch..py
+preproc_end_sbatch.py
 -----------------------------------------------------------------------------------------
 Goal of the script:
 Run preproc end on mesocenter 
@@ -16,7 +16,7 @@ sh file for running batch command
 -----------------------------------------------------------------------------------------
 To run:
 1. cd to function
->> cd ~/projects/RetinoMaps/analysis_code/preproc/functional
+>> cd ~/projects/amblyo_prf/analysis_code/preproc/functional
 2. run python command
 >> python preproc_end_sbatch.py [main directory] [project name] [subject num] [group] 
     [server project]
@@ -97,7 +97,6 @@ of.write("{} \n{} \n{} \n{} \n{}".format(slurm_cmd,
                                          chmod_cmd,
                                          chgrp_cmd))
 of.close()
-
 
 # Submit jobs
 print("Submitting {} to queue".format(sh_fn))
