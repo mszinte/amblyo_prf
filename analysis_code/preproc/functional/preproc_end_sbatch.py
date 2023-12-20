@@ -10,6 +10,7 @@ sys.argv[1]: main project directory
 sys.argv[2]: project name (correspond to directory)
 sys.argv[3]: subject name (e.g. sub-01)
 sys.argv[4]: group (e.g. 327)
+sys.argv[5]: server project (e.g. b327)
 -----------------------------------------------------------------------------------------
 Output(s):
 sh file for running batch command
@@ -22,7 +23,8 @@ To run:
     [server project]
 -----------------------------------------------------------------------------------------
 Exemple:
-python preproc_end_sbatch.py /scratch/mszinte/data RetinoMaps sub-02 327 b327
+cd ~/projects/amblyo_prf/analysis_code/preproc/functional
+python preproc_end_sbatch.py /scratch/mszinte/data amblyo_prf sub-01 327 b327
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
 Edited by Uriel Lascombes (uriel.lascombes@laposte.net)
@@ -81,7 +83,7 @@ slurm_cmd = """\
            subject=subject, memory_val=memory_val, log_dir=log_dir)
     
 preproc_end_surf_cmd = "python preproc_end.py {} {} {} {}".format(main_dir, project_dir, subject, group)
-wb_command_cmd = "export PATH=$PATH: {}/{}/code/workbench/bin_rh_linux64".format(main_dir,project_dir)
+wb_command_cmd = "export PATH=$PATH:{}/{}/code/workbench/bin_rh_linux64".format(main_dir,project_dir)
 
 # Define permission cmd
 chmod_cmd = "chmod -Rf 771 {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir)

@@ -22,6 +22,15 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 [workbench](https://humanconnectome.org/software/connectome-workbench)
 </br>
 
+
+## To do
+---
+- [ ] run and check fmriprep (sub 07 / 10 / 11 / 12 / 13 / 14 / 15 / 16 / 17 /18
+- [ ] run and check preproc_end on all participants
+- [ ] work on pycortext correlation once we have a surface_pycortex loader (see uriel's code)
+- [ ] fit data prf with gridfit
+- [ ] get data in roi and fit css model
+
 ## Data analysis
 ---
 
@@ -49,8 +58,9 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 #### Functional preprocessing
 - [x] fMRIprep [fmriprep_sbatch.py](analysis_code/preproc/functional/fmriprep_sbatch.py)
 - [x] supress bad run [bad_run.py](analysis_code/preproc/functional/bad_run.py)
-- [ ] high-pass, z-score, average and leave-one-out average [preproc_end.py](analysis_code/preproc/functional/preproc_end.py)
-- [ ] Load freesurfer and execute [pycortex_import.py](analysis_code/preproc/functional/pycortex_import.py): run only [freesurfer_import_pycortex.py](analysis_code/preproc/functional/freesurfer_import_pycortex.py)
+- [x] Load freesurfer and import subject in pycortex db [freesurfer_import_pycortex.py](analysis_code/preproc/functional/freesurfer_import_pycortex.py)
+- [x] high-pass, z-score, average and leave-one-out average and correlations [preproc_end.py](analysis_code/preproc/functional/preproc_end.py)
+- [ ] plot correlations
 
 ### Post-processing
 
