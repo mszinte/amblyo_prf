@@ -109,8 +109,7 @@ fit_fit = gauss_fitter.iterative_search_params
 # Re-arrange data
 for est,vox in enumerate(data_indices):
     fit_mat[vox] = fit_fit[est]
-    pred_mat[vox] = gauss_model.return_prediction(  mu_x=fit_fit[est][0], mu_y=fit_fit[est][1], size=fit_fit[est][2], 
-                                                    beta=fit_fit[est][3], baseline=fit_fit[est][4])
+    pred_mat[vox] = gauss_model.return_prediction(  mu_x=fit_fit[est][0], mu_y=fit_fit[est][1], size=fit_fit[est][2], beta=fit_fit[est][3], baseline=fit_fit[est][4])
 
 fit_img = nb.Nifti1Image(dataobj=fit_mat, affine=data_img.affine, header=data_img.header)
 fit_img.to_filename(fit_fn)
