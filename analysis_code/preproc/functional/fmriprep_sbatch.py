@@ -25,14 +25,14 @@ preprocessed files
 -----------------------------------------------------------------------------------------
 To run:
 1. cd to function
->> cd ~/projects/stereo_prf/analysis_code/preproc/functional
+>> cd ~/projects/amblyo_prf/analysis_code/preproc/functional
 2. run python command
 python fmriprep_sbatch.py [main directory] [project name] [subject num]
                           [hour proc.] [anat only] [aroma] [fmapfree] 
                           [skip bids validation] [cifti] [dof] [email account] [group]
 -----------------------------------------------------------------------------------------
 Exemple:
-python fmriprep_sbatch.py /scratch/mszinte/data amblyo_prf sub-01 15 1 0 1 0 1 12 
+python fmriprep_sbatch.py /scratch/mszinte/data amblyo_prf sub-01 15 0 0 1 0 1 12 
                             martin.szinte@univ-amu.fr 327 b327
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (mail@martinszinte.net)
@@ -101,7 +101,7 @@ slurm_cmd = """\
 #SBATCH --mail-type=ALL
 #SBATCH -p {cluster_name}
 #SBATCH --mail-user={email}
-#SBATCH -A {proj_name}
+#SBATCH -A {project_name}
 #SBATCH --nodes=1
 #SBATCH --mem={memory_val}gb
 #SBATCH --cpus-per-task={nb_procs}
@@ -110,13 +110,13 @@ slurm_cmd = """\
 #SBATCH -o {log_dir}/{subject}_fmriprep{anat_only_end}_%N_%j_%a.out
 #SBATCH -J {subject}_fmriprep{anat_only_end}
 #SBATCH --mail-type=BEGIN,END\n\n{tf_export}
-""".format(proj_name=proj_name, nb_procs=nb_procs, hour_proc=hour_proc, 
+""".format(project_name=project_name, nb_procs=nb_procs, hour_proc=hour_proc, 
            subject=subject, anat_only_end=anat_only_end, memory_val=memory_val,
            log_dir=log_dir, email=email, tf_export=tf_export,
            cluster_name=cluster_name)
 
 # define singularity cmd
-singularity_cmd = "singularity run --cleanenv -B {tf_bind} -B {main_dir}:/work_dir {simg} --fs-license-file /work_dir/{project_dir}/code/freesurfer/license.txt /work_dir/{project_dir}/ /work_dir/{project_dir}/derivatives/fmriprep/ participant --participant-label {sub_num} --bold2t1w-dof {dof} --bold2t1w-init header --output-spaces T1w fsaverage{hcp_cifti} --low-mem --mem-mb {memory_val}000 --nthreads {nb_procs:.0f} {anat_only}{use_aroma}{use_fmapfree}{use_skip_bids_val}".format(
+singularity_cmd = "singularity run --cleanenv -B {tf_bind} -B {main_dir}:/work_dir {simg} --fs-license-file /work_dir/{project_dir}/code/freesurfer/license.txt /work_dir/{project_dir}/ /work_dir/{project_dir}/derivatives/fmriprep/ participant --participant-label {sub_num} --bold2t1w-dof {dof} --bold2t1w-init header --output-spaces T1w fsnative{hcp_cifti} --low-mem --mem-mb {memory_val}000 --nthreads {nb_procs:.0f} {anat_only}{use_aroma}{use_fmapfree}{use_skip_bids_val}".format(
         tf_bind=tf_bind, main_dir=main_dir, project_dir=project_dir,
         simg=singularity_dir, sub_num=sub_num, nb_procs=nb_procs,
         anat_only=anat_only, use_aroma=use_aroma, use_fmapfree=use_fmapfree,

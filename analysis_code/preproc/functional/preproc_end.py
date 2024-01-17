@@ -17,12 +17,12 @@ Output(s):
 -----------------------------------------------------------------------------------------
 To run:
 1. cd to function
->> cd ~/projects/RetinoMaps/analysis_code/preproc/functional/
+>> cd ~/projects/amblyo_prf/analysis_code/preproc/functional/
 2. run python command
 python preproc_end.py [main directory] [project name] [subject name] [group]
 -----------------------------------------------------------------------------------------
 Exemple:
-python preproc_end.py /scratch/mszinte/data RetinoMaps sub-02 327
+python preproc_end.py /scratch/mszinte/data amblyo_prf sub-02 327
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (mail@martinszinte.net)
 Edited by Uriel Lascombes (uriel.lascombes@laposte.net)
