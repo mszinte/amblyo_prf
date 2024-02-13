@@ -53,7 +53,6 @@ with open('../../settings.json') as f:
 formats = analysis_info['formats']
 extensions = analysis_info['extensions']
 tasks = analysis_info['task_names']
-alpha_range = analysis_info["alpha_range_corr"]
 
 # Inputs
 main_dir = sys.argv[1]
