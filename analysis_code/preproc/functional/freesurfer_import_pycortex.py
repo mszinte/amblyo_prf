@@ -16,7 +16,7 @@ None
 -----------------------------------------------------------------------------------------
 To run:
 1. cd to function
->> cd ~/projects/RetinoMaps/analysis_code/preproc/functional/
+>> cd ~/projects/amblyo_prf/analysis_code/preproc/functional/
 2. run python command
 python freesurfer_import_pycortex.py [main directory] [project name] [subject] [group]
 -----------------------------------------------------------------------------------------
@@ -61,7 +61,7 @@ export FS_LICENSE={}\n\
 source $FREESURFER_HOME/SetUpFreeSurfer.sh\n""".format(main_dir, project_dir, fs_dir, fs_license)
 
 #define pycortex cmd
-py_cortex_cmd = "python pycortex_import.py {} {} {} {}".format(main_dir,project_dir,subject,group)
+py_cortex_cmd = "python pycortex_import.py {} {} {} {}".format(main_dir, project_dir, subject, group)
 
 # create sh folder and file
 sh_dir = "{}/{}_freesurfer_import_pycortex.sh".format(jobs_dir, subject)

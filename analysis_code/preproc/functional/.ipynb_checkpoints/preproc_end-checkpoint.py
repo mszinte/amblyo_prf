@@ -1,3 +1,4 @@
+
 """
 -----------------------------------------------------------------------------------------
 preproc_end.py
@@ -21,9 +22,10 @@ To run:
 python preproc_end.py [main directory] [project name] [subject name] [group]
 -----------------------------------------------------------------------------------------
 Exemple:
-python preproc_end.py /scratch/mszinte/data amblyo_prf sub-01 327
+python preproc_end.py /scratch/mszinte/data amblyo_prf sub-02 327
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (mail@martinszinte.net)
+Edited by Uriel Lascombes (uriel.lascombes@laposte.net)
 -----------------------------------------------------------------------------------------
 """
 
@@ -108,9 +110,9 @@ for format_, extension in zip(formats, extensions):
             ft = np.linspace(0.5 * TR, (nb_tr + 0.5) * TR, nb_tr, endpoint=False)
             high_pass_set = _cosine_drift(high_pass_threshold, ft)
             surf_data = signal.clean(surf_data, 
-                                     detrend=False,
-                                     standardize=False, 
-                                     confounds=high_pass_set)
+                                      detrend=False,
+                                      standardize=False, 
+                                      confounds=high_pass_set)
            
             # Compute the Z-score 
             surf_data =  (surf_data - np.mean(surf_data, axis=0)) / np.std(surf_data, axis=0)
@@ -150,6 +152,11 @@ for preproc_files in preproc_files_list:
     for task in tasks:
         # defind output files names 
         preproc_files_task = [file for file in preproc_files if task in file]
+
+        if not preproc_files_task:
+            print('No files for {}'.format(task))
+            continue
+        
         if preproc_files_task[0].find('hemi-L') != -1: hemi = 'hemi-L'
         elif preproc_files_task[0].find('hemi-R') != -1: hemi = 'hemi-R'
         else: hemi = None
@@ -216,6 +223,11 @@ for preproc_files in preproc_files_list:
     for task in tasks:
         # defind output files names 
         preproc_files_task = [file for file in preproc_files if task in file]
+
+        if not preproc_files_task:
+            print('No files for {}'.format(task))
+            continue
+        
         if preproc_files_task[0].find('hemi-L') != -1: hemi = 'hemi-L'
         elif preproc_files_task[0].find('hemi-R') != -1: hemi = 'hemi-R'
         else: hemi = None
@@ -248,10 +260,8 @@ for preproc_files in preproc_files_list:
                     main_dir, project_dir, subject, subject, task)
 
         print("corr save: {}".format(cor_fn))
-        corr_img = make_surface_image(data=cor_final, source_img=preproc_img)
+        corr_img = make_surface_image(data=cor_final, source_img=preproc_img, maps_names=['runs_correlations'])
         nb.save(corr_img, cor_fn)
-        os.system('wb_command -set-map-names {} -map {} {}'.format(
-                cor_fn, 1, 'runs_correlations'))
 
 # Anatomy
 for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
@@ -282,7 +292,7 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
                 geometric_type = 'Anatomical'
                 anatomical_structure_secondary = 'GrayWhite'
             elif surf == 'inflated':
-                save_surf = 'smoothwm'
+                save_surf = 'inflated'
                 geometric_type = 'Inflated'
                 anatomical_structure_secondary = None
             elif surf == 'flat':

@@ -1,4 +1,162 @@
 import numpy as np
+def get_roi_verts_hemi(fn,subject,rois):
+    """
+    load an surface image, and return vertex from ROIs only from the corresponding 
+    hemisphere
+
+    Parameters
+    ----------
+    fn : surface filename
+    subject : subject 
+    rois : list of rois you want extract 
+    
+    Returns
+    -------
+    img : the image load from fn   
+    data_roi : numpy rois data 
+              2 dim (time x vertices from all the rois)  
+              
+    roi_idx : indices of the rois vertices 
+    
+    
+    data_hemi : numpy stacked data
+                2 dim (time x vertices)    
+    """
+    
+    import cortex
+    from surface_utils import load_surface
+
+    
+    
+    # import data 
+    img, data = load_surface(fn=fn)
+    len_data = data.shape[1]
+    
+    # export masks 
+    roi_verts = cortex.get_roi_verts(subject=subject, 
+                                     roi= rois, 
+                                     mask=True
+                                    )
+    na_vertices = np.isnan(data).any(axis=0)
+    
+    # create a brain mask  
+    brain_mask = np.any(list(roi_verts.values()), axis=0)
+    
+    # create a hemi mask  
+    if 'hemi-L' in fn:
+        hemi_mask = brain_mask[:len_data]
+        for i, na_vertices in enumerate(na_vertices):
+            hemi_mask[i] = not na_vertices and hemi_mask[i]
+        
+    elif 'hemi-R' in fn: 
+        hemi_mask = brain_mask[-len_data:]
+        for i, na_vertices in enumerate(na_vertices):
+            hemi_mask[i] = not na_vertices and hemi_mask[i]
+    else: 
+        hemi_mask = brain_mask
+        
+    roi_idx = np.where(hemi_mask)[0]
+    
+    data_roi = data[:,hemi_mask]
+
+        
+    return img, data, data_roi, roi_idx
+
+def get_roi_masks_hemi(fn,subject,rois):
+    """
+    Acces to a single hemisphere rois masks 
+
+    Parameters
+    ----------
+    fn : surface filename
+    subject : subject 
+    rois : list of rois you want extract 
+    
+    Returns
+    -------
+    rois_masks : A dictionary where the keys represent the ROIs 
+    and the values correspond to the respective masks for each hemisphere.
+             
+    hemi : The correponding hemisphere. 
+  
+    """
+    import cortex
+    from surface_utils import load_surface
+
+    # import data 
+    img, data = load_surface(fn=fn)
+    len_data = data.shape[1]  
+    
+    # export masks 
+    roi_verts = cortex.get_roi_verts(subject=subject, 
+                                     roi= rois, 
+                                     mask=True
+                                    )
+    # create a hemi mask  
+    if 'hemi-L' in fn:
+        hemi = 'hemi-L'
+        rois_masks = {roi: data[:len_data] for roi, data in roi_verts.items()}
+        
+    elif 'hemi-R' in fn:
+        hemi = 'hemi-R'
+        rois_masks = {roi: data[-len_data:] for roi, data in roi_verts.items()}
+          
+    return rois_masks, hemi
+
+def load_surface_pycortex(L_fn=None, R_fn=None, brain_fn=None, return_img=None, return_hemi_len=None):
+    """
+    Load a surface image independently if it's CIFTI or GIFTI, and return 
+    concatenated data from the left and right cortex
+
+    Parameters
+    ----------
+    L_fn : gifti left hemisphere filename
+    R_fn : gifti right hemisphere filename
+    brain_fn : brain data in cifti format
+    return_img : whether to include img in the return
+    return_hemi_len : whether to include hemisphere lengths in the return
+    
+    Returns
+    -------
+    result : numpy array or list
+        data_concat : numpy stacked data of the two hemisphere. 
+                      2 dim (time x vertices)
+        (optional) img_L : surface image data for the left hemisphere
+        (optional) img_R : surface image data for the right hemisphere
+        (optional) len_L : length of the left hemisphere data
+        (optional) len_R : length of the right hemisphere data
+    """
+    
+    from surface_utils import load_surface
+    from cifti_utils import decompose_cifti
+    
+    if L_fn and R_fn: 
+        img_L, data_L = load_surface(L_fn)
+        len_L = np.shape(data_L)[1]
+        img_R, data_R = load_surface(R_fn)
+        len_R = np.shape(data_R)[1]
+        data_concat = np.concatenate((data_L, data_R), axis=1)
+        
+    elif brain_fn:
+        img, mat = load_surface(brain_fn)
+        vol, data_L, data_R = decompose_cifti(img)
+        data_concat = np.concatenate((data_L, data_R), axis=1)
+
+    if return_img is None and return_hemi_len is None:
+        return data_concat
+
+    result = [data_concat]
+
+    if return_img:
+        result.append(img_L)
+        result.append(img_R)
+
+    if return_hemi_len:
+        result.append(len_L)
+        result.append(len_R)
+
+    return result
+    
 
 def set_pycortex_config_file(cortex_folder):
 
@@ -148,6 +306,15 @@ def draw_cortex(subject,xfmname,data,vmin,vmax,description,cortex_type='VolumeRG
                                       blue = mat[...,2].astype(np.uint8),
                                       subject = subject,
                                       alpha = alpha.astype(np.uint8))
+    elif cortex_type=='Vertex':
+        
+        # define Vertex 
+        braindata = cortex.Vertex(data = data,
+                                 subject = subject,
+                                 description = description,
+                                 cmap = cmap,
+                                 vmin = vmin,
+                                 vmax = vmax)
         
     braindata_fig = cortex.quickshow(braindata = braindata,
                                      depth = depth,

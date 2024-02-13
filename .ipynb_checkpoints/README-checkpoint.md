@@ -58,9 +58,9 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 - [x] fMRIprep [fmriprep_sbatch.py](analysis_code/preproc/functional/fmriprep_sbatch.py)
 - [x] supress bad run [bad_run.py](analysis_code/preproc/functional/bad_run.py)
 - [x] Load freesurfer and import subject in pycortex db [freesurfer_import_pycortex.py](analysis_code/preproc/functional/freesurfer_import_pycortex.py)
-- [x] high-pass, z-score, average and leave-one-out average and correlations [preproc_end.py](analysis_code/preproc/functional/preproc_end.py)
-- [ ] plot correlations
-
+- [x] High-pass, z-score, average and leave-one-out average and correlations [preproc_end_sbatch.py](analysis_code/preproc/functional/preproc_end_sbatch.py)
+- [ ] Make timeseries inter-run correlation maps with pycortex [pycortex_corr_maps.py](analysis_code/preproc/functional/pycortex_corr_maps.py)
+ 
 ### Post-processing
 
 #### PRF analysis

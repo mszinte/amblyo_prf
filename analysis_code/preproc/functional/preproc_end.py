@@ -152,6 +152,11 @@ for preproc_files in preproc_files_list:
     for task in tasks:
         # defind output files names 
         preproc_files_task = [file for file in preproc_files if task in file]
+
+        if not preproc_files_task:
+            print('No files for {}'.format(task))
+            continue
+        
         if preproc_files_task[0].find('hemi-L') != -1: hemi = 'hemi-L'
         elif preproc_files_task[0].find('hemi-R') != -1: hemi = 'hemi-R'
         else: hemi = None
@@ -218,6 +223,11 @@ for preproc_files in preproc_files_list:
     for task in tasks:
         # defind output files names 
         preproc_files_task = [file for file in preproc_files if task in file]
+
+        if not preproc_files_task:
+            print('No files for {}'.format(task))
+            continue
+        
         if preproc_files_task[0].find('hemi-L') != -1: hemi = 'hemi-L'
         elif preproc_files_task[0].find('hemi-R') != -1: hemi = 'hemi-R'
         else: hemi = None
@@ -252,7 +262,6 @@ for preproc_files in preproc_files_list:
         print("corr save: {}".format(cor_fn))
         corr_img = make_surface_image(data=cor_final, source_img=preproc_img, maps_names=['runs_correlations'])
         nb.save(corr_img, cor_fn)
-
 
 # Anatomy
 for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):

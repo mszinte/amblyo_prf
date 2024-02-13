@@ -25,6 +25,7 @@
     "size_th": [0.1, 19],
     "rsqr_th": [0, 1],
     "alpha_range": [0, 0.4],
+    "alpha_range_corr":[0,0.4],
     "subjects_excluded": ["sub-13"],
     "runs_excluded": [["run-1", "run-4", "run-5"]],
     "sessions_excluded": [["ses-02"]],
