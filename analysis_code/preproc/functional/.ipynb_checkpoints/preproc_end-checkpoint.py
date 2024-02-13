@@ -1,3 +1,4 @@
+
 """
 -----------------------------------------------------------------------------------------
 preproc_end.py
@@ -21,9 +22,10 @@ To run:
 python preproc_end.py [main directory] [project name] [subject name] [group]
 -----------------------------------------------------------------------------------------
 Exemple:
-python preproc_end.py /scratch/mszinte/data amblyo_prf sub-01 327
+python preproc_end.py /scratch/mszinte/data amblyo_prf sub-02 327
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (mail@martinszinte.net)
+Edited by Uriel Lascombes (uriel.lascombes@laposte.net)
 -----------------------------------------------------------------------------------------
 """
 
@@ -108,9 +110,9 @@ for format_, extension in zip(formats, extensions):
             ft = np.linspace(0.5 * TR, (nb_tr + 0.5) * TR, nb_tr, endpoint=False)
             high_pass_set = _cosine_drift(high_pass_threshold, ft)
             surf_data = signal.clean(surf_data, 
-                                     detrend=False,
-                                     standardize=False, 
-                                     confounds=high_pass_set)
+                                      detrend=False,
+                                      standardize=False, 
+                                      confounds=high_pass_set)
            
             # Compute the Z-score 
             surf_data =  (surf_data - np.mean(surf_data, axis=0)) / np.std(surf_data, axis=0)
@@ -290,7 +292,7 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
                 geometric_type = 'Anatomical'
                 anatomical_structure_secondary = 'GrayWhite'
             elif surf == 'inflated':
-                save_surf = 'smoothwm'
+                save_surf = 'inflated'
                 geometric_type = 'Inflated'
                 anatomical_structure_secondary = None
             elif surf == 'flat':
