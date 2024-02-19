@@ -15,7 +15,7 @@ Video of the vdm
 -----------------------------------------------------------------------------------------
 To run:
 1. cd to function
->> cd ~/projects/stereo_prf/analysis_code/postproc/prf
+>> cd ~/projects/amblyo_prf/analysis_code/postproc/prf/fit
 2. run python command
 python vdm_builder.py [main directory] [project name] [group]
 -----------------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ import math
 import numpy as np
 import os
 import sys
-sys.path.append("{}/../../utils".format(os.getcwd()))
+sys.path.append("{}/../../../utils".format(os.getcwd()))
 from conversion_utils import conversion
 
 # Inputs
@@ -42,16 +42,10 @@ project_dir = sys.argv[2]
 group = sys.argv[3]
 
 # Load settings
-with open('../../settings.json') as f:
+with open('../../../settings.json') as f:
     json_s = f.read()
     analysis_info = json.loads(json_s)
 
-# Define directories
-rootpath = "{}/{}/derivatives/vdm/".format(main_dir, project_dir)
-fileName = 'vdm'
-filepath = os.path.join(rootpath,fileName+'.npy')
-videopath = os.path.join(rootpath,fileName+'.mp4')
-os.makedirs(rootpath, exist_ok=True)
 
 # Parameters
 screen_converter = conversion(screen_size_pix = analysis_info['screen_size_pix'], 
@@ -73,6 +67,14 @@ blank_duration = 6.5
 delays = [5, 6.5]
 bar_list = np.array([1, 2, 0, 3, 4, 0, 5, 6, 0, 7, 8])
 list_angles = np.array([np.nan, 45, 0, 90, 135, 225, 180, 270, 315])
+
+
+# Define directories
+rootpath = "{}/{}/derivatives/vdm/".format(main_dir, project_dir)
+fileName = 'vdm_prf_{}_{}'.format(vdm_size_pix[0], vdm_size_pix[1])
+filepath = os.path.join(rootpath,fileName + '.npy')
+videopath = os.path.join(rootpath,fileName + '.mp4')
+os.makedirs(rootpath, exist_ok=True)
 
 # Create a meshgrid of image coordinates x, y, a list of angles by TR
 x, y = np.meshgrid(range(0,n), range(0,n))
@@ -157,7 +159,7 @@ out.release()
 print('Video conversion done, save to:'+videopath)
 
 # Save numpy array
-np.save(filepath,frames)
+np.save(filepath, frames)
 print('Data saved to :'+filepath)
 
 # Define permission cmd
