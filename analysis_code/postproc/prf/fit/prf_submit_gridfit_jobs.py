@@ -30,11 +30,11 @@ Edited by Uriel Lascombes (uriel.lascombes@laposte.net)
 -----------------------------------------------------------------------------------------
 """
 
-# Stop warnings
+# stop warnings
 import warnings
 warnings.filterwarnings("ignore")
 
-# General imports
+# general imports
 import os
 import json
 import sys
@@ -81,7 +81,7 @@ for fit_num, pp_fn in enumerate(pp_fns):
         os.makedirs(prf_jobs_dir, exist_ok=True)
         prf_logs_dir = "{}/{}/170k/prf/log_outputs".format(pp_dir, subject)
         os.makedirs(prf_logs_dir, exist_ok=True)
-        
+
     elif pp_fn.endswith('.gii'):
         prf_dir = "{}/{}/fsnative/prf".format(pp_dir, subject)
         os.makedirs(prf_dir, exist_ok=True)

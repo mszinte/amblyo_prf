@@ -16,22 +16,23 @@ Pycortex flatmaps figures
 To run:
 0. TO RUN ON INVIBE SERVER (with Inkscape)
 1. cd to function
->> cd ~/disks/meso_H/projects/RetinoMaps/analysis_code/postproc/prf/postfit/
+>> cd ~/disks/meso_H/projects/amblyo_prf/analysis_code/postproc/prf/postfit/
 2. run python command
->> python pycortex_maps_gridfit.py [main directory] [project name] [subject num] [save_svg_in]
+>> python pycortex_maps_gridfit.py [main directory] [project name] [subject] [save_svg_in]
 -----------------------------------------------------------------------------------------
 Exemple:
-python pycortex_maps_gridfit.py ~/disks/meso_shared RetinoMaps sub-20 y
+python pycortex_maps_gridfit.py ~/disks/meso_S/data amblyo_prf sub-01 y
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (mail@martinszinte.net)
+Edited by Uriel Lascombes (uriel.lascombes@laposte.net)
 -----------------------------------------------------------------------------------------
 """
 
-# Stop warnings
+# stop warnings
 import warnings
 warnings.filterwarnings("ignore")
 
-# General imports
+# general imports
 import cortex
 import importlib
 import ipdb
@@ -40,12 +41,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 import sys
-sys.path.append("{}/../../../utils".format(os.getcwd()))
-from pycortex_utils import draw_cortex, set_pycortex_config_file,load_surface_pycortex
-
 deb = ipdb.set_trace
 
-#Define analysis parameters
+# personal imports
+sys.path.append("{}/../../../utils".format(os.getcwd()))
+from pycortex_utils import draw_cortex, set_pycortex_config_file, load_surface_pycortex
+
+# define analysis parameters
 with open('../../../settings.json') as f:
     json_s = f.read()
     analysis_info = json.loads(json_s)
@@ -57,7 +59,6 @@ main_dir = sys.argv[1]
 project_dir = sys.argv[2]
 subject = sys.argv[3]
 save_svg_in = sys.argv[4]
-
 try:
     if save_svg_in == 'yes' or save_svg_in == 'y':
         save_svg = True
@@ -70,12 +71,10 @@ except ValueError:
        
 # Maps settings
 rsq_idx, ecc_idx, polar_real_idx, polar_imag_idx , size_idx, \
-    amp_idx, baseline_idx, x_idx, y_idx = 0,1,2,3,4,5,6,7,8
-      
+    amp_idx, baseline_idx, x_idx, y_idx = 0, 1, 2, 3, 4, 5, 6, 7, 8
 cmap_polar, cmap_uni, cmap_ecc_size = 'hsv', 'Reds', 'Spectral'
 col_offset = 1.0/14.0
 cmap_steps = 255
-
 description_end = 'avg gridfit'
 deriv_fn_label = 'avg-gridfit'
 
@@ -90,8 +89,10 @@ set_pycortex_config_file(cortex_dir)
 importlib.reload(cortex)
  
 for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
-    # Define directories and fn
-    prf_dir = "{}/{}/derivatives/pp_data/{}/{}/prf".format(main_dir, project_dir, subject,format_)
+    
+    # define directories and fn
+    prf_dir = "{}/{}/derivatives/pp_data/{}/{}/prf".format(main_dir, project_dir, 
+                                                           subject, format_)
     fit_dir = "{}/fit".format(prf_dir)
     prf_deriv_dir = "{}/prf_derivatives".format(prf_dir)
     flatmaps_dir = '{}/pycortex/flatmaps_avg_gauss_gridfit'.format(prf_dir)
@@ -101,12 +102,16 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
     os.makedirs(datasets_dir, exist_ok=True)
     
     if format_ == 'fsnative':
-        deriv_avg_fn_L = '{}/{}_task-pRF_hemi-L_fmriprep_dct_avg_prf-deriv_gauss_gridfit.func.gii'.format(prf_deriv_dir, subject)
-        deriv_avg_fn_R = '{}/{}_task-pRF_hemi-R_fmriprep_dct_avg_prf-deriv_gauss_gridfit.func.gii'.format(prf_deriv_dir, subject)
-        deriv_mat = load_surface_pycortex(L_fn=deriv_avg_fn_L, R_fn=deriv_avg_fn_R)
+        deriv_avg_fn_L = '{}/{}_task-prf_hemi-L_fmriprep_dct_avg_prf-deriv_gauss_gridfit.func.gii'.format(
+            prf_deriv_dir, subject)
+        deriv_avg_fn_R = '{}/{}_task-prf_hemi-R_fmriprep_dct_avg_prf-deriv_gauss_gridfit.func.gii'.format(
+            prf_deriv_dir, subject)
+        deriv_mat = load_surface_pycortex(L_fn=deriv_avg_fn_L, 
+                                          R_fn=deriv_avg_fn_R)
         
     elif format_ == '170k':
-        deriv_avg_fn = '{}/{}_task-pRF_fmriprep_dct_avg_prf-deriv_gauss_gridfit.dtseries.nii'.format(prf_deriv_dir, subject)
+        deriv_avg_fn = '{}/{}_task-prf_fmriprep_dct_avg_prf-deriv_gauss_gridfit.dtseries.nii'.format(prf_deriv_dir, 
+                                                                                                     subject)
         deriv_mat = load_surface_pycortex(brain_fn=deriv_avg_fn)
         save_svg = False
     
@@ -129,7 +134,7 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
     # r-square
     rsq_data = deriv_mat[rsq_idx,...]
     alpha_range = analysis_info["alpha_range"]
-    alpha = (rsq_data - alpha_range[0])/(alpha_range[1]-alpha_range[0])
+    alpha = (rsq_data - alpha_range[0]) / (alpha_range[1] - alpha_range[0])
     alpha[alpha>1]=1
     param_rsq = {'data': rsq_data, 'cmap': cmap_uni, 'alpha': rsq_data, 
                  'vmin': rsq_scale[0], 'vmax': rsq_scale[1], 'cbar': 'discrete', 
@@ -158,7 +163,6 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
                  'vmin': ecc_scale[0], 'vmax': ecc_scale[1], 'cbar': 'ecc', 'cortex_type': 'VertexRGB',
                  'description': 'pRF eccentricity{}'.format(description_end), 'curv_brightness': 1,
                  'curv_contrast': 0.1, 'add_roi': save_svg, 'with_labels': True}
-    
     maps_names.append('ecc')
     
     # size
@@ -175,12 +179,12 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
     for maps_name in maps_names:
     
         # create flatmap
-        roi_name = 'pRF_{}'.format(maps_name)
+        roi_name = 'prf_{}'.format(maps_name)
         roi_param = {'subject': pycortex_subject, 'xfmname': None, 'roi_name': roi_name}
         print(roi_name)
         exec('param_{}.update(roi_param)'.format(maps_name))
         exec('volume_{maps_name} = draw_cortex(**param_{maps_name})'.format(maps_name = maps_name))
-        exec("plt.savefig('{}/{}_task-pRF_{}_{}.pdf')".format(flatmaps_dir, subject, maps_name, deriv_fn_label))
+        exec("plt.savefig('{}/{}_task-prf_{}_{}.pdf')".format(flatmaps_dir, subject, maps_name, deriv_fn_label))
         plt.close()
     
         # save flatmap as dataset
@@ -189,8 +193,6 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
         volumes.update({vol_description:volume})
     
     # save dataset
-    dataset_file = "{}/{}_task-pRF_{}.hdf".format(datasets_dir, subject, deriv_fn_label)
+    dataset_file = "{}/{}_task-prf_{}.hdf".format(datasets_dir, subject, deriv_fn_label)
     dataset = cortex.Dataset(data=volumes)
     dataset.save(dataset_file)
-    
-    
