@@ -23,7 +23,7 @@ python prf_submit_gridfit_jobs.py [main directory] [project name] [subject]
                                   [group] [server project]
 -----------------------------------------------------------------------------------------
 Exemple:
-python prf_submit_gridfit_jobs.py /scratch/mszinte/data amblyo_prf sub-14 327 b327
+python prf_submit_gridfit_jobs.py /scratch/mszinte/data amblyo_prf sub-01 327 b327
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (mail@martinszinte.net)
 Edited by Uriel Lascombes (uriel.lascombes@laposte.net)
@@ -48,7 +48,7 @@ project_dir = sys.argv[2]
 subject = sys.argv[3]
 group = sys.argv[4]
 server_project = sys.argv[5]
-memory_val = sys.argv[6]
+memory_val = 100
 hour_proc = 10
 nb_procs = 32
 
@@ -66,14 +66,14 @@ chmod_cmd = "chmod -Rf 771 {}/{}".format(main_dir, project_dir)
 chgrp_cmd = "chgrp -Rf {} {}/{}".format(main_dir, project_dir, group)
 
 # define fns (filenames)
-dct_avg_nii_fns = "{}/{}/170k/func/fmriprep_dct_avg/*_task-pRF_*avg*.dtseries.nii".format(
+dct_avg_nii_fns = "{}/{}/170k/func/fmriprep_dct_avg/*_task-prf_*avg*.dtseries.nii".format(
     pp_dir, subject)
-dct_avg_gii_fns = "{}/{}/fsnative/func/fmriprep_dct_avg/*_task-pRF_*avg*.func.gii".format(
+dct_avg_gii_fns = "{}/{}/fsnative/func/fmriprep_dct_avg/*_task-prf_*avg*.func.gii".format(
     pp_dir, subject)
 pp_fns = glob.glob(dct_avg_gii_fns) + glob.glob(dct_avg_nii_fns)
 
 for fit_num, pp_fn in enumerate(pp_fns):
-    
+
     if pp_fn.endswith('.nii'):
         prf_dir = "{}/{}/170k/prf".format(pp_dir, subject)
         os.makedirs(prf_dir, exist_ok=True)

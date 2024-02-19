@@ -91,7 +91,7 @@ pred_fn_gauss_gridfit = input_fn.split('/')[-1]
 pred_fn_gauss_gridfit = pred_fn_gauss_gridfit.replace('bold', 'prf-pred_gauss_gridfit')
 
 # define visual design
-vdm_fn = "{}/{}/derivatives/vdm/vdm_pRF_{}_{}.npy".format(
+vdm_fn = "{}/{}/derivatives/vdm/vdm_prf_{}_{}.npy".format(
     main_dir, project_dir, vdm_width, vdm_height)
 vdm = np.load(vdm_fn)
 
@@ -101,6 +101,7 @@ fit_verbose = True
 sizes = max_ecc_size * np.linspace(0.1,1,gauss_grid_nr)**2
 eccs = max_ecc_size * np.linspace(0.1,1,gauss_grid_nr)**2
 polars = np.linspace(0, 2*np.pi, gauss_grid_nr)
+
 
 # load data
 img, raw_data = load_surface(fn=input_fn)
