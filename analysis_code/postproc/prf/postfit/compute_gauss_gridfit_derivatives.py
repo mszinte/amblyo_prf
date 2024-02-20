@@ -54,24 +54,24 @@ with open('../../../settings.json') as f:
 formats = analysis_info['formats']
 extensions = analysis_info['extensions']
 
-# Inputs
+# inputs
 main_dir = sys.argv[1]
 project_dir = sys.argv[2]
 subject = sys.argv[3]
 group = sys.argv[4]
 
 for format_, extension in zip(formats, extensions):
-    # Define directories
+    # define directories
     pp_dir = "{}/{}/derivatives/pp_data".format(main_dir, project_dir)
     prf_fit_dir = "{}/{}/{}/prf/fit".format(pp_dir, subject, format_)
     prf_deriv_dir = "{}/{}/{}/prf/prf_derivatives".format(pp_dir, subject, format_)
     os.makedirs(prf_deriv_dir, exist_ok=True)
     
-    # Get prf fit filenames
+    # get prf fit filenames
     fit_fns = glob.glob("{}/{}/{}/prf/fit/*prf-fit_gauss_gridfit*".format(
         pp_dir, subject, format_))
     
-    # Compute derivatives
+    # compute derivatives
     for fit_fn in fit_fns:
         deriv_fn = fit_fn.split('/')[-1]
         deriv_fn = deriv_fn.replace('prf-fit', 'prf-deriv')
@@ -94,7 +94,7 @@ for format_, extension in zip(formats, extensions):
                                            maps_names=maps_names)
             nb.save(deriv_img,'{}/{}'.format(prf_deriv_dir, deriv_fn))
 
-# Define permission cmd
+# define permission cmd
 os.system("chmod -Rf 771 {main_dir}/{project_dir}".format(main_dir=main_dir, 
                                                           project_dir=project_dir))
 os.system("chgrp -Rf {group} {main_dir}/{project_dir}".format(main_dir=main_dir, 

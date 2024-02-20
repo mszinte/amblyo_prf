@@ -98,10 +98,9 @@ vdm = np.load(vdm_fn)
 # defind model parameter grid range
 gauss_params_num = 8
 fit_verbose = True
-sizes = max_ecc_size * np.linspace(0.1,1,gauss_grid_nr)**2
-eccs = max_ecc_size * np.linspace(0.1,1,gauss_grid_nr)**2
-polars = np.linspace(0, 2*np.pi, gauss_grid_nr)
-
+sizes = max_ecc_size * np.linspace(0.1, 1, gauss_grid_nr)**2
+eccs = max_ecc_size * np.linspace(0.1, 1, gauss_grid_nr)**2
+polars = np.linspace(0, 2*np.pi, gauss_grid_nr, endpoint=False)
 
 # load data
 img, raw_data = load_surface(fn=input_fn)

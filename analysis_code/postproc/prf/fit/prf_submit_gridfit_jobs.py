@@ -48,9 +48,9 @@ project_dir = sys.argv[2]
 subject = sys.argv[3]
 group = sys.argv[4]
 server_project = sys.argv[5]
-memory_val = 100
-hour_proc = 10
-nb_procs = 32
+memory_val = 30
+hour_proc = 2
+nb_procs = 8
 
 # cluster settings
 with open('../../../settings.json') as f:
