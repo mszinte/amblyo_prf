@@ -27,7 +27,8 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 ---
 - [x] run and check preproc_end on all participants
 - [x] work on pycortext correlation once we have a surface_pycortex loader (see uriel's code)
-- [ ] fit data prf with gridfit
+- [x] fit data prf with gridfit
+- [ ] draw ROIs
 - [ ] get data in roi and fit css model
 
 ## Data analysis
@@ -67,9 +68,9 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 - [x] create the visual matrix design [vdm_builder.py](analysis_code/postproc/prf/vdm_builder.py)
 
 #### Gaussian fit
-- [ ] Run pRF gaussian grid fit [prf_submit_gridfit_jobs.py](analysis_code/postproc/prf/fit/prf_submit_gridfit_jobs.py)
-- [ ] Compute pRF gaussian grid fit derivatives [compute_gauss_gridfit_derivatives.py](analysis_code/postproc/prf/postfit/compute_gauss_gridfit_derivatives.py)
-- [ ] Make pRF derivatives maps with pycortex [pycortex_maps_gridfit.py](analysis_code/postproc/prf/postfit/pycortex_maps_gridfit.py)
+- [x] Run pRF gaussian grid fit [prf_submit_gridfit_jobs.py](analysis_code/postproc/prf/fit/prf_submit_gridfit_jobs.py)
+- [x] Compute pRF gaussian grid fit derivatives [compute_gauss_gridfit_derivatives.py](analysis_code/postproc/prf/postfit/compute_gauss_gridfit_derivatives.py)
+- [x] Make pRF maps with pycortex [pycortex_maps_gridfit.py](analysis_code/postproc/prf/postfit/pycortex_maps_gridfit.py)
 
 #### CSS fit
 - [ ] get gaussian pRF parameters with simple GLM [submit_fit_jobs.py](analysis_code/postproc/prf/fit/submit_gridfit_jobs.py)
