@@ -23,7 +23,7 @@ python prf_cssfit.py [main directory] [project name] [subject name]
 [inout file name] [number of jobs]
 -----------------------------------------------------------------------------------------
 Exemple:
-python prf_cssfit.py /scratch/mszinte/data RetinoMaps sub-02 /scratch/mszinte/data/RetinoMaps/derivatives/pp_data/sub-02/fsnative/func/fmriprep_dct_loo_avg/sub-02_task-pRF_hemi-L_fmriprep_dct_avg_loo-4_bold.func.gii 32  
+python prf_cssfit.py /scratch/mszinte/data RetinoMaps sub-02 [file 32  
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (mail@martinszinte.net)
 Edited by Uriel Lascombes (uriel.lascombes@laposte.net)

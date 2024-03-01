@@ -1,7 +1,7 @@
 # AMBLYO_PRF
 ## About
 ---
-We study the organization of the cortical visual system of a population of ambliopic patients.</br>
+We study the organization of the cortical visual system of a population of amblyopic patients.</br>
 This repository contain all code allowing us to analyse our dataset [OpenNeuro:DSXXXXX](https://openneuro.org/datasets/dsXXXX).</br>
 
 ---
@@ -28,8 +28,10 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 - [x] run and check preproc_end on all participants
 - [x] work on pycortext correlation once we have a surface_pycortex loader (see uriel's code)
 - [x] fit data prf with gridfit
-- [ ] draw ROIs
+- [x] draw ROIs
+- [x] go back to cortical magnification codes
 - [ ] get data in roi and fit css model
+- [ ] put main analysis figure together
 
 ## Data analysis
 ---
@@ -72,16 +74,13 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 - [x] Compute pRF gaussian grid fit derivatives [compute_gauss_gridfit_derivatives.py](analysis_code/postproc/prf/postfit/compute_gauss_gridfit_derivatives.py)
 - [x] Make pRF maps with pycortex [pycortex_maps_gridfit.py](analysis_code/postproc/prf/postfit/pycortex_maps_gridfit.py)
 
-#### CSS fit
-- [ ] get gaussian pRF parameters with simple GLM [submit_fit_jobs.py](analysis_code/postproc/prf/fit/submit_gridfit_jobs.py)
-- [ ] compute gaussian pRF derivatives [compute_derivatives.py](analysis_code/postproc/prf/postfit/compute_derivatives.py)
-- [ ] make pycortex maps [pycortex_maps.py](analysis_code/postproc/prf/postfit/pycortex_maps.py)
-- [ ] draw ROIs using Inkscape
-- [ ] extract ROIs masks [roi_masks.ipynb](analysis_code/postproc/prf/postfit/roi_masks.ipynb) 
-- [ ] get css pRF derivatives in ROIs
-- [ ] compute population cortical magnification [pcm_sbatch.py](analysis_code/postproc/prf/postfit/pcm_sbatch.py)
-- [ ] make webgl with the pycortex dataset [pycortex_maps.py](analysis_code/postproc/prf/webgl/pycortex_webgl.py) 
-- [ ] send the webgl files [send_data.sh](analysis_code/postproc/prf/webgl/send_data.sh)
+#### Css fit
+- [x] Draw ROIs using Inkscape
+- [ ] Run pRF CSS fit only on the ROIs [prf_submit_css_jobs.py](analysis_code/postproc/prf/fit/prf_submit_css_jobs.py)
+- [ ] Compute population cortical magnification [pcm_sbatch](analysis_code/postproc/pcm/pcm_sbatch.py)
+- [ ] Compute pRF CSS fit derivatives [compute_css_derivatives.py](analysis_code/postproc/prf/postfit/compute_css_derivatives.py)
+- [ ] Make pRF derivatives maps with pycortex [pycortex_maps_css.py](analysis_code/postproc/prf/postfit/pycortex_maps_css.py)
+
 
 ### Main analysis
 - [ ] extract all data as pickle files or tsv [make_tsv.ipynb](analysis_code/postproc/prf/postfit/make_tsv.ipynb)

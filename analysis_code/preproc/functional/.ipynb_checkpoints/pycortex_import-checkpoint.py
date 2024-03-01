@@ -16,7 +16,7 @@ None
 -----------------------------------------------------------------------------------------
 To run:
 1. cd to function
->> cd ~/projects/stereo_prf/analysis_code/preproc/functional/
+>> cd ~/projects/amblyo_prf/analysis_code/preproc/functional/
 2. run python command
 python pycortex_import.py [main directory] [project name] [subject] [group]
 -----------------------------------------------------------------------------------------
