@@ -3,7 +3,7 @@
 170k_averaging.py
 -----------------------------------------------------------------------------------------
 Goal of the script:
-Average all all the subject of the studie on the 170k space.
+Average all subjects of thr project on the 170k format.
 -----------------------------------------------------------------------------------------
 Input(s):
 sys.argv[1]: main project directory
@@ -16,23 +16,23 @@ sh file for running batch command
 -----------------------------------------------------------------------------------------
 To run:
 1. cd to function
->> cd ~/projects/RetinoMaps/analysis_code/postproc/prf/postfit/
+>> cd ~/projects/[PROJECT]/analysis_code/postproc/prf/postfit/
 2. run python command
->> python 170gaussgridfit_averaging.py [main directory] [project name] [group] [model]
-    [server project]
+>> python 170k_averaging.py [main directory] [project name] [group] [model]
 -----------------------------------------------------------------------------------------
 Exemple:
+python 170k_averaging.py /scratch/mszinte/data amblyo_prf 327 gauss
 python 170k_averaging.py /scratch/mszinte/data RetinoMaps 327 css
 -----------------------------------------------------------------------------------------
-Written by Martin Szinte (martin.szinte@gmail.com)
-Edited by Uriel Lascombes (uriel.lascombes@laposte.net)
+Written by Uriel Lascombes (uriel.lascombes@laposte.net)
+Edited by Martin Szinte (martin.szinte@gmail.com)
 -----------------------------------------------------------------------------------------
 """
 # Stop warnings
 import warnings
 warnings.filterwarnings("ignore")
 
-# debug 
+# Debug 
 import ipdb
 deb = ipdb.set_trace
 
@@ -44,21 +44,16 @@ import pandas as pd
 import numpy as np
 import nibabel as nb
 
-# personal imports
+# Personal imports
 sys.path.append("{}/../../../utils".format(os.getcwd()))
 from pycortex_utils import get_rois
 from surface_utils import make_surface_image, load_surface
 
-# inputs
+# Inputs
 main_dir = sys.argv[1]
 project_dir = sys.argv[2]
 group = sys.argv[3]
 model = sys.argv[4]
-
-if model == 'gauss':
-    model = 'gauss_gridfit'
-elif model == 'css':
-    model = 'avg_css'
 
 with open('../../../settings.json') as f:
     json_s = f.read()
@@ -66,7 +61,6 @@ with open('../../../settings.json') as f:
 subjects = analysis_info['subjects']
 formats = analysis_info['formats']
 extensions = analysis_info['extensions']
-
 
 prf_dir = '{}/{}/derivatives/pp_data/sub-170k/170k/prf'.format(main_dir, project_dir)
 avg_170k_dir = '{}/prf_derivatives'.format(prf_dir)
@@ -78,11 +72,10 @@ for n_subject, subject in enumerate(subjects) :
     deriv_dir = '{}/{}/derivatives/pp_data/{}/170k/prf/prf_derivatives'.format(main_dir, 
                                                                                project_dir, 
                                                                                subject)
-
-    if model == 'gauss_gridfit' :
-        deriv_fn = '{}_task-pRF_fmriprep_dct_avg_prf-deriv_gauss_gridfit.dtseries.nii'.format(subject)
-    elif model == 'avg_css':
-        deriv_fn = '{}_task-pRF_fmriprep_dct_prf-derivs_pcm-loo-avg_css.dtseries.nii'.format(subject)
+    if model == 'gauss' :
+        deriv_fn = '{}_task-prf_fmriprep_dct_avg_prf-deriv_gauss_gridfit.dtseries.nii'.format(subject)
+    elif model == 'css':
+        deriv_fn = '{}_task-prf_fmriprep_dct_prf-derivs_pcm-loo-avg_css.dtseries.nii'.format(subject)
     
     img, data = load_surface(fn='{}/{}'.format(deriv_dir, deriv_fn))
 
@@ -92,13 +85,12 @@ for n_subject, subject in enumerate(subjects) :
     else:
         data_avg = np.nanmean(np.array([data_avg, data]), axis=0)
 
-    
 #  export results 
-if model == 'gauss_gridfit' :
+if model == 'gauss' :
     avg_170k_fn = 'sub-170k_task-pRF_fmriprep_dct_avg_prf-deriv_gauss_gridfit.dtseries.nii'
     maps_names = ['rsq', 'ecc', 'polar_real', 'polar_imag', 'size',
                   'amplitude','baseline', 'x','y','hrf_1','hrf_2']
-elif model == 'avg_css':
+elif model == 'css':
     avg_170k_fn = 'sub-170k_task-pRF_fmriprep_dct_prf-derivs_pcm-loo-avg_css.dtseries.nii'
     maps_names = ['prf_rsq', 'prf_ecc', 'polar_real', 'polar_imag', 
                   'prf_size', 'amplitude', 'baseline', 'prf_x','prf_y',
