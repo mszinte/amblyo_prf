@@ -32,7 +32,6 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 - [x] go back to cortical magnification codes
 - [ ] get data in roi and fit css model
 - [ ] put main analysis figure together
-- [ ] deal with atlas put in the data folder
 - [ ] put stats in correlation
 - [ ] put code drawing ROIs
 - [ ] deal with correction in averaging 170k prf
@@ -83,7 +82,7 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 #### Rois
 - [x] Draw ROIs on individual fsnative using Inkscape
 - [x] Copy sub-170 containing MMP rois from [RetinoMaps](https://github.com/mszinte/RetinoMaps) project [compute_gauss_gridfit_derivatives.py](https://github.com/mszinte/RetinoMaps/blob/main/analysis_code/atlas/create_170k_mmp_rois_mask.ipynb) and mask areas in the overaly that are not covered by data's field of view.
-- [ ] Creat 170k MMP rois mask [creat_170k_mmp_rois_mask.ipynb](analysis_code/atlas/creat_170k_mmp_rois_mask.ipynb)
+- [x] Create 170k MMP rois mask [create_170k_mmp_rois_mask.ipynb](analysis_code/atlas/create_170k_mmp_rois_mask.ipynb)
 - [ ] Draw ROIs on flatmaps
 
 #### Css fit
