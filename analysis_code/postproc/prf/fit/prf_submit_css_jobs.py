@@ -3,7 +3,7 @@
 prf_submit_css_jobs.py
 -----------------------------------------------------------------------------------------
 Goal of the script:
-Create jobscript to make a css fit for pRF
+Create and submit jobscript to make a gaussian grid fit for pRF analysis
 -----------------------------------------------------------------------------------------
 Input(s):
 sys.argv[1]: main project directory
@@ -16,14 +16,11 @@ Output(s):
 .sh file to execute in server
 -----------------------------------------------------------------------------------------
 To run:
->> cd to function
->> python fit/submit_fit_jobs.py [pp directory] [subject]
------------------------------------------------------------------------------------------
-Exemple:
 1. cd to function
->> cd ~/projects/amblyo_prf/analysis_code/postproc/prf/fit
+>> cd ~/projects/[PROJECT]/analysis_code/postproc/prf/fit
 2. run python command
-python prf_submit_css_jobs.py [main directory] [project name] [subject] [group] [project]
+python prf_submit_css_jobs.py [main directory] [project name] [subject] 
+                                  [group] [server project]
 -----------------------------------------------------------------------------------------
 Exemple:
 python prf_submit_css_jobs.py /scratch/mszinte/data amblyo_prf sub-01 327 b327
@@ -38,13 +35,11 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # General imports
-
 import os
 import json
 import sys
 import glob
 import ipdb
-
 deb = ipdb.set_trace
 
 # Inputs
@@ -53,39 +48,47 @@ project_dir = sys.argv[2]
 subject = sys.argv[3]
 group = sys.argv[4]
 server_project = sys.argv[5]
-memory_val = 50
-hour_proc = 5
+memory_val = 30
+hour_proc = 6
+nb_procs = 32
 
 # Cluster settings
 with open('../../../settings.json') as f:
     json_s = f.read()
     analysis_info = json.loads(json_s)
 cluster_name  = analysis_info['cluster_name']
-nb_procs = analysis_info['nb_procs_fit_prf_css']
+prf_task_name = analysis_info['prf_task_name']
 
 # Define directories
 pp_dir = "{}/{}/derivatives/pp_data".format(main_dir, project_dir)
 
 # define permission cmd
-chmod_cmd = "chmod -Rf 771 {main_dir}/{project_dir}".format(main_dir=main_dir,
-                                                            project_dir=project_dir)
-chgrp_cmd = "chgrp -Rf {group} {main_dir}/{project_dir}".format(main_dir=main_dir, 
-                                                                project_dir=project_dir, 
-                                                                group=group)
+chmod_cmd = "chmod -Rf 771 {}/{}".format(main_dir, project_dir)
+chgrp_cmd = "chgrp -Rf {} {}/{}".format(group, main_dir, project_dir)
 
 # Define fns (filenames)
-dct_avg_gii_fns = "{}/{}/fsnative/func/fmriprep_dct_loo_avg/*_task-pRF_*avg*.func.gii".format(
-    pp_dir, subject)
-pp_fns=  glob.glob(dct_avg_gii_fns) 
+dct_avg_gii_fns = "{}/{}/fsnative/func/fmriprep_dct_loo_avg/*_task-{}_*avg*.func.gii".format(
+    pp_dir,subject, prf_task_name)
+dct_avg_nii_fns = "{}/{}/170k/func/fmriprep_dct_loo_avg/*_task-{}_*avg*.dtseries.nii".format(
+    pp_dir, subject, prf_task_name)
+pp_fns = glob.glob(dct_avg_gii_fns) + glob.glob(dct_avg_nii_fns)
 
 for fit_num, pp_fn in enumerate(pp_fns):
-    prf_dir = "{}/{}/fsnative/prf".format(pp_dir, subject)
-    os.makedirs(prf_dir, exist_ok=True)
+    if pp_fn.endswith('.nii'):
+        prf_dir = "{}/{}/170k/prf".format(pp_dir, subject)
+        os.makedirs(prf_dir, exist_ok=True)
+        prf_jobs_dir = "{}/{}/170k/prf/jobs".format(pp_dir, subject)
+        os.makedirs(prf_jobs_dir, exist_ok=True)
+        prf_logs_dir = "{}/{}/170k/prf/log_outputs".format(pp_dir, subject)
+        os.makedirs(prf_logs_dir, exist_ok=True)
 
-    prf_jobs_dir = "{}/{}/fsnative/prf/jobs".format(pp_dir, subject)
-    os.makedirs(prf_jobs_dir, exist_ok=True)
-    prf_logs_dir = "{}/{}/fsnative/prf/log_outputs".format(pp_dir, subject)
-    os.makedirs(prf_logs_dir, exist_ok=True)
+    elif pp_fn.endswith('.gii'):
+        prf_dir = "{}/{}/fsnative/prf".format(pp_dir, subject)
+        os.makedirs(prf_dir, exist_ok=True)
+        prf_jobs_dir = "{}/{}/fsnative/prf/jobs".format(pp_dir, subject)
+        os.makedirs(prf_jobs_dir, exist_ok=True)
+        prf_logs_dir = "{}/{}/fsnative/prf/log_outputs".format(pp_dir, subject)
+        os.makedirs(prf_logs_dir, exist_ok=True)
     
     slurm_cmd = """\
 #!/bin/bash
@@ -106,17 +109,17 @@ for fit_num, pp_fn in enumerate(pp_fns):
            memory_val=memory_val, 
            log_dir=prf_logs_dir)
 
-    # define fit cmd
+    # Define fit cmd
     fit_cmd = "python prf_cssfit.py {} {} {} {} {} ".format(
         main_dir, project_dir, subject, pp_fn, nb_procs )
     
-    # create sh
-    sh_fn = "{}/jobs/{}_prf_css_fit-{}.sh".format(prf_dir, subject, fit_num)
+    # Create sh
+    sh_fn = "{}/jobs/{}_prf_css_fit-{}.sh".format(prf_dir,subject,fit_num)
 
     of = open(sh_fn, 'w')
-    of.write("{}\n{}\n{}\n{}".format(slurm_cmd, fit_cmd, chmod_cmd, chgrp_cmd))
+    of.write("{} \n{} \n{} \n{}".format(slurm_cmd, fit_cmd, chmod_cmd, chgrp_cmd))
     of.close()
 
-    # submit jobs
+    # Submit jobs
     print("Submitting {} to queue".format(sh_fn))
     os.system("sbatch {}".format(sh_fn))
