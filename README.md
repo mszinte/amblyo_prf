@@ -30,9 +30,10 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 - [x] fit data prf with gridfit
 - [x] draw ROIs
 - [x] go back to cortical magnification codes
-- [ ] get data in roi and fit css model
+- [x] get data in roi and fit css model
+- [ ] Check output of css for sub-01/sub-05
 - [ ] put main analysis figure together
-- [ ] put stats in correlation
+- [ ] put stats in correlation plot
 - [ ] put code drawing ROIs
 - [ ] deal with correction in averaging 170k prf
 
