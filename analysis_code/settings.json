@@ -6,6 +6,7 @@
     "anat_session": ["ses-02"], 
     "func_session": ["ses-02"], 
     "task_names": ["prf"],
+    "prf_task_name": "prf",
     "cluster_name": "skylake",
     "TR": 1.8,
     "TRs": 135,
