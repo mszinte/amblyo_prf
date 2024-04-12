@@ -1,39 +1,101 @@
-def volume_from_cifti(data, axis):
-    import nibabel as nb
+def from_170k_to_59k(img, data, return_concat_hemis=False, return_59k_mask=False):
+    """
+    Transform 170k data into 59k data by retaining only the left and right cortex and medial wall vertices.
+
+    Parameters
+    ----------
+    img : the cifti image of your 170k 
+    data : your 170k data
+    return_concat_hemis : if False, will return two arrays for the two hemispheres 
+                          (2 arrays with dimensions (time x 59k vertices))
+                          
+                          if True, will return the concatenation of hemi-L and hemi-R 
+                          (1 array with dimensions (time x 118 vertices))
+                          
+    return_59k_mask : if True, will return a mask where True corresponds to cortex vertices and
+                      False to medial wall vertices.
+    
+
+    Returns
+    -------
+    result : dict
+        A dictionary containing the following keys:
+        - 'concatenated_data': numpy array, stacked data for the requested hemisphere(s). 2-dimensional array (time x vertices).
+        - '59k_mask': optional numpy array, mask where True corresponds to cortex vertices and False to medial wall vertices for 59k data.
+    """
+
     import numpy as np 
-    assert isinstance(axis, nb.cifti2.BrainModelAxis)
-    data = data.T[axis.volume_mask]                          # Assume brainmodels axis is last, move it to front
-    volmask = axis.volume_mask                               # Which indices on this axis are for voxels?
-    vox_indices = tuple(axis.voxel[axis.volume_mask].T)      # ([x0, x1, ...], [y0, ...], [z0, ...])
-    vol_data = np.zeros(axis.volume_shape + data.shape[1:],  # Volume + any extra dimensions
-                        dtype=data.dtype)
-    vol_data[vox_indices] = data                             # Fancy indexing"
-    return nb.Nifti1Image(vol_data, axis.affine)             # Add affine for spatial interpretation
+
+    brain_model = img.header.get_axis(1)
+    surf_name_L = 'CIFTI_STRUCTURE_CORTEX_LEFT'
+    surf_name_R = 'CIFTI_STRUCTURE_CORTEX_RIGHT'
+
+    result = {}
+
+    for structure_name, data_indices, model in brain_model.iter_structures(): 
+        if structure_name == surf_name_L: 
+            data_L = data.T[data_indices]
+            vtx_indices_L = model.vertex 
+
+            # include inter hemi vertex
+            surf_data_L = np.zeros((vtx_indices_L.max() + 1,) + data_L.shape[1:], dtype=data_L.dtype)
+            surf_data_L[vtx_indices_L] = data_L    
+            surf_data_L = surf_data_L.T 
+
+            # Know where are inter hemi vertex
+            mask_L = np.any(surf_data_L != 0, axis=0)
+
+        elif structure_name == surf_name_R: 
+            data_R = data.T[data_indices]
+            vtx_indices_R = model.vertex 
+
+            # include inter hemi vertex
+            surf_data_R = np.zeros((vtx_indices_R.max() + 1,) + data_R.shape[1:], dtype=data_R.dtype)
+            surf_data_R[vtx_indices_R] = data_R
+            surf_data_R = surf_data_R.T 
+
+            # Know where are inter hemi vertex
+            mask_R = np.any(surf_data_R != 0, axis=0)
+
+    brain_mask_59k = np.concatenate((mask_L, mask_R))
+    
+    if return_concat_hemis:
+        result['data_concat'] = np.concatenate((surf_data_L, surf_data_R), axis=1)
+    else:
+        result['data_L'] = surf_data_L
+        result['data_R'] = surf_data_R
+
+    if return_59k_mask:
+        result['mask_59k'] = brain_mask_59k
 
 
-def surf_data_from_cifti(data, axis, surf_name):
-    import nibabel as nb
-    import numpy as np 
-    assert isinstance(axis, nb.cifti2.BrainModelAxis)
-    for name, data_indices, model in axis.iter_structures():  # Iterates over volumetric and surface structures
-        if name == surf_name:                                 # Just looking for a surface
-            data = data.T[data_indices]                       # Assume brainmodels axis is last, move it to front
-            vtx_indices = model.vertex                        # Generally 1-N, except medial wall vertices
-            surf_data = np.zeros((vtx_indices.max() + 1,) + data.shape[1:], dtype=data.dtype)
-            surf_data[vtx_indices] = data
-            return surf_data
-    raise ValueError(f"No structure named {surf_name}")
-
-
-def decompose_cifti(img):
-    import numpy as np 
-    data = img.get_fdata(dtype=np.float32)
-    brain_models = img.header.get_axis(1)  
-    return (volume_from_cifti(data, brain_models),
-            surf_data_from_cifti(data, brain_models, "CIFTI_STRUCTURE_CORTEX_LEFT").T,
-            surf_data_from_cifti(data, brain_models, "CIFTI_STRUCTURE_CORTEX_RIGHT").T)
+    return result
 
 
 
-#vol, left, right = decompose_cifti(test)
-#print(vol.shape, left.shape, right.shape)
+def from_59k_to_170k(data_59k, brain_mask_59k):
+    """
+    Transform 59k data into 170k data by filling non-59k vertices with numpy.nan.
+
+    Parameters
+    ----------
+    
+    data_59k : The 59k data you want to transform into 170k.
+    data_170k_orig : The original 170k data from which your 59k data originated.
+    brain_mask_59k : 59k brain mask output from from_170k_to_59k.
+    
+    Returns
+    -------
+    The transformed data in 170k format with non-59k vertices filled with numpy.nan.
+    """
+    import numpy as np
+    n_vertex_170k = 170494
+    # mask 59k data to optain only cortex vertex (and not medial wall vertices ) 
+    data_54k = data_59k[:,brain_mask_59k]
+
+    # create an 170k full nan array
+    nan_object = np.full((data_54k.shape[0], n_vertex_170k - data_54k.shape[1]), np.nan)
+    data_170k_final = np.concatenate((data_54k, nan_object), axis=1)
+    
+    return data_170k_final
+

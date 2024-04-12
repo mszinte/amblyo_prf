@@ -1,4 +1,4 @@
-def fit2deriv(fit_array, model, is_loo_r2=False):
+def fit2deriv(fit_array, model,is_loo_r2=False):
     """
     Compute pRF derivatives out of fitting output and predictions
 
@@ -102,8 +102,11 @@ def fit2deriv(fit_array, model, is_loo_r2=False):
     # hrf_2
     hrf_2 = fit_array[hrf_2_idx,...]
     
+    
     # Save results
-    deriv_array = np.zeros((n_params + 3, fit_array.shape[1],)) * np.nan
+
+    deriv_array = np.zeros((n_params + 3,fit_array.shape[1],))*np.nan
+
     deriv_array[0,...] = rsq
     deriv_array[1,...] = ecc
     deriv_array[2,...] = polar_real
@@ -129,6 +132,19 @@ def fit2deriv(fit_array, model, is_loo_r2=False):
     if is_loo_r2:
         deriv_array[-1, ...] = loo_r2
 
+    
+    
+
     deriv_array = deriv_array.astype(np.float32)
 
     return deriv_array
+
+
+
+
+
+
+
+
+
+
