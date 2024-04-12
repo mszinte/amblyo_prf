@@ -32,6 +32,10 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 - [x] go back to cortical magnification codes
 - [ ] get data in roi and fit css model
 - [ ] put main analysis figure together
+- [ ] deal with atlas put in the data folder
+- [ ] put stats in correlation
+- [ ] put code drawing ROIs
+- [ ] deal with correction in averaging 170k prf
 
 ## Data analysis
 ---
@@ -68,9 +72,9 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 ### Post-processing
 
 #### PRF analysis
-- [x] create the visual matrix design [vdm_builder.py](analysis_code/postproc/prf/vdm_builder.py)
 
 #### Gaussian fit
+- [x] create the visual matrix design [vdm_builder.py](analysis_code/postproc/prf/vdm_builder.py)
 - [x] Run pRF gaussian grid fit [prf_submit_gridfit_jobs.py](analysis_code/postproc/prf/fit/prf_submit_gridfit_jobs.py)
 - [x] Compute pRF gaussian grid fit derivatives [compute_gauss_gridfit_derivatives.py](analysis_code/postproc/prf/postfit/compute_gauss_gridfit_derivatives.py)
 - [x] Average pRF derivatives from all subjects in 170k template [170k_averaging.py](analysis_code/postproc/prf/postfit/170k_prf_averaging.py)
@@ -83,12 +87,10 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 - [ ] Draw ROIs on flatmaps
 
 #### Css fit
-- [x] Draw ROIs using Inkscape
 - [ ] Run pRF CSS fit only on the ROIs [prf_submit_css_jobs.py](analysis_code/postproc/prf/fit/prf_submit_css_jobs.py)
-- [ ] Compute population cortical magnification [pcm_sbatch](analysis_code/postproc/pcm/pcm_sbatch.py)
 - [ ] Compute pRF CSS fit derivatives [compute_css_derivatives.py](analysis_code/postproc/prf/postfit/compute_css_derivatives.py)
-- [ ] Make pRF derivatives maps with pycortex [pycortex_maps_css.py](analysis_code/postproc/prf/postfit/pycortex_maps_css.py)
-
+- [ ] Compute population cortical magnification [pcm_sbatch.py](analysis_code/postproc/pcm/pcm_sbatch.py)
+- [ ] Average pRF derivatives from all subjects in 170k template [170k_averaging.py](analysis_code/postproc/prf/postfit/170k_averaging.py) 
 
 ### Main analysis
 - [ ] extract all data as pickle files or tsv [make_tsv.ipynb](analysis_code/postproc/prf/postfit/make_tsv.ipynb)
