@@ -74,7 +74,7 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 #### PRF analysis
 
 #### Gaussian fit
-- [x] create the visual matrix design [vdm_builder.py](analysis_code/postproc/prf/vdm_builder.py)
+- [x] Create the visual matrix design [vdm_builder.py](analysis_code/postproc/prf/vdm_builder.py)
 - [x] Run pRF gaussian grid fit [prf_submit_gridfit_jobs.py](analysis_code/postproc/prf/fit/prf_submit_gridfit_jobs.py)
 - [x] Compute pRF gaussian grid fit derivatives [compute_gauss_gridfit_derivatives.py](analysis_code/postproc/prf/postfit/compute_gauss_gridfit_derivatives.py)
 - [x] Average pRF derivatives from all subjects in 170k template [170k_averaging.py](analysis_code/postproc/prf/postfit/170k_prf_averaging.py)
@@ -83,14 +83,17 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 #### Rois
 - [x] Draw ROIs on individual fsnative using Inkscape
 - [x] Copy sub-170 containing MMP rois from [RetinoMaps](https://github.com/mszinte/RetinoMaps) project [compute_gauss_gridfit_derivatives.py](https://github.com/mszinte/RetinoMaps/blob/main/analysis_code/atlas/create_170k_mmp_rois_mask.ipynb) and mask areas in the overaly that are not covered by data's field of view.
-- [x] Create 170k MMP rois mask [create_170k_mmp_rois_mask.ipynb](analysis_code/atlas/create_170k_mmp_rois_mask.ipynb)
-- [ ] Draw ROIs on flatmaps
+- [ ] Create MMP npz atlas files with ROIs [create_170k_mmp_rois_mask.py](analysis_code/atlas/create_mmp_rois_atlas.py)
+- [x] Draw ROIs on individual fsnative flatmaps
 
 #### Css fit
 - [ ] Run pRF CSS fit only on the ROIs [prf_submit_css_jobs.py](analysis_code/postproc/prf/fit/prf_submit_css_jobs.py)
 - [ ] Compute pRF CSS fit derivatives [compute_css_derivatives.py](analysis_code/postproc/prf/postfit/compute_css_derivatives.py)
 - [ ] Compute population cortical magnification [pcm_sbatch.py](analysis_code/postproc/pcm/pcm_sbatch.py)
-- [ ] Average pRF derivatives from all subjects in 170k template [170k_averaging.py](analysis_code/postproc/prf/postfit/170k_averaging.py) 
+- [ ] Average pRF derivatives from all subjects in 170k template [170k_averaging.py](analysis_code/postproc/prf/postfit/170k_averaging.py)
+- [ ] Run Glm and pRF satistical analysis and combine results [final_stats_sbatch.py](analysis_code/postproc/stats/final_stats_sbatch.py)
+- [ ] Average statistical derivatives from all subjects in 170k template [170k_stats_averaging.py](analysis_code/postproc/stats/170k_stats_averaging.py) 
+- [ ] Make pRF derivatives and pcm maps with pycortex [pycortex_maps_css.py](analysis_code/postproc/prf/postfit/pycortex_maps_css.py)
 
 ### Main analysis
 - [ ] extract all data as pickle files or tsv [make_tsv.ipynb](analysis_code/postproc/prf/postfit/make_tsv.ipynb)
