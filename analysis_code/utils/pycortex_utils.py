@@ -548,8 +548,10 @@ def draw_cortex(subject, data, vmin, vmax, description, cortex_type='VolumeRGB',
     except: base = cortex.utils.get_cmap(cmap)
     
     if '_alpha' in cmap: base.colors = base.colors[1,:,:]
-    val = np.linspace(0, 1,cmap_steps+1,endpoint=False)
+    val = np.linspace(0, 1, cmap_steps, endpoint=False)
+    
     colmap = colors.LinearSegmentedColormap.from_list('my_colmap', base(val), N=cmap_steps)
+
     
     if cortex_type=='VolumeRGB':
         # convert data to RGB
@@ -616,7 +618,6 @@ def draw_cortex(subject, data, vmin, vmax, description, cortex_type='VolumeRGB',
         except: base = cortex.utils.get_cmap(cmap)
         val = np.arange(1,cmap_steps+1)/cmap_steps - (1/(cmap_steps*2))
         val = np.fmod(val+col_offset,1)
-        colmap = colors.LinearSegmentedColormap.from_list('my_colmap', base(val), N=cmap_steps)
         cbar_axis = braindata_fig.add_axes([0.5, 0.07, 0.8, 0.2], projection='polar')
         norm = colors.Normalize(0, 2*np.pi)
         t = np.linspace(0,2*np.pi,200,endpoint=True)
@@ -678,9 +679,9 @@ def draw_cortex(subject, data, vmin, vmax, description, cortex_type='VolumeRGB',
     elif cbar == 'discrete_personalized':
         colorbar_location = [0.05, 0.02, 0.04, 0.3]
         cbar_axis = braindata_fig.add_axes(colorbar_location)
-        norm = mpl.colors.BoundaryNorm(np.linspace(1, len(cmap_dict), len(cmap_dict)),
+        norm = mpl.colors.BoundaryNorm(np.linspace(0, len(cmap_dict), len(cmap_dict)+1),
                                        len(cmap_dict))
-
+        
         cb = mpl.colorbar.ColorbarBase(cbar_axis,
                                        cmap=base.reversed(),
                                        norm=norm, 
@@ -690,12 +691,12 @@ def draw_cortex(subject, data, vmin, vmax, description, cortex_type='VolumeRGB',
         cb.ax.tick_params(size=0, labelsize=15) 
         
     elif cbar == 'glm':
-        # colmap = colors.LinearSegmentedColormap.from_list('my_colmap', base(val), N=cmap_steps)
+        
         val = np.linspace(0, 1, cmap_steps + 1, endpoint=False)
 
         # Exclure les valeurs proches du blanc
         val = val[val > 0.25]
-        colmap = colors.LinearSegmentedColormap.from_list('my_colmap', base(val), N=len(val))
+        
         colmapglm = colors.LinearSegmentedColormap.from_list('my_colmap', base(val), N=len(val))
         colorbar_location = [0.85, 0.02, 0.04, 0.2]
         bounds_label = ['Both','Saccade','Pursuit']  
@@ -710,7 +711,7 @@ def draw_cortex(subject, data, vmin, vmax, description, cortex_type='VolumeRGB',
         # colmap = colors.LinearSegmentedColormap.from_list('my_colmap', base(val), N=cmap_steps)
         val = np.linspace(0, 1, cmap_steps + 1, endpoint=False)
         val = val[val > 0.13]
-        colmap = colors.LinearSegmentedColormap.from_list('my_colmap', base(val), N=len(val))
+        
         colmapglm = colors.LinearSegmentedColormap.from_list('my_colmap', base(val), N=len(val))
         colorbar_location = [0.05, 0.02, 0.04, 0.2]
         bounds_label = ['pursuit', 'saccade', 'pursuit_and_saccade', 'vision', 'vision_and_pursuit', 'vision_and_saccade', 'vision_and_saccade_and_pursuite']  
@@ -739,7 +740,7 @@ def draw_cortex(subject, data, vmin, vmax, description, cortex_type='VolumeRGB',
 
     return braindata
 
-def create_colormap(cortex_dir, colormap_name, colormap_dict):
+def create_colormap(cortex_dir, colormap_name, colormap_dict, recreate=False):
     """
     Add a 1 dimensional colormap in pycortex dataset
     
@@ -761,13 +762,13 @@ def create_colormap(cortex_dir, colormap_name, colormap_dict):
     colormap_fn = '{}/colormaps/{}.png'.format(cortex_dir, colormap_name)
     
     # Create image of the colormap
-    if os.path.isfile(colormap_fn) == False:
+    if (os.path.isfile(colormap_fn) == False) or recreate: 
         image = Image.new("RGB", (len(colormap_dict), 1))
         i = 0
         for color in colormap_dict.values():
             image.putpixel((i, 0), color)
             i +=1
-        print('saving new colormap: {}'.format(colormap_fn))
+        print('Saving new colormap: {}'.format(colormap_fn))
         image.save(colormap_fn)
         
 

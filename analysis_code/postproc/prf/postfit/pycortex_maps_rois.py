@@ -90,10 +90,7 @@ colormap_dict = {'n/a': (255, 255, 255),
                  'VO': (0, 0, 200),
                  'hMT+': (0, 25, 255),
                  'iIPS': (0, 152, 255),
-                 'sIPS': (44, 255, 150),
-                 'iPCS': (151, 255, 0),
-                 'sPCS': (255, 234, 0),
-                 'mPCS': (255, 111, 0)}
+                 'sIPS': (44, 255, 150)}
 create_colormap(cortex_dir=cortex_dir, 
                 colormap_name=colormap_name, 
                 colormap_dict=colormap_dict)
@@ -133,7 +130,8 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
                   'alpha': alpha_mat,
                   'cbar': 'discrete_personalized', 
                   'vmin': 0,
-                  'vmax': 12,
+                  'vmax': 9,
+                  'cmap_steps': len(colormap_dict),
                   'cmap_dict': colormap_dict,
                   'cortex_type': 'VertexRGB',
                   'description': 'pRF ROIs',
