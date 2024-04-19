@@ -442,50 +442,51 @@ def set_pycortex_config_file(cortex_folder):
 
     # Import necessary modules
     import os
+    import sys
     import cortex
     from pathlib import Path
 
-    # Define the new database and colormaps folder
-    pycortex_db_folder = "{}/db/".format(cortex_folder)
-    pycortex_cm_folder = "{}/colormaps/".format(cortex_folder)
-    
     # Get pycortex config file location
     pycortex_config_file  = cortex.options.usercfg
 
-    # Create name of new config file that will be written
-    new_pycortex_config_file = pycortex_config_file[:-4] + '_new.cfg'
-
-    # Create the new config file
-    Path(new_pycortex_config_file).touch()
-
-    # Open the config file in read mode and the newly created one in write mode.
-    # Loop over every line in the original file and copy it into the new one.
-    # For the lines containing either 'filestore' or 'colormap', it will
-    # change the saved folder path to the newly created one above (e.g. pycortex_db_folder)
-    with open(pycortex_config_file, 'r') as fileIn:
-        with open(new_pycortex_config_file, 'w') as fileOut:
-
-            for line in fileIn:
-
-                if 'filestore' in line:
-                    newline = 'filestore=' + pycortex_db_folder
-                    fileOut.write(newline)
-                    newline = '\n'
-
-                elif 'colormaps' in line:
-                    newline = 'colormaps=' + pycortex_cm_folder
-                    fileOut.write(newline)
-                    newline = '\n'
-
-                else:
-                    newline = line
-
-                fileOut.write(newline)
-
+    # Define the filestore and colormaps path
+    filestore_line = 'filestore={}/db/\n'.format(cortex_folder)
+    colormaps_line = 'colormaps={}/colormaps/\n'.format(cortex_folder)
     
-    # Renames the original config file als '_old' and the newly created one to the original name
-    os.rename(pycortex_config_file, pycortex_config_file[:-4] + '_old.cfg')
-    os.rename(new_pycortex_config_file, pycortex_config_file)
+    # Check if path correct
+    with open(pycortex_config_file, 'r') as fileIn:
+        for line in fileIn:
+            if 'filestore' in line:
+                if line==filestore_line: correct_filestore = True
+                else: correct_filestore = False
+            elif 'colormaps' in line:
+                if line==colormaps_line: correct_colormaps = True
+                else: correct_colormaps = False
+                    
+    # Change config file
+    if correct_filestore==False or correct_colormaps==False:
+
+        # Create name of new config file that will be written
+        new_pycortex_config_file = pycortex_config_file[:-4] + '_new.cfg'
+    
+        # Create the new config file
+        Path(new_pycortex_config_file).touch()
+    
+        # Write back the two lines
+        with open(pycortex_config_file, 'r') as fileIn:
+            with open(new_pycortex_config_file, 'w') as fileOut:
+                for line in fileIn:
+                    if 'filestore' in line:
+                        fileOut.write(filestore_line)
+                    elif 'colormaps' in line:
+                        fileOut.write(colormaps_line)
+                    else:
+                        fileOut.write(line)
+                        
+        # Renames the original config file
+        os.rename(new_pycortex_config_file, pycortex_config_file)
+        sys.exit('Pycortex config file changed: please restart your code')
+
     return None
 
 def draw_cortex(subject, data, vmin, vmax, description, cortex_type='VolumeRGB', cmap='Viridis',\
