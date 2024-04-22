@@ -90,7 +90,7 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 #### Css fit
 - [ ] CSS fit within the ROIs [prf_submit_css_jobs.py](analysis_code/postproc/prf/fit/prf_submit_css_jobs.py)
 - [ ] Compute CSS fit derivatives [compute_css_derivatives.py](analysis_code/postproc/prf/postfit/compute_css_derivatives.py)
-- [ ] Compute CSS population cortical magnification [pcm_sbatch.py](analysis_code/postproc/pcm/pcm_sbatch.py)
+- [ ] Compute CSS population cortical magnification [compute_css_pcm.py](analysis_code/postproc/prf/postfit/compute_css_pcm.py)
 
 #### LATER
 - [ ] Compute CSS statistics [final_stats_sbatch.py](analysis_code/postproc/stats/final_stats_sbatch.py)
