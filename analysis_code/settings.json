@@ -28,11 +28,12 @@
     "size_th": [0.05, 20.0],
     "rsqr_th": [0.06, 1],
     "alpha_range":[0, 0.4],
-    "subjects_excluded": ["sub-13"],
     "runs_excluded": [["run-1", "run-4", "run-5"]],
     "sessions_excluded": [["ses-02"]],
     "tasks_excluded": [["prf"]],
-    "rois":["V1", "V2", "V3", "V3AB", "VO", "LO", "hMT+", "iIPS", "sIPS"],
-    "rois_group": [["V1"], ["V2"], ["V3", "V4"], ["V3A", "V3B", "V3CD"], ["V8", "PIT", "PH", "FFC", "VMV1", "VMV2", "VMV3", "VVC"], ["LO1", "LO2", "LO3"], ["V4t", "MST", "MT", "FST"], ["IP0", "IPS1", "V7", "MIP", "7PI", "IP1", "V6A"], ["PEF", "IFJp", "6v", "IFJa", "55b"], ["VIP", "LIPv", "LIPd", "IP2", "7PC", "AIP", "7AL", "7Am", "7Pm"]],
-    "vertex_pcm_rad": 2
+    "rois":["V1", "V2", "V3", "V3AB", "LO", "VO", "hMT+", "iIPS", "sIPS"],
+    "rois_group": [["V1"], ["V2"], ["V3", "V4"], ["V3A", "V3B", "V3CD"], ["LO1", "LO2", "LO3"], ["V8", "PIT", "PH", "FFC", "VMV1", "VMV2", "VMV3", "VVC"], ["V4t", "MST", "MT", "FST"], ["IP0", "IPS1", "V7", "MIP", "IP1", "V6A", "7Pl"], ["VIP", "LIPv", "LIPd", "IP2", "7PC", "AIP", "7AL", "7Am", "7Pm"]],
+    "vertex_pcm_rad": 3,
+    "maps_names_css": ["prf_rsq", "prf_ecc", "polar_real", "polar_imag", "prf_size", "amplitude", "baseline", "prf_x", "prf_y", "hrf_1", "hrf_2", "prf_n", "prf_loo_r2"],
+    "maps_names_pcm": ["pcm"]
 }
