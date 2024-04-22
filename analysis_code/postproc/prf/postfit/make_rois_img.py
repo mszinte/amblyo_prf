@@ -37,7 +37,6 @@ deb = ipdb.set_trace
 
 # General imports
 import os
-import importlib
 import cortex
 import sys
 import json
@@ -66,7 +65,6 @@ group = sys.argv[4]
 # Set pycortex db and colormaps
 cortex_dir = "{}/{}/derivatives/pp_data/cortex".format(main_dir, project_dir)
 set_pycortex_config_file(cortex_dir)
-importlib.reload(cortex)
 
 # Create roi image files
 for format_, extension in zip(formats, extensions): 
@@ -112,7 +110,7 @@ for format_, extension in zip(formats, extensions):
     elif format_ == '170k':
         roi_verts_dict = get_rois(subject, 
                                   return_concat_hemis=True, 
-                                  rois=rois, 
+                                  rois=rois,
                                   mask=True, 
                                   atlas_name='mmp_group', 
                                   surf_size='170k')

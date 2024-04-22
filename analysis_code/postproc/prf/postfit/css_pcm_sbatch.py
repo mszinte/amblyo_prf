@@ -1,56 +1,56 @@
 """
 -----------------------------------------------------------------------------------------
-pcm_sbatch.py
+css_pcm_sbatch.py
 -----------------------------------------------------------------------------------------
 Goal of the script:
-Run computation of population cortical magnification
+Run computation of CSS population cortical magnification
 -----------------------------------------------------------------------------------------
 Input(s):
 sys.argv[1]: main project directory
 sys.argv[2]: project name (correspond to directory)
 sys.argv[3]: subject name (e.g. sub-01)
 sys.argv[4]: group (e.g. 327)
-sys.argv[5]: model (e.g. css)
+sys.argv[5]: server project number (e.g. b327)
 -----------------------------------------------------------------------------------------
 Output(s):
 sh file for running batch command
 -----------------------------------------------------------------------------------------
 To run:
 1. cd to function
->> cd ~/projects/RetinoMaps/analysis_code/postproc/pcm
+>> cd ~/projects/[PROJECT]/analysis_code/postproc/pcm
 2. run python command
->> python pcm_sbatch.py [main directory] [project name] [subject num] [group] [server_project] [model]
+>> python css_pcm_sbatch.py [main directory] [project] [subject] [group] [server]
 -----------------------------------------------------------------------------------------
 Exemple:
-python pcm_sbatch.py /scratch/mszinte/data RetinoMaps sub-01 327 b327 css
+python css_pcm_sbatch.py /scratch/mszinte/data amblyo_prf sub-01 327 b327
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
+Edited by Uriel Lascombes (uriel.lascombes@laposte.net)
 -----------------------------------------------------------------------------------------
 """
 
-# stop warnings
+# Stop warnings
 import warnings
 warnings.filterwarnings("ignore")
 
-# general imports
+# General imports
 import json
 import os
 import sys
 import ipdb
 deb = ipdb.set_trace
 
-# define analysis parameters
-with open('../../settings.json') as f:
+# Define analysis parameters
+with open('../../../settings.json') as f:
     json_s = f.read()
     analysis_info = json.loads(json_s)
 
-# inputs
+# Inputs
 main_dir = sys.argv[1]
 project_dir = sys.argv[2]
 subject = sys.argv[3]
 group = sys.argv[4]
 server_project = sys.argv[5]
-model = sys.argv[6]
 
 # Define cluster/server specific parameters
 cluster_name  = analysis_info['cluster_name']
@@ -58,7 +58,7 @@ nb_procs = 8
 memory_val = 48
 hour_proc = 4
 
-# set folders
+# Set folders
 log_dir = "{}/{}/derivatives/pp_data/{}/log_outputs".format(main_dir, 
                                                             project_dir, 
                                                             subject)
@@ -78,18 +78,16 @@ slurm_cmd = """\
 #SBATCH --time={hour_proc}:00:00
 #SBATCH -e {log_dir}/{subject}_pcm_%N_%j_%a.err
 #SBATCH -o {log_dir}/{subject}_pcm_%N_%j_%a.out
-#SBATCH -J {subject}_pcm
+#SBATCH -J {subject}_css_pcm
 """.format(server_project=server_project, cluster_name=cluster_name,
            nb_procs=nb_procs, hour_proc=hour_proc, 
            subject=subject, memory_val=memory_val, log_dir=log_dir)
-    
-compute_pcm_cmd = "python compute_pcm.py {} {} {} {} {}".format(main_dir, 
-                                                                project_dir, 
-                                                                subject, 
-                                                                group, 
-                                                                model)
-# create sh fn
-sh_fn = "{}/{}_pcm.sh".format(job_dir, subject)
+
+compute_pcm_cmd = "python compute_css_pcm.py {} {} {} {}".format(
+    main_dir, project_dir, subject, group)
+
+# Create sh fn
+sh_fn = "{}/{}_css_pcm.sh".format(job_dir, subject)
 
 of = open(sh_fn, 'w')
 of.write("{}".format(slurm_cmd))
