@@ -17,7 +17,7 @@ sh file for running batch command
 -----------------------------------------------------------------------------------------
 To run:
 1. cd to function
->> cd ~/projects/[PROJECT]/analysis_code/postproc/pcm
+>> cd ~/projects/[PROJECT]/analysis_code/postproc/prf/postfit/
 2. run python command
 >> python css_pcm_sbatch.py [main directory] [project] [subject] [group] [server]
 -----------------------------------------------------------------------------------------
