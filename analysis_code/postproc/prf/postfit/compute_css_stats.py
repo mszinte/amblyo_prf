@@ -154,7 +154,7 @@ for loo_stats_fns in loo_stats_fns_list:
     for n_run, loo_stats_fn in enumerate(loo_stats_fns):
         loo_stats_avg_fn = loo_stats_fn.split('/')[-1]
         loo_stats_avg_fn = re.sub(r'avg_loo-\d+_prf-stats', 'loo-avg_prf-stats', loo_stats_avg_fn)
-        
+
         # Load data 
         print('adding {} to loo computation'.format(loo_stats_fn))
         loo_stats_img, loo_stats_data = load_surface(fn=loo_stats_fn)
