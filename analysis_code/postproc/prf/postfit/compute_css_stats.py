@@ -160,7 +160,7 @@ for loo_stats_fns in loo_stats_fns_list:
             
     # Compute two sided corrected p-values
     t_statistic = loo_stats_data_avg[slope_idx, :] / loo_stats_data_avg[stderr_idx, :]
-    degrees_of_freedom = loo_stats_data_avg[strs_idx, 0] - 2
+    degrees_of_freedom = np.nanmax(loo_stats_data_avg[trs_idx, :]) - 2
     p_values = 2 * (1 - stats.t.cdf(abs(t_statistic), df=degrees_of_freedom)) 
     corrected_p_values = multipletests_surface(pvals=p_values, 
                                                correction='fdr_tsbh', 
