@@ -38,15 +38,14 @@ def plotly_template(template_specs):
                                     showlegend=False,
                                     )]
 
+    # Barpolar
     fig_template.data.barpolar = [go.Barpolar(
                                     marker_line_color="rgba(0,0,0,1)",
                                     marker_line_width=template_specs['plot_width'], 
                                     showlegend=False, 
-                                    thetaunit = 'radians'
                                     )]
     # Pie plots
-    fig_template.data.pie = [go.Pie(showlegend=False,
-                                    textposition=["inside","none"],
+    fig_template.data.pie = [go.Pie(textposition=["inside","none"],
                                     marker_line_color=['rgba(0,0,0,1)','rgba(255,255,255,0)'],
                                     marker_line_width=[template_specs['plot_width'],0],
                                     rotation=0,
@@ -61,7 +60,7 @@ def plotly_template(template_specs):
                                     font_size=template_specs['axes_font_size'],
                                     plot_bgcolor=template_specs['bg_col'],
 
-                                    # x axis
+                                    # # x axis
                                     xaxis_visible=True,
                                     xaxis_linewidth=template_specs['axes_width'],
                                     xaxis_color= template_specs['axes_color'],
@@ -76,7 +75,7 @@ def plotly_template(template_specs):
                                     xaxis_zeroline=False,
                                     xaxis_zerolinecolor=template_specs['axes_color'],
                                     xaxis_zerolinewidth=template_specs['axes_width'],
-                                    xaxis_range=[0,1],
+                                    # xaxis_range=[0,1],
                                     xaxis_hoverformat = '.1f',
                                     
                                     # y axis
@@ -235,7 +234,7 @@ def prf_violins_plot(data, fig_width, fig_height, rois, roi_colors):
                       legend=dict(orientation="h", 
                                   font_family=template_specs['font'],
                                   font_size=template_specs['axes_font_size'],
-                                  y=1.08, 
+                                  y=1.1, 
                                   yanchor='top', 
                                   xanchor='left', 
                                   traceorder='normal', 
@@ -248,7 +247,7 @@ def prf_violins_plot(data, fig_width, fig_height, rois, roi_colors):
     
     return fig 
 
-def prf_ecc_size_plot(data, fig_width, fig_height, rois, roi_colors, plot_groups, ecc_bins):
+def prf_ecc_size_plot(data, fig_width, fig_height, rois, roi_colors, plot_groups, num_bins, max_ecc):
     """
     Make scatter plot for linear relationship between eccentricity and size
 
@@ -260,7 +259,8 @@ def prf_ecc_size_plot(data, fig_width, fig_height, rois, roi_colors, plot_groups
     rois : list of rois
     roi_colors : list of rgb colors for plotly
     plot_groups : groups of roi to plot together
-    ecc_bins: eccentricity bins
+    num_bins : number of eccentricity bins
+    max_ecc : maximum eccentricity 
     
     Returns
     -------
@@ -283,6 +283,7 @@ def prf_ecc_size_plot(data, fig_width, fig_height, rois, roi_colors, plot_groups
     fig_template = plotly_template(template_specs)
 
     # General settings
+    ecc_bins = np.linspace(0.1, 1, num_bins+1)**2 * max_ecc
     rows, cols = 1, len(plot_groups)
     fig = make_subplots(rows=rows, cols=cols, print_grid=False)
     
@@ -369,7 +370,7 @@ def prf_ecc_size_plot(data, fig_width, fig_height, rois, roi_colors, plot_groups
         
     return fig
 
-def prf_ecc_pcm_plot(data, fig_width, fig_height, rois, roi_colors, plot_groups, ecc_bins):
+def prf_ecc_pcm_plot(data, fig_width, fig_height, rois, roi_colors, plot_groups, num_bins, max_ecc):
     """
     Make scatter plot for relationship between eccentricity and pCM
 
@@ -381,7 +382,8 @@ def prf_ecc_pcm_plot(data, fig_width, fig_height, rois, roi_colors, plot_groups,
     rois : list of rois
     roi_colors : list of rgb colors for plotly
     plot_groups : groups of roi to plot together
-    ecc_bins: eccentricity bins
+    num_bins : number of eccentricity bins
+    max_ecc : maximum eccentricity 
     
     Returns
     -------
@@ -389,8 +391,7 @@ def prf_ecc_pcm_plot(data, fig_width, fig_height, rois, roi_colors, plot_groups,
     """
 
     from maths_utils import weighted_regression, bootstrap_ci_mean
-    data = data.copy()
-
+    
     # General figure settings
     template_specs = dict(axes_color="rgba(0, 0, 0, 1)",
                           axes_width=2,
@@ -401,6 +402,7 @@ def prf_ecc_pcm_plot(data, fig_width, fig_height, rois, roi_colors, plot_groups,
                           plot_width=1.5)
     
     # General figure settings
+    ecc_bins = np.linspace(0.1, 1, num_bins+1)**2 * max_ecc
     fig_template = plotly_template(template_specs)
 
     # General settings
@@ -494,145 +496,158 @@ def prf_ecc_pcm_plot(data, fig_width, fig_height, rois, roi_colors, plot_groups,
         
     return fig
 
-def prf_polar_plot(data, subject, fig_height, fig_width, ecc_th=[None,None], size_th=[None,None], rsq_th=[None,None]) :    
+def prf_polar_plot(data, fig_width, fig_height, rois, roi_colors, num_bins) :    
     """
-     Make polar plots
+    Make polar plots
     
-     Parameters
-     ----------
-     data : A data frame with prf_rsq, prf_ecc, prf_size, prf_loo_r2, rois and subject columns
+    Parameters
+    ----------
+    data : A data dataframe
+    fig_width : figure width in pixels
+    fig_height : figure height in pixels
+    rois : list of rois
+    roi_colors : list of rgb colors for plotly
+    num_bins : bins for the polar angle 
      
-     Returns
-     -------
-     figs : a list of three figures
-     hemispheres : a list of corresponding hemispheres
+    Returns
+    -------
+    figs : a list of three figures
+    hemispheres : a list of corresponding hemispheres
     """
-    data = data.copy()
+    # General figure settings
+    template_specs = dict(axes_color="rgba(0, 0, 0, 1)",
+                          axes_width=2,
+                          axes_font_size=15,
+                          bg_col="rgba(255, 255, 255, 1)",
+                          font='Arial',
+                          title_font_size=15,
+                          plot_width=1.5)
+    
+    # General figure settings
+    fig_template = plotly_template(template_specs)
+
+    # General settings
+    rows, cols = 1, len(rois)
+    hemis = np.append(pd.unique(data.hemi), 'hemi-LR')
     data['prf_angle'] = np.angle(data.polar_real + 1j * data.polar_imag)
-    
-    # Replace all data outer threshold with NaN data
-    data.loc[(data.prf_ecc < ecc_th[0]) | (data.prf_ecc > ecc_th[1]) | 
-             (data.prf_size < size_th[0]) | (data.prf_size > size_th[1]) | 
-             (data.prf_loo_r2 <=rsq_th[0])] = np.nan
-    data = data.dropna()
-    
-    rois = pd.unique(data.rois)
-    hemis = np.append(pd.unique(data.hemi), 'brain')
-    
-    roi_colors = px.colors.sequential.Sunset[:4] + px.colors.sequential.Rainbow[:]
-    
-    rows, cols = 1, 12
-    # fig_height, fig_width = 300, 1920
     specs = [[{'type': 'polar'}] * cols]
-    num_slices = 12
     
     figs = []
     hemispheres = []
     for i, hemi in enumerate(hemis):
         fig = make_subplots(rows=rows, cols=cols, print_grid=False, specs=specs)
         
-        hemi_values = ['hemi-L', 'hemi-R'] if hemi == 'brain' else [hemi]
+        hemi_values = ['hemi-L', 'hemi-R'] if hemi == 'hemi-LR' else [hemi]
     
         for j, roi in enumerate(rois):
+            if j == 0: showlegend = True
+            else: showlegend = False
     
-            df = data.loc[(data.subject == subject) & (data.rois==roi) & (data.hemi.isin(hemi_values))]
-            df = df.sort_values('prf_loo_r2', ascending=False)
-            df = df.head(250)
+            df = data.loc[(data.roi==roi) & (data.hemi.isin(hemi_values))]
     
-            #Conversion
+            # Conversion
             df.prf_angle = np.degrees(df.prf_angle)
             df.prf_angle = np.mod(df.prf_angle, 360)
     
             # Parts of polar angles and number of voxels in each part
-            theta_slices = np.linspace(0, 360, num_slices+1, endpoint=True)
-            voxels_counts, _ = np.histogram(df.prf_angle, bins=theta_slices)
+            theta_slices = np.linspace(0, 360, num_bins+1, endpoint=True)
+            vertex_counts, _ = np.histogram(df.prf_angle, bins=theta_slices)
     
             # barpolar
-            fig.add_trace(go.Barpolar(r=voxels_counts, 
+            fig.add_trace(go.Barpolar(r=vertex_counts, 
                                       theta=theta_slices, 
                                       width=30, 
                                       marker_color=roi_colors[j], 
                                       marker_line_color='black', 
                                       marker_line_width=1, 
-                                      opacity=0.8), 
+                                      opacity=0.8,
+                                      showlegend=True,
+                                      name=roi, 
+                                     ), 
                           row=1, col=j+1)
     
         # Define parameters
         fig.update_polars(angularaxis=dict(visible=False), 
                           radialaxis=dict(visible=False))
         
-        fig.update_layout(title='{}'.format(hemi), 
-                          height=fig_height, 
+        fig.update_layout(height=fig_height, 
                           width=fig_width, 
-                          showlegend=False, 
-                          template='simple_white')
+                          legend=dict(orientation="h", 
+                                  font_family=template_specs['font'],
+                                  font_size=template_specs['axes_font_size'],
+                                  y=1.1, 
+                                  yanchor='top', 
+                                  xanchor='left', 
+                                  traceorder='normal', 
+                                  itemwidth=30), 
+                          template=fig_template,
+                          margin_l=50, 
+                          margin_r=50, 
+                          margin_t=50, 
+                          margin_b=50)
+                          
         figs.append(fig)
         hemispheres.append(hemi)
         
     return figs, hemispheres
 
-
-
-def prf_contralaterality_plot(data, subject, fig_height, fig_width, ecc_th=[None,None], size_th=[None,None], rsq_th=[None,None]) :    
+def prf_contralaterality_plot(data, fig_height, fig_width, rois, roi_colors):
     """
-     Make polar plots
+    Make contralaterality pie plot
     
-     Parameters
-     ----------
-     data : A data frame with prf_rsq, prf_ecc, prf_size, prf_loo_r2, rois and subject columns
+    Parameters
+    ----------
+    data : A data dataframe
+    fig_width : figure width in pixels
+    fig_height : figure height in pixels
+    rois : list of rois
+    roi_colors : list of rgb colors for plotly
      
-     Returns
-     -------
-     figs : a list of three figures
-     hemispheres : a list of corresponding hemispheres
+    Returns
+    -------
+    fig : contralaterality figure
     """
-    data = data.copy()
-    # Replace all data outer threshold with NaN data
-    data.loc[(data.prf_ecc < ecc_th[0]) | (data.prf_ecc > ecc_th[1]) | 
-             (data.prf_size < size_th[0]) | (data.prf_size > size_th[1]) | 
-             (data.prf_loo_r2 <=rsq_th[0])] = np.nan
-    data = data.dropna()
-    
-    rois = pd.unique(data.rois)
-    
-    rows, cols = 1, 12
-    # fig_height, fig_width = 300, 1920
-    specs = [[{'type': 'pie'}] * cols]
-    
-    roi_colors = px.colors.sequential.Sunset[:4] + px.colors.sequential.Rainbow[:]
-    
 
+    # General figure settings
+    template_specs = dict(axes_color="rgba(0, 0, 0, 1)",
+                          axes_width=2,
+                          axes_font_size=15,
+                          bg_col="rgba(255, 255, 255, 1)",
+                          font='Arial',
+                          title_font_size=15,
+                          plot_width=1.5)
+    
+    # General figure settings
+    fig_template = plotly_template(template_specs)
+
+    # General settings
+    rows, cols = 1, len(rois)
+    specs = [[{'type': 'pie'}] * cols]    
     fig = make_subplots(rows=rows, cols=cols, print_grid=False, specs=specs)
-    for j, roi in enumerate(rois):
-        
-        df_rh = data.loc[(data.subject == subject) & (data.rois == roi) & (data.hemi == 'hemi-R')]
-        df_lh = data.loc[(data.subject == subject) & (data.rois == roi) & (data.hemi == 'hemi-L')]
-        
-        # # Calculer le pourcentage de contralatéralité pour chaque hémisphère pondéré par RSQ
-        # percentage_right = sum(df_rh.loc[df_rh.prf_x < 0].prf_loo_r2) / sum(df_rh.prf_loo_r2) * 100
-        # percentage_left = sum(df_lh.loc[df_lh.prf_x > 0].prf_loo_r2) / sum(df_lh.prf_loo_r2) * 100
-
-        # Calculer le pourcentage d'excentricité total
-        percentage_total = (sum(df_rh.loc[df_rh.prf_x < 0].prf_loo_r2) + sum(df_lh.loc[df_lh.prf_x > 0].prf_loo_r2))/ (sum(df_rh.prf_loo_r2)+sum(df_lh.prf_loo_r2)) *100
     
-        # print("{} - Contralateralité in {}: {:.1f}%".format(subject, roi, percentage_total))
-        percentage_rest = 100 - percentage_total        
-        
+    for j, roi in enumerate(rois):
+        df_rh = data.loc[(data.roi == roi) & (data.hemi == 'hemi-R')]
+        df_lh = data.loc[(data.roi == roi) & (data.hemi == 'hemi-L')]
+        percentage_total = (sum(df_rh.loc[df_rh.prf_x < 0].prf_loo_r2) + sum(df_lh.loc[df_lh.prf_x > 0].prf_loo_r2)) / (sum(df_rh.prf_loo_r2) + sum(df_lh.prf_loo_r2))
+        percentage_rest = 1 - percentage_total
         values = [percentage_total, percentage_rest]
         
         fig.add_trace(go.Pie(values=values,
-                             hole=0.5,
-                             marker=dict(colors=[roi_colors[j], 'white'], line=dict(color=['black', 'white'], width=[1,0])),
-                             showlegend=False,
-                             pull=[0, 0.01],
-                             rotation=percentage_total*3.6 if percentage_total < percentage_rest else 0,
-                             ), row=1, col=j+1)
+                             marker=dict(colors=[roi_colors[j], 'white'],
+                                         line=dict(color=['black', 'white'],
+                                                   width=[1,0])),
+                             rotation=percentage_total * 360 if percentage_total < percentage_rest else 0,),
+                      row=1, col=j+1)
 
     # Define parameters
     fig.update_layout(height=fig_height, 
                       width=fig_width, 
-                      showlegend=False, 
-                      template='simple_white')
+                      showlegend=False,
+                      template=fig_template,
+                      margin_l=50, 
+                      margin_r=50, 
+                      margin_t=50, 
+                      margin_b=50)
     
     return fig 
     

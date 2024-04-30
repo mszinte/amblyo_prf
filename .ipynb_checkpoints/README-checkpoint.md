@@ -91,7 +91,7 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 - [x] Make CSS fit derivatives and pcm maps with pycortex [pycortex_maps_css.py](analysis_code/postproc/prf/postfit/pycortex_maps_css.py)
 - [ ] Make CSS fit derivatives and pcm maps webgl with pycortex
 - [x] Make TSV with CSS fit derivatives, pcm and statistics [make_tsv_css.py](analysis_code/postproc/prf/postfit/make_tsv_css.py)
-- [ ] Make pRF derivatives and pcm main figures
+- [ ] Make pRF derivatives and pcm main figures [make_rois_fig.py](analysis_code/postproc/prf/postfit/make_rois_fig.py)
 
 #### LATER
 
