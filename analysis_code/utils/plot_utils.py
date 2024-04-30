@@ -4,6 +4,8 @@ import plotly.express as px
 from plotly.subplots import make_subplots
 import numpy as np
 import pandas as pd
+import ipdb
+deb = ipdb.set_trace
 
 def plotly_template(template_specs):
     """
@@ -311,20 +313,18 @@ def prf_ecc_size_plot(data, fig_width, fig_height, rois, roi_colors, plot_groups
             
             # Linear regression
             slope, intercept = weighted_regression(ecc_mean, sd_mean, r2_mean, model='linear')
-            
             slope_upper, intercept_upper = weighted_regression(ecc_mean[np.where(~np.isnan(upper_bound))], 
                                                                 upper_bound[~np.isnan(upper_bound)], 
                                                                 r2_mean[np.where(~np.isnan(upper_bound))], 
                                                                 model='linear')
-            
             slope_lower, intercept_lower = weighted_regression(ecc_mean[np.where(~np.isnan(lower_bound))], 
                                                                 lower_bound[~np.isnan(lower_bound)], 
                                                                 r2_mean[np.where(~np.isnan(lower_bound))], 
                                                                 model='linear')
             
-            line = slope[0][0] * np.array(df_sorted.prf_ecc) + intercept[0]
-            line_upper = slope_upper[0][0] * np.array(df_sorted.prf_ecc) + intercept_upper[0]
-            line_lower = slope_lower[0][0] * np.array(df_sorted.prf_ecc) + intercept_lower[0]
+            line = slope * np.array(df_sorted.prf_ecc) + intercept
+            line_upper = slope_upper * np.array(df_sorted.prf_ecc) + intercept_upper
+            line_lower = slope_lower * np.array(df_sorted.prf_ecc) + intercept_lower
 
             fig.add_trace(go.Scatter(x=np.array(df_sorted.prf_ecc), y=line, mode='lines', name=roi, legendgroup=roi, 
                                       line=dict(color=roi_color, width=3), showlegend=False), 
@@ -628,7 +628,12 @@ def prf_contralaterality_plot(data, fig_height, fig_width, rois, roi_colors):
     for j, roi in enumerate(rois):
         df_rh = data.loc[(data.roi == roi) & (data.hemi == 'hemi-R')]
         df_lh = data.loc[(data.roi == roi) & (data.hemi == 'hemi-L')]
-        percentage_total = (sum(df_rh.loc[df_rh.prf_x < 0].prf_loo_r2) + sum(df_lh.loc[df_lh.prf_x > 0].prf_loo_r2)) / (sum(df_rh.prf_loo_r2) + sum(df_lh.prf_loo_r2))
+        try: 
+            percentage_total = (sum(df_rh.loc[df_rh.prf_x < 0].prf_loo_r2) + sum(df_lh.loc[df_lh.prf_x > 0].prf_loo_r2)) \
+                                / (sum(df_rh.prf_loo_r2) + sum(df_lh.prf_loo_r2))
+        except: 
+            percentage_total = np.nan
+            
         percentage_rest = 1 - percentage_total
         values = [percentage_total, percentage_rest]
         
