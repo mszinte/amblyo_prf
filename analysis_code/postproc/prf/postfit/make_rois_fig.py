@@ -104,7 +104,6 @@ for format_, extension in zip(formats, extensions):
     data.loc[(data.amplitude < amplitude_th) |                                    # amplitude 
              (data.prf_ecc < ecc_th[0]) | (data.prf_ecc > ecc_th[1]) |            # eccentricity 
              (data.prf_size < size_th[0]) | (data.prf_size > size_th[1]) |        # size
-             # (data.pcm < pcm_th[0]) | (data.pcm > pcm_th[1]) |                    # pcm
              (data.prf_loo_r2 < rsqr_th) |                                        # loo rsqr
              (data[stats_col] > stats_th)                                         # stats
               ] = np.nan
