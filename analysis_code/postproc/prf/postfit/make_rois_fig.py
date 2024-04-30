@@ -80,10 +80,11 @@ colormap_dict = {'V1': (243, 231, 155),
                  'sIPS': (44, 255, 150)}
 roi_colors = ['rgb({},{},{})'.format(*rgb) for rgb in colormap_dict.values()]
 plot_groups = [['V1', 'V2', 'V3'], ['V3AB', 'LO', 'VO'], ['hMT+', 'iIPS', 'sIPS']]
-num_ecc_size_bins = 5
-num_ecc_pcm_bins = 5
+num_ecc_size_bins = 8
+num_ecc_pcm_bins = 8
 num_polar_bins = 12
 max_ecc = 15
+fig_width = 990 # 1320 for 12 areas
 
 # Format loop
 for format_, extension in zip(formats, extensions):
@@ -103,34 +104,41 @@ for format_, extension in zip(formats, extensions):
     data.loc[(data.amplitude < amplitude_th) |                                    # amplitude 
              (data.prf_ecc < ecc_th[0]) | (data.prf_ecc > ecc_th[1]) |            # eccentricity 
              (data.prf_size < size_th[0]) | (data.prf_size > size_th[1]) |        # size
-             (data.pcm < pcm_th[0]) | (data.pcm > pcm_th[1]) |                    # pcm
+             # (data.pcm < pcm_th[0]) | (data.pcm > pcm_th[1]) |                    # pcm
              (data.prf_loo_r2 < rsqr_th) |                                        # loo rsqr
              (data[stats_col] > stats_th)                                         # stats
               ] = np.nan
     data = data.dropna()
 
+    # Stats plot
+    # col 1 / row 1 => surface area per ROI, surface area significant at 0.05
+    # col 2 / row 1 => surface area per ROI, surface area significant at 0.01
+    
     # Violins plots
     fig_fn = "{}/{}_prf_violins.pdf".format(fig_dir, subject)
     print('Saving {}'.format(fig_fn))
-    fig = prf_violins_plot(data=data, fig_width=1000, fig_height=600, rois=rois, roi_colors=roi_colors)
+    fig = prf_violins_plot(data=data, fig_width=fig_width, fig_height=600, rois=rois, roi_colors=roi_colors)
     fig.write_image(fig_fn)
 
     # Ecc.size plots
     fig_fn = "{}/{}_prf_ecc_size.pdf".format(fig_dir, subject)
     print('Saving {}'.format(fig_fn))
-    fig = prf_ecc_size_plot(data=data, fig_width=1000, fig_height=400, rois=rois, roi_colors=roi_colors,
+    fig = prf_ecc_size_plot(data=data, fig_width=fig_width, fig_height=400, rois=rois, roi_colors=roi_colors,
                             plot_groups=plot_groups, num_bins=num_ecc_size_bins, max_ecc=max_ecc)
     fig.write_image(fig_fn)
 
     # Ecc.pCM plot
+    data_pcm = data.copy()
+    data_pcm.loc[(data_pcm.pcm < pcm_th[0]) | (data_pcm.pcm > pcm_th[1])] = np.nan
+    data_pcm = data_pcm.dropna()
     fig_fn = "{}/{}_prf_ecc_pcm.pdf".format(fig_dir, subject)
-    fig = prf_ecc_pcm_plot(data, fig_width=1000, fig_height=400, rois=rois, roi_colors=roi_colors,
+    fig = prf_ecc_pcm_plot(data_pcm, fig_width=fig_width, fig_height=400, rois=rois, roi_colors=roi_colors,
                            plot_groups=plot_groups, num_bins=num_ecc_pcm_bins, max_ecc=max_ecc)
     print('Saving {}'.format(fig_fn))
     fig.write_image(fig_fn)
     
     # Polar angle distributions
-    figs, hemis = prf_polar_plot(data, fig_width=1000, fig_height=300, rois=rois, roi_colors=roi_colors, num_bins=num_polar_bins)
+    figs, hemis = prf_polar_plot(data, fig_width=fig_width, fig_height=300, rois=rois, roi_colors=roi_colors, num_bins=num_polar_bins)
     for (fig, hemi) in zip(figs, hemis):
         fig_fn = "{}/{}_prf_polar_angle_{}.pdf".format(fig_dir, subject, hemi)
         print('Saving {}'.format(fig_fn))
@@ -138,14 +146,10 @@ for format_, extension in zip(formats, extensions):
 
     # Contralaterality plots
     fig_fn = "{}/{}_contralaterality.pdf".format(fig_dir, subject)
-    fig = prf_contralaterality_plot(data, fig_width=1000, fig_height=300, rois=rois, roi_colors=roi_colors)
+    fig = prf_contralaterality_plot(data, fig_width=fig_width, fig_height=300, rois=rois, roi_colors=roi_colors)
     fig.write_image(fig_fn)
 
     # Spatial distibution plot
-    
-    # Stats plot
-    # col 1 / row 1 => surface area per ROI, surface area significant at 0.05
-    # col 2 / row 1 => surface area per ROI, surface area significant at 0.01
     
 # Define permission cmd
 print('Changing files permissions in {}/{}'.format(main_dir, project_dir))
