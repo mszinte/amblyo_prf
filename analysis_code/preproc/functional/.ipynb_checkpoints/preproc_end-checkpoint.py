@@ -1,10 +1,9 @@
-
 """
 -----------------------------------------------------------------------------------------
 preproc_end.py
 -----------------------------------------------------------------------------------------
 Goal of the script:
-High-pass filter, z-score, average, loo average and pick anat files
+High-pass filter, z-score, average, loo average, vertex area and pick anat files
 -----------------------------------------------------------------------------------------
 Input(s):
 sys.argv[1]: main project directory
@@ -13,7 +12,7 @@ sys.argv[3]: subject name
 sys.argv[4]: group of shared data (e.g. 327)
 -----------------------------------------------------------------------------------------
 Output(s):
-# Preprocessed and averaged timeseries files
+# Preprocessed averaged and vertex area files timeseries files
 -----------------------------------------------------------------------------------------
 To run:
 1. cd to function
