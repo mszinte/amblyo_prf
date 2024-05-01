@@ -25,12 +25,6 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 
 ## To do
 ---
-- [x] run and check preproc_end on all participants
-- [x] work on pycortext correlation once we have a surface_pycortex loader (see uriel's code)
-- [x] fit data prf with gridfit
-- [x] draw ROIs
-- [x] go back to cortical magnification codes
-- [x] get data in roi and fit css model
 - [ ] make logarithmic scale for colormap of cortical magnification
 
 ## Data analysis
