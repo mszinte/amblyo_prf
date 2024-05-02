@@ -750,7 +750,7 @@ def prf_roi_area(data, fig_width, fig_height, roi_colors):
                      ticklen=0, 
                      linecolor=('rgba(255,255,255,0)'))      
     
-    fig.update_yaxes(range=[0,80], 
+    fig.update_yaxes(range=[0,100], 
                      showline=True, 
                      nticks=5, 
                      title_text='Surface area (cm<sup>2</sup>)',secondary_y=False)
