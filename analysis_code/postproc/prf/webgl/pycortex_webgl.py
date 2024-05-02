@@ -1,6 +1,6 @@
 """
 -----------------------------------------------------------------------------------------
-pycortex_webgl_css.py
+pycortex_webgl.py
 -----------------------------------------------------------------------------------------
 Goal of the script:
 Create combined webgl per participants
@@ -10,19 +10,19 @@ sys.argv[1]: main project directory
 sys.argv[2]: project name (correspond to directory)
 sys.argv[3]: subject name (e.g. sub-01)
 sys.argv[4]: server group (e.g. 327)
+sys.argv[5]: recache pycortex
 -----------------------------------------------------------------------------------------
 Output(s):
 Pycortex webgl
 -----------------------------------------------------------------------------------------
 To run:
-0. TO RUN ON INVIBE SERVER (with Inkscape)
 1. cd to function
->> cd ~/disks/meso_H/projects/[PROJECT]/analysis_code/postproc/prf/webgl/
+>> cd ~/projects/[PROJECT]/analysis_code/postproc/prf/webgl/
 2. run python command
->> python pycortex_webgl_css.py [main directory] [project] [subject] [group]
+>> python pycortex_webgl.py [main dir] [project] [subject] [group] [recache]
 -----------------------------------------------------------------------------------------
 Exemple:
-python pycortex_webgl_css.py ~/disks/meso_S/data amblyo_prf sub-01 327
+python pycortex_webgl.py /scratch/mszinte/data amblyo_prf sub-01 327 1
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (mail@martinszinte.net)
 Edited by Uriel Lascombes (uriel.lascombes@laposte.net)
@@ -52,8 +52,10 @@ from pycortex_utils import draw_cortex, set_pycortex_config_file, load_surface_p
 main_dir = sys.argv[1]
 project_dir = sys.argv[2]
 subject = sys.argv[3]
-# recache = True
-# webapp = True
+group = sys.argv[4]
+recache = sys.argv[5]
+if recache == '1': recache = True
+else: recache = False
 
 # Define analysis parameters
 with open('../../../settings.json') as f:
@@ -62,6 +64,7 @@ with open('../../../settings.json') as f:
 formats = analysis_info['formats']
 prf_task_name = analysis_info['prf_task_name']
 tasks = analysis_info['task_names']
+webapp_dir = analysis_info['webapp_dir']
 
 # Set pycortex db and colormaps
 cortex_dir = "{}/{}/derivatives/pp_data/cortex".format(main_dir, project_dir)
@@ -70,41 +73,44 @@ set_pycortex_config_file(cortex_dir)
 for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
 
     # Define directory
-    pp_dir = "{}/{}/derivatives/pp_data/{}".format(main_dir, project_dir, subject, format_)
-    cor_datasets_dir = '{}/corr/pycortex/datasets_corr'.format(pp_dir)
+    pp_dir = "{}/{}/derivatives/pp_data/{}/{}".format(main_dir, project_dir, subject, format_)
+    cor_datasets_dir = '{}/corr/pycortex/datasets_inter-run-corr'.format(pp_dir)
     gridfit_datasets_dir = '{}/prf/pycortex/datasets_avg_gauss_gridfit'.format(pp_dir)
     rois_datasets_dir = '{}/rois/pycortex/datasets_rois'.format(pp_dir)
-    css_dataset_dir = "{}/pycortex/datasets_loo-avg_css".format(pp_dir)
+    css_dataset_dir = "{}/prf/pycortex/datasets_loo-avg_css".format(pp_dir)
 
     # Define filenames
     cor_datasets_fn = []
-    cor_datasets_fn.append("{}/{}_task-{}.hdf".format(cor_datasets_dir, subject, task)) for task in tasks
-    gridfit_datasets_fn = "{}/{}_task-{}_avg-gridfit.hdf".format(gridfit_datasets_dir, subject, prf_task_name)
+    for task in tasks: cor_datasets_fn.append("{}/{}_task-{}_inter-run-corr.hdf".format(cor_datasets_dir, subject, task)) 
     rois_datasets_fn = "{}/{}_task-{}_rois.hdf".format(rois_datasets_dir, subject, prf_task_name)
-    css_datasets_fn = "{}/{}_task-{}_css.hdf".format(css_dataset_dir, subject, prf_task_name)
+    gridfit_datasets_fn = "{}/{}_task-{}_avg_gauss_gridfit.hdf".format(gridfit_datasets_dir, subject, prf_task_name)
+    css_datasets_fn = "{}/{}_task-{}_loo-avg_css.hdf".format(css_dataset_dir, subject, prf_task_name)
 
     # Concatenate filenames
     dateset_fns = []
     dateset_fns.append(cor_datasets_fn)
-    dateset_fns.append(gridfit_datasets_fn)
-    dateset_fns.append(rois_datasets_fn)
-    dateset_fns.append(css_datasets_fn)
-    deb()
+    dateset_fns.append([rois_datasets_fn])
+    dateset_fns.append([gridfit_datasets_fn])
+    dateset_fns.append([css_datasets_fn])
 
     # Load datasets and combine them
-
-    # Create webgl folder
-    # Make webgl
+    list_dataset = ''
+    for dataset_num, dataset_fn in enumerate(dateset_fns):
+        exec("dataset_{} = cortex.load(dataset_fn[0])".format(dataset_num))
+        list_dataset += "dataset_{}=dataset_{}, ".format(dataset_num, dataset_num)
+    exec("new_dataset = cortex.Dataset({})".format(list_dataset))
     
-    # avg_dataset = cortex.load(avg_dataset_fn)
-    # loo_avg_dataset_fn = "{}/{}_task-{}_loo_avg.hdf".format(datasets_dir, subject, task)
-    # loo_avg_dataset = cortex.load(loo_avg_dataset_fn)
-    # new_dataset = cortex.Dataset(avg_dataset=avg_dataset, loo_avg_dataset=loo_avg_dataset)
-    # cortex.webgl.make_static(outpath=webgl_dir, data=new_dataset, recache=recache)
+    # Make webgl
+    webgl_dir = "{}/{}/derivatives/webgl/{}/{}".format(main_dir, project_dir, subject, format_)
+    os.makedirs(webgl_dir, exist_ok=True)
+    print("Saving: {}".format(webgl_dir))
+    if os.path.isdir(webgl_dir):print("rm -Rfvd {}".format(webgl_dir))    
+    
+    cortex.webgl.make_static(outpath=webgl_dir,
+                             data=new_dataset,
+                             recache=recache)
 
-# # Send to webapp
-# # --------------
-# if webapp == True:
-#     webapp_dir = '{}{}_{}/'.format(analysis_info['webapp_dir'], subject, preproc)
-#     os.system('rsync -avuz --progress {local_dir} {webapp_dir}'.format(local_dir=webgl_dir, webapp_dir=webapp_dir))
-#     print('go to : https://invibe.nohost.me/amblyo_prf/{}_{}'.format(subject, preproc))
+# Define permission cmd
+print('Changing files permissions in {}/{}'.format(main_dir, project_dir))
+os.system("chmod -Rf 771 {}/{}".format(main_dir, project_dir))
+os.system("chgrp -Rf {} {}/{}".format(group, main_dir, project_dir))

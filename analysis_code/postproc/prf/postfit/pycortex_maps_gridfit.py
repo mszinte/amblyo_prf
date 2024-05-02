@@ -81,8 +81,6 @@ rsq_idx, ecc_idx, polar_real_idx, polar_imag_idx , size_idx, \
 cmap_polar, cmap_uni, cmap_ecc_size = 'hsv', 'Reds', 'Spectral'
 col_offset = 1.0/14.0
 cmap_steps = 255
-description_end = 'avg gridfit'
-deriv_fn_label = 'avg-gridfit'
 
 # plot scales
 rsq_scale = [0, 1]
@@ -129,13 +127,12 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
     # threshold data
     deriv_mat_th = deriv_mat
     amp_down =  deriv_mat_th[amp_idx,...] > 0
-    rsqr_th_down = deriv_mat_th[rsq_idx,...] >= analysis_info['rsqr_th'][0]
-    rsqr_th_up = deriv_mat_th[rsq_idx,...] <= analysis_info['rsqr_th'][1]
+    rsqr_th_down = deriv_mat_th[rsq_idx,...] >= analysis_info['rsqr_th']
     size_th_down = deriv_mat_th[size_idx,...] >= analysis_info['size_th'][0]
     size_th_up = deriv_mat_th[size_idx,...] <= analysis_info['size_th'][1]
     ecc_th_down = deriv_mat_th[ecc_idx,...] >= analysis_info['ecc_th'][0]
     ecc_th_up = deriv_mat_th[ecc_idx,...] <= analysis_info['ecc_th'][1]
-    all_th = np.array((amp_down,rsqr_th_down,rsqr_th_up,size_th_down,size_th_up,ecc_th_down,ecc_th_up)) 
+    all_th = np.array((amp_down, rsqr_th_down, size_th_down, size_th_up, ecc_th_down, ecc_th_up)) 
     deriv_mat[rsq_idx,np.logical_and.reduce(all_th)==False]=0
     
     # r-square
@@ -148,9 +145,9 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
                  'alpha': rsq_data, 
                  'vmin': rsq_scale[0], 
                  'vmax': rsq_scale[1], 
-                 'cbar': 'discrete', 
+                 'cbar': 'discrete',
                  'cortex_type': 'VertexRGB',
-                 'description': 'pRF rsquare',
+                 'description': 'Gauss pRF R2',
                  'curv_brightness': 1, 
                  'curv_contrast': 0.1, 
                  'add_roi': save_svg,
@@ -172,7 +169,7 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
                    'cortex_type': 'VertexRGB',
                    'cbar': 'polar', 
                    'col_offset': col_offset, 
-                   'description': 'pRF polar:{:3.0f} steps{}'.format(cmap_steps, description_end), 
+                   'description': 'Gaussian pRF polar angle', 
                    'curv_brightness': 0.1, 
                    'curv_contrast': 0.25, 
                    'add_roi': save_svg, 
@@ -189,7 +186,8 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
                  'vmax': ecc_scale[1], 
                  'cbar': 'ecc', 
                  'cortex_type': 'VertexRGB',
-                 'description': 'pRF eccentricity{}'.format(description_end), 'curv_brightness': 1,
+                 'description': 'Gaussian pRF eccentricity', 
+                 'curv_brightness': 1,
                  'curv_contrast': 0.1, 
                  'add_roi': save_svg, 
                  'with_labels': True}
@@ -204,7 +202,7 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
                   'vmax': size_scale[1],
                   'cbar': 'discrete', 
                   'cortex_type': 'VertexRGB',
-                  'description': 'pRF size{}'.format(description_end), 
+                  'description': 'Gaussian pRF size', 
                   'curv_brightness': 1,
                   'curv_contrast': 0.1,
                   'add_roi': False,
@@ -223,8 +221,8 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
         print(roi_name)
         exec('param_{}.update(roi_param)'.format(maps_name))
         exec('volume_{maps_name} = draw_cortex(**param_{maps_name})'.format(maps_name = maps_name))
-        exec("plt.savefig('{}/{}_task-{}_{}_{}.pdf')".format(
-            flatmaps_dir, subject, prf_task_name, maps_name, deriv_fn_label))
+        exec("plt.savefig('{}/{}_task-{}_{}.pdf')".format(
+            flatmaps_dir, subject, prf_task_name, maps_name))
         plt.close()
     
         # save flatmap as dataset
@@ -233,6 +231,7 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
         volumes.update({vol_description:volume})
     
     # save dataset
-    dataset_file = "{}/{}_task-{}_{}.hdf".format(datasets_dir, subject, prf_task_name, deriv_fn_label)
+    dataset_file = "{}/{}_task-{}_avg_gauss_gridfit.hdf".format(datasets_dir, subject, prf_task_name)
+    if os.path.exists(dataset_file): os.system("rm -fv {}".format(dataset_file))
     dataset = cortex.Dataset(data=volumes)
     dataset.save(dataset_file)

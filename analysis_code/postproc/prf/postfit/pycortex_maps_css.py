@@ -183,7 +183,7 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
 
     param_loo_rsq = {'data': loo_rsq_data, 'cmap': cmap_uni, 'alpha': alpha, 
                      'vmin': rsq_scale[0], 'vmax': rsq_scale[1], 'cbar': 'discrete', 
-                     'cortex_type': 'VertexRGB','description': 'pRF loo rsquare',
+                     'cortex_type': 'VertexRGB','description': 'CSS pRF loo R2',
                      'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': save_svg,
                      'cbar_label': 'pRF loo R2', 'with_labels': True}
     maps_names.append('loo_rsq')
@@ -197,7 +197,7 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
     param_polar = {'data': ang_norm, 'cmap': cmap_polar, 'alpha': alpha, 
                     'vmin': 0, 'vmax': 1, 'cmap_steps': cmap_steps, 'cortex_type': 'VertexRGB',
                     'cbar': 'polar', 'col_offset': col_offset, 
-                    'description': 'pRF polar:{:3.0f} steps'.format(cmap_steps), 
+                    'description': 'CSS pRF polar angle', 
                     'curv_brightness': 0.1, 'curv_contrast': 0.25, 'add_roi': save_svg, 
                     'with_labels': True}
     exec('param_polar_{cmap_steps} = param_polar'.format(cmap_steps = int(cmap_steps)))
@@ -207,7 +207,7 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
     ecc_data = all_deriv_mat[ecc_idx,...]
     param_ecc = {'data': ecc_data, 'cmap': cmap_ecc_size, 'alpha': alpha,
                   'vmin': ecc_scale[0], 'vmax': ecc_scale[1], 'cbar': 'ecc', 'cortex_type': 'VertexRGB',
-                  'description': 'pRF eccentricity', 'curv_brightness': 1,
+                  'description': 'CSS pRF eccentricity', 'curv_brightness': 1,
                   'curv_contrast': 0.1, 'add_roi': save_svg, 'with_labels': True}
     maps_names.append('ecc')
     
@@ -215,7 +215,7 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
     size_data = all_deriv_mat[size_idx,...]
     param_size = {'data': size_data, 'cmap': cmap_ecc_size, 'alpha': alpha, 
                   'vmin': size_scale[0], 'vmax': size_scale[1], 'cbar': 'discrete', 
-                  'cortex_type': 'VertexRGB', 'description': 'pRF size', 
+                  'cortex_type': 'VertexRGB', 'description': 'CSS pRF size', 
                   'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': False, 'cbar_label': 'pRF size (dva)',
                   'with_labels': True}
     maps_names.append('size')
@@ -224,7 +224,7 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
     n_data = all_deriv_mat[n_idx,...]
     param_n = {'data': n_data, 'cmap': cmap_ecc_size, 'alpha': alpha, 
                'vmin': n_scale[0], 'vmax': n_scale[1], 'cbar': 'discrete', 
-               'cortex_type': 'VertexRGB', 'description': 'n',
+               'cortex_type': 'VertexRGB', 'description': 'CSS pRF n',
                'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': False, 'cbar_label': 'n',
                'with_labels': True}
     maps_names.append('n')
@@ -233,7 +233,7 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
     pcm_data = all_deriv_mat[pcm_idx,...]
     param_pcm = {'data': pcm_data, 'cmap': cmap_ecc_size, 'alpha': alpha, 
                   'vmin': pcm_scale[0], 'vmax': pcm_scale[1], 'cbar': 'discrete', 
-                  'cortex_type': 'VertexRGB', 'description': 'pcm', 
+                  'cortex_type': 'VertexRGB', 'description': 'CSS pCM',
                   'curv_brightness': 1, 'curv_contrast': 0.1, 'add_roi': False, 'cbar_label': 'pCM (mm/dva)',
                   'with_labels': True}
     maps_names.append('pcm')
@@ -257,6 +257,7 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
         volumes.update({vol_description:volume})
     
     # save dataset
-    dataset_file = "{}/{}_task-{}_css.hdf".format(datasets_dir, subject, prf_task_name)
+    dataset_file = "{}/{}_task-{}_loo-avg_css.hdf".format(datasets_dir, subject, prf_task_name)
+    if os.path.exists(dataset_file): os.system("rm -fv {}".format(dataset_file))
     dataset = cortex.Dataset(data=volumes)
     dataset.save(dataset_file)

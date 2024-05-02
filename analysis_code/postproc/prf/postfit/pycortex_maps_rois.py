@@ -132,7 +132,7 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
                   'cmap_steps': len(colormap_dict),
                   'cmap_dict': colormap_dict,
                   'cortex_type': 'VertexRGB',
-                  'description': 'pRF ROIs',
+                  'description': 'Gaussian pRF ROIs',
                   'curv_brightness': 1, 
                   'curv_contrast': 0.25,
                   'add_roi': save_svg,
@@ -151,5 +151,6 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
 
     # save dataset
     dataset_file = "{}/{}_task-{}_rois.hdf".format(datasets_dir, subject, prf_task_name)
+    if os.path.exists(dataset_file): os.system("rm -fv {}".format(dataset_file))
     dataset = cortex.Dataset(data=volumes)
     dataset.save(dataset_file)

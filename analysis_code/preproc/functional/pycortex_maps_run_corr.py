@@ -19,10 +19,10 @@ To run:
 1. cd to function
 >> cd ~/disks/meso_H/projects/[PROJECT]/analysis_code/preproc/functional/
 2. run python command
->> python pycortex_maps_run_cor.py [main directory] [project name] [subject num] [save_svg_in]
+>> python pycortex_maps_run_cor.py [main directory] [project name] [subject num] [save_svg]
 -----------------------------------------------------------------------------------------
 Exemple:
-python pycortex_maps_run_cor.py ~/disks/meso_S/data amblyo_prf sub-01 n
+python pycortex_maps_run_corr.py ~/disks/meso_S/data amblyo_prf sub-01 n
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (mail@martinszinte.net)
 Edited by Uriel Lascombes (uriel.lascombes@laposte.net)
@@ -95,8 +95,8 @@ importlib.reload(cortex)
 for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
 
     corr_dir = "{}/{}/derivatives/pp_data/{}/{}/corr/fmriprep_dct_corr".format(main_dir, project_dir, subject, format_)
-    flatmaps_dir = '{}/{}/derivatives/pp_data/{}/{}/corr/pycortex/flatmaps_corr'.format(main_dir, project_dir, subject, format_)
-    datasets_dir = '{}/{}/derivatives/pp_data/{}/{}/corr/pycortex/datasets_corr'.format(main_dir, project_dir, subject, format_)
+    flatmaps_dir = '{}/{}/derivatives/pp_data/{}/{}/corr/pycortex/flatmaps_inter-run-corr'.format(main_dir, project_dir, subject, format_)
+    datasets_dir = '{}/{}/derivatives/pp_data/{}/{}/corr/pycortex/datasets_inter-run-corr'.format(main_dir, project_dir, subject, format_)
 
     os.makedirs(flatmaps_dir, exist_ok=True)
     os.makedirs(datasets_dir, exist_ok=True)
@@ -126,7 +126,7 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
         alpha_uncorrected = (alpha_uncorrected - alpha_range[0]) / (alpha_range[1] - alpha_range[0])
         alpha_uncorrected[alpha_uncorrected>1]=1
     
-        # correlation corrected
+        # correlation uncorrected
         param_run_corr = {'data': corr_mat_uncorrected, 
                           'alpha': alpha_uncorrected,
                           'cmap': cmap_corr,
@@ -134,9 +134,9 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
                           'vmax': corr_scale[1], 
                           'cbar': 'discrete', 
                           'cortex_type': 'VertexRGB', 
-                          'description': '{} {} inter-run correlation'.format(subject, task), 
-                          'curv_brightness': 1, 
-                          'curv_contrast': 0.1, 
+                          'description': 'Inter-run correlation (uncorrected): task-{}'.format(task), 
+                          'curv_brightness': 1,
+                          'curv_contrast': 0.1,
                           'add_roi': save_svg, 
                           'cbar_label': 'Pearson coefficient',
                           'with_labels': True}
@@ -163,7 +163,7 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
                               'vmax': corr_scale[1], 
                               'cbar': 'discrete', 
                               'cortex_type': 'VertexRGB', 
-                              'description': '{} {} inter-run correlation'.format(subject, task), 
+                              'description': 'Inter-run correlation (corrected): task-{}'.format(task),
                               'curv_brightness': 1, 
                               'curv_contrast': 0.1, 
                               'add_roi': save_svg, 
@@ -191,6 +191,7 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
             volumes.update({vol_description:volume})
         
         # save dataset
-        dataset_file = "{}/{}_task-{}.hdf".format(datasets_dir, subject, task)
+        dataset_file = "{}/{}_task-{}_inter-run-corr.hdf".format(datasets_dir, subject, task)
+        if os.path.exists(dataset_file): os.system("rm -fv {}".format(dataset_file))
         dataset = cortex.Dataset(data=volumes)
         dataset.save(dataset_file)
