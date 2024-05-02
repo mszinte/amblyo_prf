@@ -77,14 +77,18 @@ colormap_dict = {'V1': (243, 231, 155),
                  'VO': (0, 0, 200),
                  'hMT+': (0, 25, 255),
                  'iIPS': (0, 152, 255),
-                 'sIPS': (44, 255, 150)}
+                 'sIPS': (44, 255, 150),
+                 'iPCS': (151, 255, 0),
+                 'sPCS': (255, 234, 0),
+                 'mPCS': (255, 111, 0)
+                }
 roi_colors = ['rgb({},{},{})'.format(*rgb) for rgb in colormap_dict.values()]
-plot_groups = [['V1', 'V2', 'V3'], ['V3AB', 'LO', 'VO'], ['hMT+', 'iIPS', 'sIPS']]
+plot_groups = [['V1', 'V2', 'V3'], ['V3AB', 'LO', 'VO'], ['hMT+', 'iIPS', 'sIPS'], ['iPCS', 'sPCS', 'mPCS']]
 num_ecc_size_bins = 8
 num_ecc_pcm_bins = 8
 num_polar_bins = 12
 max_ecc = 15
-fig_width = 990 # 1320 for 12 areas
+fig_width = 1200
 
 # Format loop
 for format_, extension in zip(formats, extensions):
@@ -100,6 +104,9 @@ for format_, extension in zip(formats, extensions):
     tsv_fn = '{}/{}_css-all_derivatives.tsv'.format(tsv_dir, subject)
     data = pd.read_table(tsv_fn, sep="\t")
     
+    # keep a raw data df 
+    data_raw = data.copy()
+
     # Threshold data (replace by nan)
     data.loc[(data.amplitude < amplitude_th) |                                    # amplitude 
              (data.prf_ecc < ecc_th[0]) | (data.prf_ecc > ecc_th[1]) |            # eccentricity 
@@ -110,8 +117,10 @@ for format_, extension in zip(formats, extensions):
     data = data.dropna()
 
     # Stats plot
-    # col 1 / row 1 => surface area per ROI, surface area significant at 0.05
-    # col 2 / row 1 => surface area per ROI, surface area significant at 0.01
+    fig_fn = "{}/{}_prf_roi_area.pdf".format(fig_dir, subject)
+    print('Saving {}'.format(fig_fn))
+    fig = prf_roi_area(data=data_raw, fig_width=fig_width, fig_height=600, roi_colors=roi_colors)
+    fig.write_image(fig_fn)
     
     # Violins plots
     fig_fn = "{}/{}_prf_violins.pdf".format(fig_dir, subject)
