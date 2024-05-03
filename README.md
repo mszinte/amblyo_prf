@@ -26,6 +26,9 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 ## To do
 ---
 - [ ] make logarithmic scale for colormap of cortical magnification
+- [ ] check surface area code and make plots
+- [ ] check code merging pycortex flatmaps pdf
+- [ ] do all averaging codes
 
 ## Data analysis
 ---
