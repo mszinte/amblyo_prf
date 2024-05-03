@@ -89,9 +89,12 @@ colormap_dict = {'n/a': (255, 255, 255),
                  'hMT+': (0, 25, 255),
                  'iIPS': (0, 152, 255),
                  'sIPS': (44, 255, 150)}
+
 create_colormap(cortex_dir=cortex_dir, 
                 colormap_name=colormap_name, 
-                colormap_dict=colormap_dict)
+                colormap_dict=colormap_dict,
+                recreate=True
+               )
 
 # Create flatmaps
 for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
@@ -115,7 +118,7 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
         results = load_surface_pycortex(brain_fn=roi_fn)
         roi_mat = results['data_concat']
 
-    rois_opacity = 1
+    rois_opacity = 0.5
     alpha_mat = roi_mat*0+rois_opacity
     alpha_mat[roi_mat==0]=0
     print('Creating flatmaps...')

@@ -104,8 +104,7 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
     webgl_dir = "{}/{}/derivatives/webgl/{}/{}".format(main_dir, project_dir, subject, format_)
     os.makedirs(webgl_dir, exist_ok=True)
     print("Saving: {}".format(webgl_dir))
-    if os.path.isdir(webgl_dir):print("rm -Rfvd {}".format(webgl_dir))    
-    
+    if os.path.isdir(webgl_dir):os.system("rm -Rfvd {}".format(webgl_dir))    
     cortex.webgl.make_static(outpath=webgl_dir,
                              data=new_dataset,
                              recache=recache)
