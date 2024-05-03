@@ -122,7 +122,6 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
         alpha_uncorrected = (alpha_uncorrected - alpha_range[0]) / (alpha_range[1] - alpha_range[0])
         alpha_uncorrected[alpha_uncorrected>1] = 1
         
-        
         # correlation uncorrected
         param_run_corr = {'data': corr_mat_uncorrected, 
                           'alpha': alpha_uncorrected,
