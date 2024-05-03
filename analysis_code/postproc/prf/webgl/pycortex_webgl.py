@@ -105,8 +105,13 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
     os.makedirs(webgl_dir, exist_ok=True)
     print("Saving: {}".format(webgl_dir))
     if os.path.isdir(webgl_dir):os.system("rm -Rfvd {}".format(webgl_dir))    
+    if format_ == 'fsnative': labels_visible = ('rois' )
+    else: labels_visible = ('')
+
     cortex.webgl.make_static(outpath=webgl_dir,
                              data=new_dataset,
+                             labels_visible=labels_visible,
+                             title="Project:{}; Subject:{}; Format:{}".format(project_dir, subject, format_),
                              recache=recache)
 
 # Define permission cmd

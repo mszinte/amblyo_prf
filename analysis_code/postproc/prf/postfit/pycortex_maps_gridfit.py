@@ -149,7 +149,7 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
                  'cortex_type': 'VertexRGB',
                  'description': 'Gauss pRF R2',
                  'curv_brightness': 1,
-                 'curv_contrast': 0.25, 
+                 'curv_contrast': 0.1, 
                  'add_roi': save_svg,
                  'cbar_label': 'pRF R2', 
                  'with_labels': True}
