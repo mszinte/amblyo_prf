@@ -33,9 +33,7 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 ## Data analysis
 ---
 
-### Pre-processing
-
-#### BIDS
+### BIDS
 - [x] convert dicom to niix [dcm2nii_bids_rename.py](analysis_code/preproc/bids/dcm2nii_bids_rename.py) 
     </br>Note: each created .json file will miss a field "TaskName":"prf", to add manually for each functionnal scan, saved explicitly with encoding utf-8.
 - [x] create events files [event_files_bidify.py](analysis_code/preproc/bids/event_files_bidify.py) 
@@ -44,6 +42,8 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
     </br>Note: run script for each subject separately.
 - [x] validate bids format [https://bids-standard.github.io/bids-validator/] / alternately, use a docker [https://pypi.org/project/bids-validator/]
     </br>Note: for the webpage, use Chrome and wait for at least 30 min, even if nothing seems to happen.
+
+### Individual analysis
 
 #### Structural preprocessing
 - [x] fMRIprep with anat-only option [fmriprep_sbatch.py](analysis_code/preproc/functional/fmriprep_sbatch.py)
@@ -62,9 +62,7 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 - [x] Average inter-run correlations of each subject in 170k template [170k_corr_averaging.py](analysis_code/preproc/functional/170k_corr_averaging.py)
 - [x] Make timeseries inter-run correlations flatmaps with pycortex [pycortex_maps_run_corr.py](analysis_code/preproc/functional/pycortex_maps_run_corr.py)
  
-### Post-processing
-
-#### PRF analysis (individuals)
+##### PRF analysis
 
 ##### Gaussian fit
 - [x] Create the visual matrix design [vdm_builder.py](analysis_code/postproc/prf/vdm_builder.py)
@@ -79,22 +77,39 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 - [x] Make ROIS files [make_rois_img.py](analysis_code/postproc/prf/postfit/make_rois_img.py)
 - [x] Create flatmaps of ROIs [pycortex_maps_rois.py](analysis_code/postproc/prf/postfit/pycortex_maps_rois.py)
 
-##### Css fit
+##### CSS fit
 - [x] CSS fit within the ROIs [prf_submit_css_jobs.py](analysis_code/postproc/prf/fit/prf_submit_css_jobs.py)
 - [x] Compute CSS statistics [compute_css_stats.py](analysis_code/postproc/prf/postfit/compute_css_stats.py)
 - [x] Compute CSS fit derivatives [compute_css_derivatives.py](analysis_code/postproc/prf/postfit/compute_css_derivatives.py)
 - [x] Compute CSS population cortical magnification [css_pcm_sbatch.py](analysis_code/postproc/prf/postfit/css_pcm_sbatch.py)
 - [x] Make CSS fit derivatives and pcm maps with pycortex [pycortex_maps_css.py](analysis_code/postproc/prf/postfit/pycortex_maps_css.py)
-- [x] Make TSV with CSS fit derivatives, pcm and statistics [make_tsv_css.py](analysis_code/postproc/prf/postfit/make_tsv_css.py)
-- [x] Make pRF derivatives and pcm main figures [make_rois_fig.py](analysis_code/postproc/prf/postfit/make_rois_fig.py)
+- [x] Merge all css pycortex and pRF derivatives and pcm main figures [merge_fig_css.py](analysis_code/postproc/prf/postfit/merge_fig_css.py)
 - [x] Make subject WEBGL with pycortex [pycortex_webgl_css.py](analysis_code/postproc/prf/webgl/pycortex_webgl_css.py)
 - [x] Edit [index.html](disks/meso_H/projects/amblyo_prf/analysis_code/postproc/prf/webgl/index.html) and publish WEBGL on webapp [publish_webgl.py](analysis_code/postproc/prf/webgl/publish_webgl.py)
-- [x] Merge all css pycortex and pRF derivatives and pcm main figures [merge_fig_css.py](analysis_code/postproc/prf/postfit/merge_fig_css.py)
+- [x] Make TSV with CSS fit derivatives, pcm and statistics [make_tsv_css.py](analysis_code/postproc/prf/postfit/make_tsv_css.py)
+- [ ] Make pRF derivatives and pcm main figures and figure TSV [make_rois_fig.py](analysis_code/postproc/prf/postfit/make_rois_fig.py)
 
-#### PRF analysis (group)
+### Group analysis
 
-##### Css fit
-- [ ] Average pRF derivatives from all subjects in 170k template [170k_averaging.py](analysis_code/postproc/prf/postfit/170k_averaging.py)
-- [ ] Average statistical derivatives from all subjects in 170k template [170k_stats_averaging.py](analysis_code/postproc/stats/170k_stats_averaging.py)
-- [ ] Make TSV with CSS fit derivatives, pcm and statistics [make_tsv_css.py](analysis_code/postproc/prf/postfit/make_tsv_css.py)
-- [ ] Make pRF derivatives and pcm main figures [make_rois_fig.py](analysis_code/postproc/prf/postfit/make_rois_fig.py)
+#### Functional preprocessing
+- [ ] Inter-run correlation for sub-170k
+- [ ] Make timeseries inter-run correlations flatmaps with pycortex for sub-170k [pycortex_maps_run_corr.py](analysis_code/preproc/functional/pycortex_maps_run_corr.py)
+
+##### Gaussian fit
+- [ ] Compute pRF gaussian grid fit derivatives **for sub-170k** [compute_gauss_gridfit_derivatives.py](analysis_code/postproc/prf/postfit/compute_gauss_gridfit_derivatives.py)
+- [ ] Make pRF maps with pycortex **for sub-170k**  [pycortex_maps_gridfit.py](analysis_code/postproc/prf/postfit/pycortex_maps_gridfit.py)
+
+##### Rois
+- [ ] Make ROIS files **for sub-170k** [make_rois_img.py](analysis_code/postproc/prf/postfit/make_rois_img.py)
+- [ ] Create flatmaps of ROIs **for sub-170k** [pycortex_maps_rois.py](analysis_code/postproc/prf/postfit/pycortex_maps_rois.py)
+
+##### CSS fit
+- [ ] Compute CSS statistics **for sub-170k** [compute_css_stats.py](analysis_code/postproc/prf/postfit/compute_css_stats.py)
+- [ ] Compute CSS fit derivatives **for sub-170k** [compute_css_derivatives.py](analysis_code/postproc/prf/postfit/compute_css_derivatives.py)
+- [ ] Compute CSS population cortical magnification **for sub-170k** [css_pcm_sbatch.py](analysis_code/postproc/prf/postfit/css_pcm_sbatch.py)
+- [ ] Make CSS fit derivatives and pcm maps with pycortex **for sub-170k** [pycortex_maps_css.py](analysis_code/postproc/prf/postfit/pycortex_maps_css.py)
+- [ ] Merge all css pycortex and pRF derivatives and pcm main figures **for sub-170k and group** [merge_fig_css.py](analysis_code/postproc/prf/postfit/merge_fig_css.py)
+- [ ] Make subject WEBGL with pycortex **for sub-170k** [pycortex_webgl_css.py](analysis_code/postproc/prf/webgl/pycortex_webgl_css.py)
+- [ ] Edit [index.html](disks/meso_H/projects/amblyo_prf/analysis_code/postproc/prf/webgl/index.html) and publish WEBGL on webapp [publish_webgl.py](analysis_code/postproc/prf/webgl/publish_webgl.py)
+- [ ] Make TSV with CSS fit derivatives, pcm and statistics for **sub-170k and group** [make_tsv_css.py](analysis_code/postproc/prf/postfit/make_tsv_css.py)
+- [ ] Make pRF derivatives and pcm main figures and figure TSV for **sub-170k and group** [make_rois_fig.py](analysis_code/postproc/prf/postfit/make_rois_fig.py)
