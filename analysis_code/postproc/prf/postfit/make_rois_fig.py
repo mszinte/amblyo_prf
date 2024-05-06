@@ -78,17 +78,14 @@ colormap_dict = {'V1': (243, 231, 155),
                  'hMT+': (0, 25, 255),
                  'iIPS': (0, 152, 255),
                  'sIPS': (44, 255, 150),
-                 'iPCS': (151, 255, 0),
-                 'sPCS': (255, 234, 0),
-                 'mPCS': (255, 111, 0)
                 }
 roi_colors = ['rgb({},{},{})'.format(*rgb) for rgb in colormap_dict.values()]
-plot_groups = [['V1', 'V2', 'V3'], ['V3AB', 'LO', 'VO'], ['hMT+', 'iIPS', 'sIPS'], ['iPCS', 'sPCS', 'mPCS']]
+plot_groups = [['V1', 'V2', 'V3'], ['V3AB', 'LO', 'VO'], ['hMT+', 'iIPS', 'sIPS']]
 num_ecc_size_bins = 8
 num_ecc_pcm_bins = 8
 num_polar_bins = 12
 max_ecc = 15
-fig_width = 1200
+fig_width = 1080
 
 # Format loop
 for format_, extension in zip(formats, extensions):
@@ -119,7 +116,7 @@ for format_, extension in zip(formats, extensions):
     # Stats plot
     fig_fn = "{}/{}_prf_roi_area.pdf".format(fig_dir, subject)
     print('Saving {}'.format(fig_fn))
-    fig = prf_roi_area(data=data_raw, fig_width=fig_width, fig_height=600, roi_colors=roi_colors)
+    fig = prf_roi_area(data=data_raw, fig_width=fig_width, fig_height=300, roi_colors=roi_colors)
     fig.write_image(fig_fn)
     
     # Violins plots

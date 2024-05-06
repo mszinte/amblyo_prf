@@ -1,9 +1,9 @@
 """
 -----------------------------------------------------------------------------------------
-pycortex_webgl.py
+pycortex_webgl_css.py
 -----------------------------------------------------------------------------------------
 Goal of the script:
-Create combined webgl per participants
+Create combined webgl per participants for pRF CSS analyses
 -----------------------------------------------------------------------------------------
 Input(s):
 sys.argv[1]: main project directory
@@ -19,10 +19,10 @@ To run:
 1. cd to function
 >> cd ~/projects/[PROJECT]/analysis_code/postproc/prf/webgl/
 2. run python command
->> python pycortex_webgl.py [main dir] [project] [subject] [group] [recache]
+>> python pycortex_webgl_css.py [main dir] [project] [subject] [group] [recache]
 -----------------------------------------------------------------------------------------
 Exemple:
-python pycortex_webgl.py /scratch/mszinte/data amblyo_prf sub-01 327 1
+python pycortex_webgl_css.py /scratch/mszinte/data RetinoMaps sub-01 327 1
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (mail@martinszinte.net)
 Edited by Uriel Lascombes (uriel.lascombes@laposte.net)
@@ -63,7 +63,6 @@ with open('../../../settings.json') as f:
     analysis_info = json.loads(json_s)
 formats = analysis_info['formats']
 prf_task_name = analysis_info['prf_task_name']
-tasks = analysis_info['task_names']
 webapp_dir = analysis_info['webapp_dir']
 
 # Set pycortex db and colormaps
@@ -81,23 +80,26 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
 
     # Define filenames
     cor_datasets_fn = []
-    for task in tasks: cor_datasets_fn.append("{}/{}_task-{}_inter-run-corr.hdf".format(cor_datasets_dir, subject, task)) 
+    cor_datasets_fn.append("{}/{}_task-{}_inter-run-corr.hdf".format(cor_datasets_dir, subject, prf_task_name)) 
     rois_datasets_fn = "{}/{}_task-{}_rois.hdf".format(rois_datasets_dir, subject, prf_task_name)
     gridfit_datasets_fn = "{}/{}_task-{}_avg_gauss_gridfit.hdf".format(gridfit_datasets_dir, subject, prf_task_name)
     css_datasets_fn = "{}/{}_task-{}_loo-avg_css.hdf".format(css_dataset_dir, subject, prf_task_name)
 
     # Concatenate filenames
-    dateset_fns = []
-    dateset_fns.append(cor_datasets_fn)
-    dateset_fns.append([rois_datasets_fn])
-    dateset_fns.append([gridfit_datasets_fn])
-    dateset_fns.append([css_datasets_fn])
-
+    dateset_list_fns = []
+    dateset_list_fns.append(cor_datasets_fn)
+    dateset_list_fns.append([rois_datasets_fn])
+    dateset_list_fns.append([gridfit_datasets_fn])
+    dateset_list_fns.append([css_datasets_fn])
+    
     # Load datasets and combine them
     list_dataset = ''
-    for dataset_num, dataset_fn in enumerate(dateset_fns):
-        exec("dataset_{} = cortex.load(dataset_fn[0])".format(dataset_num))
-        list_dataset += "dataset_{}=dataset_{}, ".format(dataset_num, dataset_num)
+    dataset_num = 0
+    for dataset_fn_list in dateset_list_fns:
+        for dataset_fn in dataset_fn_list:
+            dataset_num += 1
+            exec("dataset_{} = cortex.load(dataset_fn)".format(dataset_num))
+            list_dataset += "dataset_{}=dataset_{}, ".format(dataset_num, dataset_num)
     exec("new_dataset = cortex.Dataset({})".format(list_dataset))
     
     # Make webgl
@@ -116,5 +118,5 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
 
 # Define permission cmd
 print('Changing files permissions in {}/{}'.format(main_dir, project_dir))
-# os.system("chmod -Rf 771 {}/{}".format(main_dir, project_dir))
-# os.system("chgrp -Rf {} {}/{}".format(group, main_dir, project_dir))
+os.system("chmod -Rf 771 {}/{}".format(main_dir, project_dir))
+os.system("chgrp -Rf {} {}/{}".format(group, main_dir, project_dir))
