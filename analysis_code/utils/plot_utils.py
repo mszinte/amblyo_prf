@@ -157,6 +157,7 @@ def compute_plot_data(subject, main_dir, project_dir, format_, rois,
                  (data.prf_ecc < ecc_threshold[0]) | (data.prf_ecc > ecc_threshold[1]) |
                  (data.prf_size < size_threshold[0]) | (data.prf_size > size_threshold[1]) | 
                  (data.prf_n < n_threshold[0]) | (data.prf_n > n_threshold[1]) | 
+                 (data.pcm < pcm_threshold[0]) | (data.pcm > pcm_threshold[1]) |
                  (data.prf_loo_r2 < rsqr_threshold) |
                  (data[stats_col] > stats_threshold)] = np.nan
         data = data.dropna()
@@ -176,11 +177,7 @@ def compute_plot_data(subject, main_dir, project_dir, format_, rois,
 
         # Violins
         # -------
-        data_violins = data.copy()
-        data_violins.loc[(data_violins.pcm < pcm_threshold[0]) | 
-                         (data_violins.pcm > pcm_threshold[1])] = np.nan
-        data_violins = data_violins.dropna()
-        df_violins = data_violins
+        df_violins = data
 
         # Ecc.size
         # --------
@@ -205,9 +202,7 @@ def compute_plot_data(subject, main_dir, project_dir, format_, rois,
 
         # Ecc.pCM
         # --------
-        data_pcm = data.copy()
-        data_pcm.loc[(data_pcm.pcm < pcm_threshold[0]) | (data_pcm.pcm > pcm_threshold[1])] = np.nan
-        data_pcm = data_pcm.dropna()
+        data_pcm = data
         
         ecc_bins = np.linspace(0.1, 1, num_ecc_pcm_bins+1)**2 * max_ecc
         for num_roi, roi in enumerate(rois):

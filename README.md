@@ -26,9 +26,12 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 ## To do
 ---
 - [ ] make logarithmic scale for colormap of cortical magnification
-- [ ] check surface area code and make plots
-- [ ] check code merging pycortex flatmaps pdf
-- [ ] do all averaging codes
+- [ ] put group averaging code in RetinoMaps
+- [ ] run group averaging code in RetinoMaps threhold at 5 percent
+- [ ] run all maps code at 5 percent
+- [ ] put thresholds (pcm and n) in css maps plot here and in RetinoMaps
+- [ ] run merge pdf
+- [ ] check and run 170k averaging codes and plots
 
 ## Data analysis
 ---
@@ -82,11 +85,11 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 - [x] Compute CSS statistics [compute_css_stats.py](analysis_code/postproc/prf/postfit/compute_css_stats.py)
 - [x] Compute CSS fit derivatives [compute_css_derivatives.py](analysis_code/postproc/prf/postfit/compute_css_derivatives.py)
 - [x] Compute CSS population cortical magnification [css_pcm_sbatch.py](analysis_code/postproc/prf/postfit/css_pcm_sbatch.py)
-- [x] Make CSS fit derivatives and pcm maps with pycortex [pycortex_maps_css.py](analysis_code/postproc/prf/postfit/pycortex_maps_css.py)
-- [x] Make subject WEBGL with pycortex [pycortex_webgl_css.py](analysis_code/postproc/prf/webgl/pycortex_webgl_css.py)
-- [x] Edit [index.html](disks/meso_H/projects/amblyo_prf/analysis_code/postproc/prf/webgl/index.html) and publish WEBGL on webapp [publish_webgl.py](analysis_code/postproc/prf/webgl/publish_webgl.py)
+- [ ] Make CSS fit derivatives and pcm maps with pycortex [pycortex_maps_css.py](analysis_code/postproc/prf/postfit/pycortex_maps_css.py)
+- [ ] Make subject WEBGL with pycortex [pycortex_webgl_css.py](analysis_code/postproc/prf/webgl/pycortex_webgl_css.py)
+- [ ] Edit [index.html](disks/meso_H/projects/amblyo_prf/analysis_code/postproc/prf/webgl/index.html) and publish WEBGL on webapp [publish_webgl.py](analysis_code/postproc/prf/webgl/publish_webgl.py)
 - [x] Make TSV with CSS fit derivatives, pcm and statistics [make_tsv_css.py](analysis_code/postproc/prf/postfit/make_tsv_css.py)
-- [ ] Make pRF derivatives and pcm main figures and figure TSV [make_rois_fig.py](analysis_code/postproc/prf/postfit/make_rois_fig.py)
+- [x] Make pRF derivatives and pcm main figures and figure TSV [make_rois_fig.py](analysis_code/postproc/prf/postfit/make_rois_fig.py)
 - [ ] Merge all css pycortex and pRF derivatives and pcm main figures [merge_fig_css.py](analysis_code/postproc/prf/postfit/merge_fig_css.py)
 
 ### Group analysis
