@@ -224,27 +224,28 @@ def compute_plot_data(subject, main_dir, project_dir, format_, rois,
 
         # Polar angle
         # -----------
-        theta_slices = np.linspace(0, 360, num_polar_angle_bins+1, endpoint=False)
+        theta_slices = np.linspace(0, 360, num_polar_angle_bins, endpoint=False)
         data['prf_polar_angle'] = np.mod(np.degrees(np.angle(data.polar_real + 1j * data.polar_imag)), 360) 
         hemis = ['hemi-L', 'hemi-R', 'hemi-LR']
         for i, hemi in enumerate(hemis):
             hemi_values = ['hemi-L', 'hemi-R'] if hemi == 'hemi-LR' else [hemi]
             for j, roi in enumerate(rois): #
                 df = data.loc[(data.roi==roi) & (data.hemi.isin(hemi_values))]
-                vertex_counts, _ = np.histogram(df.prf_polar_angle, bins=num_polar_angle_bins+1)
-    
+                df_bins = df.groupby(pd.cut(df['prf_polar_angle'], bins=num_polar_angle_bins))
+                loo_r2_sum = df_bins['prf_loo_r2'].sum()
+
                 df_polar_angle_bin = pd.DataFrame()
-                df_polar_angle_bin['roi'] = [roi]*(num_polar_angle_bins+1)
-                df_polar_angle_bin['hemi'] = [hemi]*(num_polar_angle_bins+1)
-                df_polar_angle_bin['num_bins'] = np.arange((num_polar_angle_bins+1))
+                df_polar_angle_bin['roi'] = [roi]*(num_polar_angle_bins)
+                df_polar_angle_bin['hemi'] = [hemi]*(num_polar_angle_bins)
+                df_polar_angle_bin['num_bins'] = np.arange((num_polar_angle_bins))
                 df_polar_angle_bin['theta_slices'] = np.array(theta_slices)
-                df_polar_angle_bin['vertex_counts'] = np.array(vertex_counts)
+                df_polar_angle_bin['loo_r2_sum'] = np.array(loo_r2_sum)
                 
                 if j == 0 and i == 0: df_polar_angle_bins = df_polar_angle_bin
                 else: df_polar_angle_bins = pd.concat([df_polar_angle_bins, df_polar_angle_bin])
                     
         df_polar_angle = df_polar_angle_bins
-
+        
         # Contralaterality
         # ----------------
         for j, roi in enumerate(rois):
@@ -902,14 +903,12 @@ def prf_polar_angle_plot(df_polar_angle, fig_width, fig_height, rois, roi_colors
     
             # Parts of polar angles and number of voxels in each part
             df = df_polar_angle.loc[(df_polar_angle.roi==roi) & (df_polar_angle.hemi==hemi)]
-            theta_slices = df.theta_slices
-            vertex_counts = df.vertex_counts
             
             # barpolar
-            fig.add_trace(go.Barpolar(r=vertex_counts, 
-                                      theta=theta_slices, 
+            fig.add_trace(go.Barpolar(r=df.loo_r2_sum, 
+                                      theta=df.theta_slices, 
                                       marker_color=roi_colors[j], 
-                                      width=360/(num_polar_angle_bins+1),
+                                      width=360/(num_polar_angle_bins),
                                       marker_line_color='black', 
                                       marker_line_width=1, 
                                       opacity=1,

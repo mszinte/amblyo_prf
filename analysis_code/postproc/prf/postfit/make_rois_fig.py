@@ -83,7 +83,7 @@ roi_colors = ['rgb({},{},{})'.format(*rgb) for rgb in colormap_dict.values()]
 plot_groups = [['V1', 'V2', 'V3'], ['V3AB', 'LO', 'VO'], ['hMT+', 'iIPS', 'sIPS']]
 num_ecc_size_bins = 8
 num_ecc_pcm_bins = 8
-num_polar_angle_bins = 11
+num_polar_angle_bins = 9
 max_ecc = 15
 fig_width = 1080
 
