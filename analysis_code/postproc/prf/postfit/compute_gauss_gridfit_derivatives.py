@@ -99,8 +99,9 @@ if subject != 'sub-170k':
                     data=deriv_array, source_img=fit_img, maps_names=maps_names_gauss)
                 nb.save(deriv_img,'{}/{}'.format(prf_deriv_dir,deriv_fn))
                 
+# Sub-170k averaging                
 elif subject == 'sub-170k':
-    print('sub-170, averaging corr across subject...')
+    print('sub-170, averaging prf deriv across subject...')
     # find all the subject prf derivatives
     subjects_derivatives = []
     for subject in subjects: 
@@ -108,7 +109,7 @@ elif subject == 'sub-170k':
                 main_dir, project_dir, subject, subject, prf_task_name)]
 
     # Averaging across subject
-    img, data_task_deriv_avg = avg_subject_template(fns=subjects_derivatives)
+    img, data_deriv_avg = avg_subject_template(fns=subjects_derivatives)
         
     # Export results
     sub_170k_deriv_dir = "{}/{}/derivatives/pp_data/sub-170k/170k/prf/prf_derivatives/".format(
@@ -119,11 +120,11 @@ elif subject == 'sub-170k':
     
     print("corr save: {}".format(sub_170k_deriv_fn))
     sub_170k_deriv_img = make_surface_image(
-        data=data_task_deriv_avg, source_img=img, maps_names=maps_names_gauss)
+        data=data_deriv_avg, source_img=img, maps_names=maps_names_gauss)
     nb.save(sub_170k_deriv_img, sub_170k_deriv_fn)
     
-# # Define permission cmd
-# print('Changing files permissions in {}/{}'.format(main_dir, project_dir))
-# os.system("chmod -Rf 771 {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir))
-# os.system("chgrp -Rf {group} {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir, group=group))
+# Define permission cmd
+print('Changing files permissions in {}/{}'.format(main_dir, project_dir))
+os.system("chmod -Rf 771 {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir))
+os.system("chgrp -Rf {group} {main_dir}/{project_dir}".format(main_dir=main_dir, project_dir=project_dir, group=group))
 
