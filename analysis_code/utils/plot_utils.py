@@ -5,8 +5,119 @@ from plotly.subplots import make_subplots
 import numpy as np
 import pandas as pd
 import ipdb
+import os
 deb = ipdb.set_trace
 
+def compute_plot_data(subject, main_dir, project_dir, format_, 
+                   amplitude_threshold, ecc_threshold, size_threshold, 
+                   rsqr_threshold, stats_threshold, subjects_to_group=None):
+    """
+    Load and compute the data as function of the plot
+    
+    Parameters
+    ----------
+    subject: subject string
+    main_dir: data main directory
+    project_dir: project name
+    format_ : format of data
+    tsv_directory: tsv path
+    amplitude_threshold : prf amplitude threshold tupple
+    ecc_threshold: prf eccentricity threshold tupple
+    size_threshold: prf size threshold tupple
+    rsqr_threshold: prf loo r2 threshold tupple
+    stats_threshold: prf stats threshold tupple
+    subjects: list of subject to group
+    
+    Returns
+    -------
+    df_roi_area: roi area data frame and saved data
+    df_violins: data filtered
+    """
+    
+    if subject == 'group':
+        
+        for i, subject_to_group in enumerate(subjects_to_group):
+            tsv_dir = '{}/{}/derivatives/pp_data/{}/{}/prf/tsv'.format(
+                main_dir, project_dir, subject_to_group, format_)
+
+            # ROI surface areas analysis 
+            tsv_roi_area_fn = "{}/{}_prf_roi_area.tsv".format(tsv_dir, subject_to_group)
+            df_roi_area_indiv = pd.read_table(tsv_roi_area_fn, sep="\t")
+            
+            if i == 0: df_roi_area = df_roi_area_indiv
+            else: df_roi_area = pd.concat([df_roi_area, df_roi_area_indiv])
+
+            # Violins analysis
+            tsv_violins_fn = "{}/{}_prf_violins.tsv".format(tsv_dir, subject_to_group)
+            df_violins_indiv = pd.read_table(tsv_violins_fn, sep="\t")
+            
+            if i == 0: df_violins = df_violins_indiv
+            else: df_violins = pd.concat([df_violins, df_violins_indiv])
+        
+        # Saving tsv
+        tsv_dir = '{}/{}/derivatives/pp_data/{}/{}/prf/tsv'.format(
+            main_dir, project_dir, subject, format_)
+        os.makedirs(tsv_dir, exist_ok=True)
+        
+        df_roi_area = df_roi_area.groupby(['roi'], sort=False).mean().reset_index()
+        tsv_roi_area_fn = "{}/{}_prf_roi_area.tsv".format(tsv_dir, subject)
+        print('Saving tsv: {}'.format(tsv_roi_area_fn))
+        df_roi_area.to_csv(tsv_roi_area_fn, sep="\t", na_rep='NaN', index=False)
+        
+        df_violins = df_violins # no averaging
+        tsv_violins_fn = "{}/{}_prf_violins.tsv".format(tsv_dir, subject)
+        print('Saving tsv: {}'.format(tsv_violins_fn))
+        df_violins.to_csv(tsv_violins_fn, sep="\t", na_rep='NaN', index=False)
+        
+    else:
+        tsv_dir = '{}/{}/derivatives/pp_data/{}/{}/prf/tsv'.format(
+            main_dir, project_dir, subject, format_)
+        os.makedirs(tsv_dir, exist_ok=True)
+        
+        tsv_fn = '{}/{}_css-all_derivatives.tsv'.format(tsv_dir, subject)
+        data = pd.read_table(tsv_fn, sep="\t")
+        
+        # keep a raw data df 
+        data_raw = data.copy()
+    
+        # Threshold data (replace by nan)
+        if stats_threshold == 0.05: stats_col = 'corr_pvalue_5pt'
+        elif stats_threshold == 0.01: stats_col = 'corr_pvalue_1pt'
+        data.loc[(data.amplitude < amplitude_threshold) |
+                 (data.prf_ecc < ecc_threshold[0]) | (data.prf_ecc > ecc_threshold[1]) |
+                 (data.prf_size < size_threshold[0]) | (data.prf_size > size_threshold[1]) | 
+                 (data.prf_loo_r2 < rsqr_threshold) |
+                 (data[stats_col] > stats_threshold)] = np.nan
+        data = data.dropna()
+
+        # ROI surface areas analysis 
+        # --------------------------
+        data_raw['vert_area'] = data_raw['vert_area'] / 100 # in cm2
+        df_roi_area = data_raw.groupby(['roi'], sort=False)['vert_area'].sum().reset_index()
+    
+        # Compute the area of FRD 0.05/0.01 vertex in each roi
+        df_roi_area['vert_area_corr_pvalue_5pt'] = np.array(data_raw[data_raw['corr_pvalue_5pt'] < 0.05].groupby(
+            ['roi'], sort=False)['vert_area'].sum())
+        df_roi_area['ratio_corr_pvalue_5pt'] = df_roi_area['vert_area_corr_pvalue_5pt'] / df_roi_area['vert_area'] 
+        df_roi_area['vert_area_corr_pvalue_1pt'] = np.array(data_raw[data_raw['corr_pvalue_1pt'] < 0.01].groupby(
+            ['roi'], sort=False)['vert_area'].sum())
+        df_roi_area['ratio_corr_pvalue_1pt'] = df_roi_area['vert_area_corr_pvalue_1pt'] / df_roi_area['vert_area']         
+
+        # Violin plots
+        # ------------
+        df_violins = data
+
+        # Saving tsv
+        tsv_roi_area_fn = "{}/{}_prf_roi_area.tsv".format(tsv_dir, subject)
+        print('Saving tsv: {}'.format(tsv_roi_area_fn))
+        df_roi_area.to_csv(tsv_roi_area_fn, sep="\t", na_rep='NaN', index=False)
+
+        tsv_violins_fn = "{}/{}_prf_violins.tsv".format(tsv_dir, subject)
+        print('Saving tsv: {}'.format(tsv_violins_fn))
+        df_violins.to_csv(tsv_violins_fn, sep="\t", na_rep='NaN', index=False)
+
+    return df_roi_area, df_violins
+        
 def plotly_template(template_specs):
     """
     Define the template for plotly
@@ -114,13 +225,108 @@ def plotly_template(template_specs):
 
     return fig_template
 
-def prf_violins_plot(data, fig_width, fig_height, rois, roi_colors):
+
+def prf_roi_area(df_roi_area, fig_width, fig_height, roi_colors):
+    """
+    Make bar plots of each roi area and the corresponding significative area of pRF  
+    
+    Parameters
+    ----------
+    df_roi_area : dataframe for corresponding plot
+    fig_width : figure width in pixels
+    fig_height : figure height in pixels
+    roi_colors : list of rgb colors for plotly
+    
+    Returns
+    -------
+    fig : bar plot
+    """
+    
+    # General figure settings
+    template_specs = dict(axes_color="rgba(0, 0, 0, 1)",
+                          axes_width=2,
+                          axes_font_size=15,
+                          bg_col="rgba(255, 255, 255, 1)",
+                          font='Arial',
+                          title_font_size=15,
+                          plot_width=1.5)
+    
+    # General figure settings
+    fig_template = plotly_template(template_specs)
+    
+    # General settings
+    fig = make_subplots(rows=1, 
+                        cols=2, 
+                        subplot_titles=['FDR threshold = 0.05', 'FDR threshold = 0.01'],
+                       )
+    
+    # FDR 0.01 
+    # All vertices
+    fig.add_trace(go.Bar(x=df_roi_area.roi, 
+                         y=df_roi_area.vert_area, 
+                         text=(df_roi_area['ratio_corr_pvalue_5pt']*100).astype(int).astype(str) + '%',
+                         textposition='outside',
+                         textangle=-60,
+                         showlegend=False, 
+                         marker=dict(color=roi_colors, opacity=0.2)),
+                 row=1, col=1)
+ 
+    # Significant vertices
+    fig.add_trace(go.Bar(x=df_roi_area.roi, 
+                         y=df_roi_area.vert_area_corr_pvalue_5pt, 
+                         showlegend=False, 
+                         marker=dict(color=roi_colors)),
+                 row=1, col=1)
+    
+    
+    # FDR 0.01 
+    # All vertices
+    fig.add_trace(go.Bar(x=df_roi_area.roi, 
+                         y=df_roi_area.vert_area, 
+                         text=(df_roi_area['ratio_corr_pvalue_1pt']*100).astype(int).astype(str) + '%',
+                         textposition='outside',
+                         textangle=-60,
+                         showlegend=False, 
+                         marker=dict(color=roi_colors, opacity=0.1)),
+                 row=1, col=2)
+    
+    # Significant vertices
+    fig.add_trace(go.Bar(x=df_roi_area.roi, 
+                         y=df_roi_area.vert_area_corr_pvalue_1pt,
+                         showlegend=False, 
+                         marker=dict(color=roi_colors)),
+                 row=1, col=2)
+
+    # Define parameters
+    fig.update_xaxes(showline=True, 
+                     ticklen=0, 
+                     linecolor=('rgba(255,255,255,0)'))      
+    
+    fig.update_yaxes(range=[0,100], 
+                     showline=True, 
+                     nticks=10, 
+                     title_text='Surface area (cm<sup>2</sup>)',secondary_y=False)
+    
+    fig.update_layout(barmode='overlay',
+                      height=fig_height, 
+                      width=fig_width, 
+                      template=fig_template,
+                      margin_l=100, 
+                      margin_r=50, 
+                      margin_t=50, 
+                      margin_b=50,
+                     )
+
+    # Return outputs
+    return fig
+
+def prf_violins_plot(df_violins, fig_width, fig_height, rois, roi_colors):
     """
     Make violins plots for pRF r2/loo_r2, ecc and size
 
     Parameters
     ----------
-    data : A data dataframe
+    df_violins : dataframe
     fig_width : figure width in pixels
     fig_height : figure height in pixels
     rois : list of rois
@@ -149,10 +355,11 @@ def prf_violins_plot(data, fig_width, fig_height, rois, roi_colors):
                         print_grid=False, 
                         vertical_spacing=0.08, 
                         horizontal_spacing=0.05)
-    
+
+
     for j, roi in enumerate(rois):
         
-        df = data.loc[(data.roi == roi)]
+        df = df_violins.loc[(df_violins.roi == roi)]
         
         # pRF loo r2
         fig.add_trace(go.Violin(x=df.roi[df.roi==roi], 
@@ -246,8 +453,8 @@ def prf_violins_plot(data, fig_width, fig_height, rois, roi_colors):
                       margin_r=50, 
                       margin_t=100, 
                       margin_b=100)
-    
-    return fig 
+
+    return fig
 
 def prf_ecc_size_plot(data, fig_width, fig_height, rois, roi_colors, plot_groups, num_bins, max_ecc):
     """
@@ -656,115 +863,7 @@ def prf_contralaterality_plot(data, fig_height, fig_width, rois, roi_colors):
     
     return fig 
 
-def prf_roi_area(data, fig_width, fig_height, roi_colors):
-    """
-    Make bar plots of each roi area and the corresponding significative area of pRF  
-    
-    Parameters
-    ----------
-    data : A data dataframe
-    fig_width : figure width in pixels
-    fig_height : figure height in pixels
-    roi_colors : list of rgb colors for plotly
-    
-    Returns
-    -------
-    fig : bar plot
-    """
-    data = data.copy()
-    # General figure settings
-    template_specs = dict(axes_color="rgba(0, 0, 0, 1)",
-                          axes_width=2,
-                          axes_font_size=15,
-                          bg_col="rgba(255, 255, 255, 1)",
-                          font='Arial',
-                          title_font_size=15,
-                          plot_width=1.5)
-    
-    # General figure settings
-    fig_template = plotly_template(template_specs)
-    
-    # General settings
-    fig = make_subplots(rows=1, 
-                        cols=2, 
-                        subplot_titles=['FDR threshold = 0.05', 'FDR threshold = 0.01'])
-    fig.layout.annotations[0].update(x=0.1)
-    fig.layout.annotations[1].update(x=0.65)
-    
-    # Converte mm2 in cm2 
-    data['vert_area'] = data['vert_area'] / 100
-    
-    # Compute the area of each area 
-    group_df_rois = data.groupby(['roi'], sort=False)['vert_area'].sum().reset_index()
 
-    # Compute the area of significative vertex in each roi for FDR 0.05
-    group_df_rois_5pt = data[data['corr_pvalue_5pt'] < 0.05].groupby(['roi'], sort=False)['vert_area'].sum().reset_index()
-    group_df_rois_5pt['percentage'] = ((group_df_rois_5pt.vert_area / group_df_rois.vert_area ) * 100).round()
-    group_df_rois_5pt['percentage'] = group_df_rois_5pt['percentage'].astype(int).astype(str) + '%'
-    
-    # Compute the area of significative vertex in each roi for FDR 0.01
-    group_df_rois_1pt = data[data['corr_pvalue_1pt'] < 0.01].groupby(['roi'], sort=False)['vert_area'].sum().reset_index()
-    group_df_rois_1pt['percentage'] = ((group_df_rois_1pt.vert_area / group_df_rois.vert_area ) * 100).round()
-    group_df_rois_1pt['percentage'] = group_df_rois_1pt['percentage'].astype(int).astype(str) + '%'
-    
-    # plot for FDR 0.05
-    # total bar 
-    fig.add_trace(go.Bar(x=group_df_rois.roi, 
-                         y=group_df_rois.vert_area, 
-                         text=group_df_rois_5pt.percentage, 
-                         textposition='outside',
-                         textangle=-60,
-                         showlegend=False, 
-                         marker=dict(color=roi_colors, opacity=0.2)),
-                 row=1, col=1)
-    
-    # significatif vertex bar
-    fig.add_trace(go.Bar(x=group_df_rois_5pt.roi, 
-                         y=group_df_rois_5pt.vert_area, 
-    
-                         showlegend=False, 
-                         marker=dict(color=roi_colors)),
-                 row=1, col=1)
-    
-    
-    # plot for FDR 0.01 
-    # total bar 
-    fig.add_trace(go.Bar(x=group_df_rois.roi, 
-                         y=group_df_rois.vert_area, 
-                         text=group_df_rois_1pt.percentage, 
-                         textposition='outside',
-                         textangle=-60,
-                         showlegend=False, 
-                         marker=dict(color=roi_colors, opacity=0.1)),
-                 row=1, col=2)
-    
-    # significatif vertex bar
-    fig.add_trace(go.Bar(x=group_df_rois_1pt.roi, 
-                         y=group_df_rois_1pt.vert_area, 
-                         showlegend=False, 
-                         marker=dict(color=roi_colors)),
-                 row=1, col=2)
-
-    # Define parameters
-    fig.update_xaxes(showline=True, 
-                     ticklen=0, 
-                     linecolor=('rgba(255,255,255,0)'))      
-    
-    fig.update_yaxes(range=[0,100], 
-                     showline=True, 
-                     nticks=10, 
-                     title_text='Surface area (cm<sup>2</sup>)',secondary_y=False)
-    
-    fig.update_layout(barmode='overlay',
-                      height=fig_height, 
-                      width=fig_width, 
-                      template=fig_template,
-                      margin_l=100, 
-                      margin_r=50, 
-                      margin_t=50, 
-                      margin_b=50)
-    return fig 
-    
 def categories_proportions_roi_plot(data, subject, fig_height, fig_width):
     data = data.copy()
     filtered_data = data[data['stats_final'] != 'non_responding']
