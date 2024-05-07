@@ -66,6 +66,7 @@ rsqr_th = analysis_info['rsqr_th']
 pcm_th = analysis_info['pcm_th']
 amplitude_th = analysis_info['amplitude_th']
 stats_th = analysis_info['stats_th']
+n_th = analysis_info['n_th']
 subjects = analysis_info['subjects']
 subjects = ["sub-01", "sub-02"]
 
@@ -82,8 +83,8 @@ colormap_dict = {'V1': (243, 231, 155),
                 }
 roi_colors = ['rgb({},{},{})'.format(*rgb) for rgb in colormap_dict.values()]
 plot_groups = [['V1', 'V2', 'V3'], ['V3AB', 'LO', 'VO'], ['hMT+', 'iIPS', 'sIPS']]
-num_ecc_size_bins = 8
-num_ecc_pcm_bins = 8
+num_ecc_size_bins = 6
+num_ecc_pcm_bins = 6
 num_polar_angle_bins = 9
 max_ecc = 15
 fig_width = 1080
@@ -107,6 +108,7 @@ for format_, extension in zip(formats, extensions):
                           ecc_threshold=ecc_th, 
                           size_threshold=size_th, 
                           rsqr_threshold=rsqr_th,
+                          n_threshold=n_th,
                           stats_threshold=stats_th,
                           pcm_threshold=pcm_th,
                           num_ecc_size_bins=num_ecc_size_bins, 
@@ -165,5 +167,5 @@ for format_, extension in zip(formats, extensions):
     
 # Define permission cmd
 print('Changing files permissions in {}/{}'.format(main_dir, project_dir))
-os.system("chmod -Rf 771 {}/{}".format(main_dir, project_dir))
-os.system("chgrp -Rf {} {}/{}".format(group, main_dir, project_dir))
+# os.system("chmod -Rf 771 {}/{}".format(main_dir, project_dir))
+# os.system("chgrp -Rf {} {}/{}".format(group, main_dir, project_dir))
