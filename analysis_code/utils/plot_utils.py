@@ -10,7 +10,7 @@ deb = ipdb.set_trace
 
 def compute_plot_data(subject, main_dir, project_dir, format_, rois,
                       amplitude_threshold, ecc_threshold, size_threshold, 
-                      rsqr_threshold, stats_threshold, pcm_threshold, 
+                      rsqr_threshold, stats_threshold, pcm_threshold, n_threshold,
                       max_ecc, num_ecc_size_bins, num_ecc_pcm_bins, num_polar_angle_bins,
                       subjects_to_group=None):
     """
@@ -28,6 +28,7 @@ def compute_plot_data(subject, main_dir, project_dir, format_, rois,
     size_threshold: prf size threshold tupple
     rsqr_threshold: prf loo r2 threshold tupple
     stats_threshold: prf stats threshold tupple
+    n_threshold: prf stats threshold tupple
     pcm_threshold: prf pCM threshold tupple
     max_ecc: maximum eccentricity
     num_ecc_size_bins: number of bins for eccentricty plot for size relationship
@@ -155,6 +156,8 @@ def compute_plot_data(subject, main_dir, project_dir, format_, rois,
         data.loc[(data.amplitude < amplitude_threshold) |
                  (data.prf_ecc < ecc_threshold[0]) | (data.prf_ecc > ecc_threshold[1]) |
                  (data.prf_size < size_threshold[0]) | (data.prf_size > size_threshold[1]) | 
+                 (data.prf_n < n_threshold[0]) | (data.prf_n > n_threshold[1]) | 
+                 (data.pcm < pcm_threshold[0]) | (data.pcm > pcm_threshold[1]) |
                  (data.prf_loo_r2 < rsqr_threshold) |
                  (data[stats_col] > stats_threshold)] = np.nan
         data = data.dropna()
@@ -199,9 +202,7 @@ def compute_plot_data(subject, main_dir, project_dir, format_, rois,
 
         # Ecc.pCM
         # --------
-        data_pcm = data.copy()
-        data_pcm.loc[(data_pcm.pcm < pcm_threshold[0]) | (data_pcm.pcm > pcm_threshold[1])] = np.nan
-        data_pcm = data_pcm.dropna()
+        data_pcm = data
         
         ecc_bins = np.linspace(0.1, 1, num_ecc_pcm_bins+1)**2 * max_ecc
         for num_roi, roi in enumerate(rois):
@@ -231,8 +232,10 @@ def compute_plot_data(subject, main_dir, project_dir, format_, rois,
             hemi_values = ['hemi-L', 'hemi-R'] if hemi == 'hemi-LR' else [hemi]
             for j, roi in enumerate(rois): #
                 df = data.loc[(data.roi==roi) & (data.hemi.isin(hemi_values))]
-                df_bins = df.groupby(pd.cut(df['prf_polar_angle'], bins=num_polar_angle_bins))
-                loo_r2_sum = df_bins['prf_loo_r2'].sum()
+                if len(df): 
+                    df_bins = df.groupby(pd.cut(df['prf_polar_angle'], bins=num_polar_angle_bins))
+                    loo_r2_sum = df_bins['prf_loo_r2'].sum()
+                else: loo_r2_sum = [np.nan]*num_polar_angle_bins
 
                 df_polar_angle_bin = pd.DataFrame()
                 df_polar_angle_bin['roi'] = [roi]*(num_polar_angle_bins)
@@ -583,27 +586,27 @@ def prf_violins_plot(df_violins, fig_width, fig_height, rois, roi_colors):
         
         # Set axis titles only for the left-most column and bottom-most row
         fig.update_yaxes(showline=True, 
-                         range=[0,1],
+                         range=[0, 1],
                          nticks=10, 
                          title_text='pRF LOO R<sup>2</sup>',
                          row=1, col=1)
         
         fig.update_yaxes(showline=True, 
-                         range=[0,20], 
+                         range=[0, 20], 
                          nticks=5, 
                          title_text='pRF size (dva)', 
                          row=1, col=2)
         
         fig.update_yaxes(showline=True, 
-                         range=[0,2], 
+                         range=[0, 2], 
                          nticks=5, 
                          title_text='pRF n', 
                          row=2, col=1)
         
         fig.update_yaxes(showline=True, 
-                         range=[0,20], 
+                         range=[0, 6], 
                          nticks=5, 
-                         title_text='pCM', 
+                         title_text='pRF pCM (mm/dva)', 
                          row=2, col=2)
         
         fig.update_xaxes(showline=True, 
@@ -985,11 +988,12 @@ def prf_contralaterality_plot(df_contralaterality, fig_height, fig_width, rois, 
         percentage_rest = percentage_rest.tolist()
         values = [percentage_total[0], percentage_rest[0]]
 
+
         fig.add_trace(go.Pie(values=values,
                              marker=dict(colors=[roi_colors[j], 'white'],
                                          line=dict(color=['black', 'white'],
                                                    width=[1,0])),
-                             rotation=percentage_total * 360 if percentage_total < percentage_rest else 0,),
+                            ),
                       row=1, col=j+1)
 
     # Define parameters
