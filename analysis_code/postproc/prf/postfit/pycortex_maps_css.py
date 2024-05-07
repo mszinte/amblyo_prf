@@ -69,7 +69,8 @@ else: save_svg = False
 with open('../../../settings.json') as f:
     json_s = f.read()
     analysis_info = json.loads(json_s)
-formats = analysis_info['formats']
+if subject == 'sub-170k': formats = ['170k']
+else: formats = analysis_info['formats']
 extensions = analysis_info['extensions']
 prf_task_name = analysis_info['prf_task_name']
 
@@ -165,10 +166,10 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
     if analysis_info['stats_th'] == 0.05: stats_th_down = all_deriv_mat_th[pvalue_corrected_5pt_idx,...] <= 0.05
     elif analysis_info['stats_th'] == 0.01: stats_th_down = all_deriv_mat_th[pvalue_corrected_1pt_idx,...] <= 0.01
     all_th = np.array((amp_down,
-                       rsq_down,
-                       size_th_down,size_th_up, 
-                       ecc_th_down, ecc_th_up,
-                       stats_th_down)) 
+                        rsq_down,
+                        size_th_down,size_th_up, 
+                        ecc_th_down, ecc_th_up,
+                        stats_th_down)) 
     all_deriv_mat[loo_rsq_idx, np.logical_and.reduce(all_th)==False]=0 # put this to zero to not plot it
 
     # Create flatmaps
