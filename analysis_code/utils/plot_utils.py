@@ -604,8 +604,8 @@ def prf_violins_plot(df_violins, fig_width, fig_height, rois, roi_colors):
                          row=2, col=1)
         
         fig.update_yaxes(showline=True, 
-                         range=[0, 6], 
-                         nticks=5, 
+                         range=[0, 10], 
+                         nticks=10, 
                          title_text='pRF pCM (mm/dva)', 
                          row=2, col=2)
         
