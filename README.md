@@ -89,7 +89,7 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 - [ ] Make subject WEBGL with pycortex [pycortex_webgl_css.py](analysis_code/postproc/prf/webgl/pycortex_webgl_css.py)
 - [ ] Edit [index.html](disks/meso_H/projects/amblyo_prf/analysis_code/postproc/prf/webgl/index.html) and publish WEBGL on webapp [publish_webgl.py](analysis_code/postproc/prf/webgl/publish_webgl.py)
 - [x] Make TSV with CSS fit derivatives, pcm and statistics [make_tsv_css.py](analysis_code/postproc/prf/postfit/make_tsv_css.py)
-- [x] Make pRF derivatives and pcm main figures and figure TSV [make_rois_fig.py](analysis_code/postproc/prf/postfit/make_rois_fig.py)
+- [x] Make pRF derivatives and pcm main figures and figure TSV [make_rois_fig.py](analysis_code/postproc/prf/postfit/make_rois_fig.py) or [make_rois_fig.sh](analysis_code/postproc/prf/postfit/make_rois_fig.sh)
 - [ ] Merge all css pycortex and pRF derivatives and pcm main figures [merge_fig_css.py](analysis_code/postproc/prf/postfit/merge_fig_css.py)
 
 ### Group analysis
