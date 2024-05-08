@@ -24,6 +24,7 @@ To run:
 Exemple:
 cd ~/projects/amblyo_prf/analysis_code/postproc/prf/webgl/
 python pycortex_webgl_css.py /scratch/mszinte/data amblyo_prf sub-01 327 1
+python pycortex_webgl_css.py /scratch/mszinte/data amblyo_prf sub-170k 327 1
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (mail@martinszinte.net)
 Edited by Uriel Lascombes (uriel.lascombes@laposte.net)
@@ -62,7 +63,8 @@ else: recache = False
 with open('../../../settings.json') as f:
     json_s = f.read()
     analysis_info = json.loads(json_s)
-formats = analysis_info['formats']
+if subject == 'sub-170k': formats = ['170k']
+else: formats = analysis_info['formats']
 prf_task_name = analysis_info['prf_task_name']
 webapp_dir = analysis_info['webapp_dir']
 

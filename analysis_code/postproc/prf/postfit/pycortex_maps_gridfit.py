@@ -23,7 +23,9 @@ To run:
                                     [subject num] [save_in_svg]
 -----------------------------------------------------------------------------------------
 Exemple:
+cd ~/disks/meso_H/projects/amblyo_prf/analysis_code/postproc/prf/postfit/
 python pycortex_maps_gridfit.py ~/disks/meso_S/data amblyo_prf sub-01 n
+python pycortex_maps_gridfit.py ~/disks/meso_S/data amblyo_prf sub-170k n
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (mail@martinszinte.net)
 Edited by Uriel Lascombes (uriel.lascombes@laposte.net)

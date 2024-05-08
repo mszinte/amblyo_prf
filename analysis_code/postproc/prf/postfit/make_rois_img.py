@@ -21,7 +21,9 @@ To run:
 >> python make_rois_img.py [main directory] [project name] [subject] [group]
 -----------------------------------------------------------------------------------------
 Exemple:
+cd ~/projects/amblyo_prf/analysis_code/postproc/prf/postfit
 python make_rois_img.py /scratch/mszinte/data amblyo_prf sub-01 327
+python make_rois_img.py /scratch/mszinte/data amblyo_prf sub-170k 327
 -----------------------------------------------------------------------------------------
 Written by Uriel Lascombes (uriel.lascombes@laposte.net)
 Edited by Martin Szinte (martin.szinte@gmail.com)
