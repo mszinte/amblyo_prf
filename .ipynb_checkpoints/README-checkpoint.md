@@ -43,7 +43,7 @@ Analyses are run on individual participant (**sub-0X**) surface (**fsnative**) o
 - [x] Create sagital view video before after edit [sagital_view.py](analysis_code/preproc/anatomical/sagital_view.py)
 - [x] Make cut in the brains for flattening [cortex_cuts.sh](analysis_code/preproc/anatomical/cortex_cuts.sh)
 - [x] Flatten the cut brains [flatten_sbatch.py](analysis_code/preproc/anatomical/flatten_sbatch.py)
-- [ ] Compute vertex areas [compute_vertex_area.py](analysis_code/preproc/anatomical/compute_vertex_area.py)
+- [x] Compute vertex areas [compute_vertex_area.py](analysis_code/preproc/anatomical/compute_vertex_area.py)
 
 #### Functional preprocessing
 - [x] fMRIprep [fmriprep_sbatch.py](analysis_code/preproc/functional/fmriprep_sbatch.py)
