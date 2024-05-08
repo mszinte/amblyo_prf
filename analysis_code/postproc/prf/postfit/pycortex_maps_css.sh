@@ -11,7 +11,7 @@
 # input[3]: main data directory (correspond to directory)
 # -----------------------------------------------------------------------------------------
 # Output(s):
-# All pycortex maps for ROIs
+# All pycortex maps for CSS
 # -----------------------------------------------------------------------------------------
 # To run:
 # 0. TO RUN ON INVIBE SERVER (with Inkscape)
