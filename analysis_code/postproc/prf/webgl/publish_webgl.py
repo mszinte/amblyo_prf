@@ -20,6 +20,7 @@
 # >> python publish_webgl.py [main directory] [project name]
 # -----------------------------------------------------------------------------------------
 # Exemple:
+# cd ~/disks/meso_H/projects/amblyo_prf/analysis_code/postproc/prf/webgl/
 # python publish_webgl.py ~/disks/meso_S/data amblyo_prf
 # -----------------------------------------------------------------------------------------
 # Written by Martin Szinte (mail@martinszinte.net)

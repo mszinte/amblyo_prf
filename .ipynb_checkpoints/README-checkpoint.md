@@ -1,34 +1,21 @@
 # AMBLYO_PRF
 ## About
 ---
-We study the organization of the cortical visual system of a population of amblyopic patients.</br>
-This repository contain all code allowing us to analyse our dataset [OpenNeuro:DSXXXXX](https://openneuro.org/datasets/dsXXXX).</br>
+*We here study the organization of the cortical visual system of a population of 16 amblyopic patients and 2 healthy controls.</br>*
+*All the analyses are done in surface with both **fsnative** ad **HCP 170k** format.</br>*
+*This repository contains all codes allowing us to analyse our dataset [OpenNeuro:DSXXXXX](https://openneuro.org/datasets/dsXXXX).</br>*
 
 ---
 ## Authors (alphabetic order): 
 ---
 Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael SILVER, & Martin SZINTE
 
-### Main dependencies
----
-[dcm2niix](https://github.com/rordenlab/dcm2niix); 
-[PyDeface](https://github.com/poldracklab/pydeface); 
-[fMRIprep](https://fmriprep.org/en/stable/); 
-[pRFpy](https://github.com/VU-Cog-Sci/prfpy); 
-[FreeSurfer](https://surfer.nmr.mgh.harvard.edu/);
-[FFmpeg](https://ffmpeg.org/);
-[FSL](https://fsl.fmrib.ox.ac.uk);
-[Inkscape](https://inkscape.org/)
-[workbench](https://humanconnectome.org/software/connectome-workbench)
-</br>
-
-
 ## To do
 ---
 - [ ] make logarithmic scale for colormap of cortical magnification
-- [ ] run merge pdf and webgl
-- [ ] run shells in RetinoMaps 
 - [ ] check and run 170k averaging codes and plots
+- [ ] run shells in RetinoMaps 
+
 - [ ] send data to Adrien
 - [ ] Read back thesis and think of analysis to redo
 
@@ -61,13 +48,13 @@ Analyses are run on individual participant (**sub-0X**) surface (**fsnative**) o
 - [x] fMRIprep [fmriprep_sbatch.py](analysis_code/preproc/functional/fmriprep_sbatch.py)
 - [x] supress bad run [bad_run.py](analysis_code/preproc/functional/bad_run.py)
 - [x] Load freesurfer and import subject in pycortex db [freesurfer_import_pycortex.py](analysis_code/preproc/functional/freesurfer_import_pycortex.py)
-- [x] High-pass, z-score, average and leave-one-out average and correlations [preproc_end_sbatch.py](analysis_code/preproc/functional/preproc_end_sbatch.py)
+- [x] High-pass, z-score, average and leave-one-out average [preproc_end_sbatch.py](analysis_code/preproc/functional/preproc_end_sbatch.py)
 
 #### Functional postprocessing
 
 ##### Inter-run correlations
-<!-- - [x] Average inter-run correlations of each subject in 170k template [170k_corr_averaging.py](analysis_code/preproc/functional/170k_corr_averaging.py) -->
-- [x] Make inter-run correlations flatmaps with pycortex [pycortex_maps_run_corr.py](analysis_code/preproc/functional/pycortex_maps_run_corr.py) or [pycortex_maps_run_corr.sh](analysis_code/preproc/functional/pycortex_maps_run_corr.sh)
+- [x] Compute inter-run correlation [compute_run_corr.py](analysis_code/preproc/functional/compute_run_corr.py)
+- [x] Make inter-run correlations maps with pycortex [pycortex_maps_run_corr.py](analysis_code/preproc/functional/pycortex_maps_run_corr.py) or [pycortex_maps_run_corr.sh](analysis_code/preproc/functional/pycortex_maps_run_corr.sh)
 
 ##### PRF Gaussian fit
 - [x] Create the visual matrix design [vdm_builder.py](analysis_code/postproc/prf/vdm_builder.py)
@@ -88,21 +75,21 @@ Analyses are run on individual participant (**sub-0X**) surface (**fsnative**) o
 - [x] Compute CSS fit derivatives [compute_css_derivatives.py](analysis_code/postproc/prf/postfit/compute_css_derivatives.py)
 - [x] Compute CSS population cortical magnification [css_pcm_sbatch.py](analysis_code/postproc/prf/postfit/css_pcm_sbatch.py)
 - [x] Make CSS fit derivatives and pcm maps with pycortex [pycortex_maps_css.py](analysis_code/postproc/prf/postfit/pycortex_maps_css.py) or [pycortex_maps_css.sh](analysis_code/postproc/prf/postfit/pycortex_maps_css.sh)
-- [ ] Make subject WEBGL with pycortex [pycortex_webgl_css.py](analysis_code/postproc/prf/webgl/pycortex_webgl_css.py) or [pycortex_webgl_css.sh](analysis_code/postproc/prf/webgl/pycortex_webgl_css.sh)
-- [ ] Edit [index.html](disks/meso_H/projects/amblyo_prf/analysis_code/postproc/prf/webgl/index.html) and publish WEBGL on webapp [publish_webgl.py](analysis_code/postproc/prf/webgl/publish_webgl.py)
+- [x] Make subject WEBGL with pycortex [pycortex_webgl_css.py](analysis_code/postproc/prf/webgl/pycortex_webgl_css.py) or [pycortex_webgl_css.sh](analysis_code/postproc/prf/webgl/pycortex_webgl_css.sh)
+- [x] Edit [index.html](disks/meso_H/projects/amblyo_prf/analysis_code/postproc/prf/webgl/index.html) and publish WEBGL on webapp [publish_webgl.py](analysis_code/postproc/prf/webgl/publish_webgl.py)
 - [x] Make TSV with CSS fit derivatives, pcm and statistics [make_tsv_css.py](analysis_code/postproc/prf/postfit/make_tsv_css.py)
 - [x] Make pRF derivatives and pcm main figures and figure TSV [make_rois_fig.py](analysis_code/postproc/prf/postfit/make_rois_fig.py) or [make_rois_fig.sh](analysis_code/postproc/prf/postfit/make_rois_fig.sh)
-- [ ] Merge all css pycortex and pRF derivatives and pcm main figures [merge_fig_css.py](analysis_code/postproc/prf/postfit/merge_fig_css.py)
+- [x] Merge all css pycortex and pRF derivatives and pcm main figures [merge_fig_css.py](analysis_code/postproc/prf/postfit/merge_fig_css.py)
 
 ### Group analysis
-We run either analysis on the template of the HCP cifti format (**sub-170k**) in which individual results are averaged on a template </br>
-or we ran a ROI based group analysis determined individually on subject surfaces fsnative (**group**).</br> 
+*We run either analysis on the template of the HCP cifti format (**sub-170k**) in which individual results are averaged on a template</br>*
+*or we ran a ROI based group analysis determined individually on subject surfaces fsnative (**group**).</br>*
 
 #### Functional postprocessing
 
 ##### Inter-run correlations
 - [ ] Inter-run correlation for **sub-170k** [compute_run_corr.py](analysis_code/preproc/functional/compute_run_corr.py)
-- [ ] Make inter-run correlations flatmaps with pycortex for **sub-170k** [pycortex_maps_run_corr.py](analysis_code/preproc/functional/pycortex_maps_run_corr.py)
+- [ ] Make inter-run correlations maps with pycortex for **sub-170k** [pycortex_maps_run_corr.py](analysis_code/preproc/functional/pycortex_maps_run_corr.py)
 
 ##### PRF Gaussian fit
 - [ ] Compute pRF gaussian grid fit derivatives for **sub-170k** [compute_gauss_gridfit_derivatives.py](analysis_code/postproc/prf/postfit/compute_gauss_gridfit_derivatives.py)
