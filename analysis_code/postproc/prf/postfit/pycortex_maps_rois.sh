@@ -1,9 +1,9 @@
 #!/bin/bash
 #-----------------------------------------------------------------------------------------
-# make_rois_fig.sh
+# pycortex_maps_rois.sh
 # -----------------------------------------------------------------------------------------
 # Goal of the script:
-# Launch across subjects the function make_rois_fig.py
+# Launch across subjects the function pycortex_maps_rois.py
 # -----------------------------------------------------------------------------------------
 # Input(s):
 # input[1]: project code directory
@@ -11,17 +11,18 @@
 # input[3]: main data directory (correspond to directory)
 # -----------------------------------------------------------------------------------------
 # Output(s):
-# All ROI based figures 
+# All pycortex maps for ROIs
 # -----------------------------------------------------------------------------------------
 # To run:
+# 0. TO RUN ON INVIBE SERVER (with Inkscape)
 # 1. cd to function
-# >> cd ~/projects/[PROJECT]/analysis_code/postproc/prf/postfit
-# 2. run shell command
-# >> sh make_rois_fig.sh [code directory] [project name] [main directory]
+# >> cd ~/disks/meso_H/projects/[PROJECT]/analysis_code/postproc/prf/postfit
+# 2. run python command
+# >> sh pycortex_maps_rois.sh [code directory] [project name] [main directory]
 # -----------------------------------------------------------------------------------------
 # Exemple:
-# cd ~/projects/amblyo_prf/analysis_code/postproc/prf/postfit
-# sh make_rois_fig.sh /home/mszinte/projects amblyo_prf /scratch/mszinte/data
+# cd ~/disks/meso_H/projects/amblyo_prf/analysis_code/postproc/prf/postfit
+# sh pycortex_maps_rois.sh /home/mszinte/disks/meso_H/projects amblyo_prf /home/mszinte/disks/meso_S/data
 # -----------------------------------------------------------------------------------------
 # Written by Martin Szinte (martin.szinte@gmail.com)
 # Edited by Uriel Lascombes (uriel.lascombes@laposte.net)
@@ -42,7 +43,7 @@ data_path="$3"
 settings_file="${base_path}/${project_name}/analysis_code/settings.json"
 
 # Define current directory
-cd "${base_path}/${project_name}/analysis_code/postproc/prf/postfit/"
+cd "${base_path}/${project_name}/analysis_code/postproc/prf/postfit"
 
 # Read the subjects from settings.json using Python
 subjects=$(python -c "import json; data = json.load(open('$settings_file')); print('\n'.join(data['subjects']))")
@@ -50,6 +51,6 @@ subjects=$(python -c "import json; data = json.load(open('$settings_file')); pri
 # Loop through each subject and run the Python code
 for subject in $subjects
 do
-    echo "Processing make_rois_fig.py for: $subject"
-    python make_rois_fig.py "$data_path" "$project_name" "$subject" 327
+    echo "Processing pycortex_maps_rois.py for: $subject"
+    python pycortex_maps_rois.py "$data_path" "$project_name" "$subject" n
 done

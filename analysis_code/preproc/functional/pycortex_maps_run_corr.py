@@ -22,6 +22,7 @@ To run:
 >> python pycortex_maps_run_cor.py [main directory] [project name] [subject num] [save_svg]
 -----------------------------------------------------------------------------------------
 Exemple:
+cd ~/disks/meso_H/projects/amblyo_prf/analysis_code/preproc/functional/
 python pycortex_maps_run_corr.py ~/disks/meso_S/data amblyo_prf sub-01 n
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (mail@martinszinte.net)
