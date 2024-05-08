@@ -13,9 +13,9 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 ## To do
 ---
 - [ ] make logarithmic scale for colormap of cortical magnification
-- [ ] run RetinoMaps
 - [ ] send data to Adrien
-- [ ] Read back thesis and think of analysis to redo
+- [ ] Read back master thesis, comments of Silver and think of analysis to redo
+- [ ] Discuss with Adrien of poster
 
 ## Data analysis
 ---
@@ -90,7 +90,7 @@ Analyses are run on individual participant (**sub-0X**) surface (**fsnative**) o
 #### Functional postprocessing
 
 ##### Inter-run correlations
-- [x] Inter-run correlation for **sub-170k** [compute_run_corr.py](analysis_code/preproc/functional/compute_run_corr.py)
+- [x] Compute inter-run correlation for **sub-170k** [compute_run_corr.py](analysis_code/preproc/functional/compute_run_corr.py)
 - [x] Make inter-run correlations maps with pycortex for **sub-170k** [pycortex_maps_run_corr.py](analysis_code/preproc/functional/pycortex_maps_run_corr.py)
 
 ##### PRF Gaussian fit

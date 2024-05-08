@@ -60,7 +60,6 @@ group = sys.argv[4]
 with open('../../../settings.json') as f:
     json_s = f.read()
     analysis_info = json.loads(json_s)
-formats = analysis_info['formats']
 if subject == 'sub-170k': formats = ['170k']
 else: formats = analysis_info['formats']
 extensions = analysis_info['extensions']
