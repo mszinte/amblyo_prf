@@ -13,9 +13,7 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 ## To do
 ---
 - [ ] make logarithmic scale for colormap of cortical magnification
-- [ ] check and run 170k averaging codes and plots
-- [ ] redo 170k correlation with correction of stats made by Uriel
-- [ ] run shells in RetinoMaps 
+- [ ] run RetinoMaps
 - [ ] send data to Adrien
 - [ ] Read back thesis and think of analysis to redo
 
@@ -37,12 +35,13 @@ Analyses are run on individual participant (**sub-0X**) surface (**fsnative**) o
 
 #### Structural preprocessing
 - [x] fMRIprep with anat-only option [fmriprep_sbatch.py](analysis_code/preproc/functional/fmriprep_sbatch.py)
-- [x] create sagital view video before manual edit [sagital_view.py](analysis_code/preproc/anatomical/sagital_view.py)
-- [x] manual edit of brain segmentation [pial_edits.sh](analysis_code/preproc/anatomical/pial_edits.sh)
+- [x] Create sagital view video before manual edit [sagital_view.py](analysis_code/preproc/anatomical/sagital_view.py)
+- [x] Manual edit of brain segmentation [pial_edits.sh](analysis_code/preproc/anatomical/pial_edits.sh)
 - [x] FreeSurfer with new brainmask manually edited [freesurfer_pial.py](analysis_code/preproc/anatomical/freesurfer_pial.py)
-- [x] create sagital view video before after edit [sagital_view.py](analysis_code/preproc/anatomical/sagital_view.py)
-- [x] make cut in the brains for flattening [cortex_cuts.sh](analysis_code/preproc/anatomical/cortex_cuts.sh)
-- [x] flatten the cut brains [flatten_sbatch.py](analysis_code/preproc/anatomical/flatten_sbatch.py)
+- [x] Create sagital view video before after edit [sagital_view.py](analysis_code/preproc/anatomical/sagital_view.py)
+- [x] Make cut in the brains for flattening [cortex_cuts.sh](analysis_code/preproc/anatomical/cortex_cuts.sh)
+- [x] Flatten the cut brains [flatten_sbatch.py](analysis_code/preproc/anatomical/flatten_sbatch.py)
+- [x] Compute vertex areas [compute_vertex_area.py](analysis_code/preproc/anatomical/compute_vertex_area.py)
 
 #### Functional preprocessing
 - [x] fMRIprep [fmriprep_sbatch.py](analysis_code/preproc/functional/fmriprep_sbatch.py)
@@ -85,11 +84,14 @@ Analyses are run on individual participant (**sub-0X**) surface (**fsnative**) o
 *We run either analysis on the template of the HCP cifti format (**sub-170k**) in which individual results are averaged on a template</br>*
 *or we ran a ROI based group analysis determined individually on subject surfaces fsnative (**group**).</br>*
 
+#### Structural preprocessing
+- [x] Compute vertex areas for **sub-170k** [compute_vertex_area.py](analysis_code/preproc/anatomical/compute_vertex_area.py)
+
 #### Functional postprocessing
 
 ##### Inter-run correlations
 - [x] Inter-run correlation for **sub-170k** [compute_run_corr.py](analysis_code/preproc/functional/compute_run_corr.py)
-- [ ] Make inter-run correlations maps with pycortex for **sub-170k** [pycortex_maps_run_corr.py](analysis_code/preproc/functional/pycortex_maps_run_corr.py)
+- [x] Make inter-run correlations maps with pycortex for **sub-170k** [pycortex_maps_run_corr.py](analysis_code/preproc/functional/pycortex_maps_run_corr.py)
 
 ##### PRF Gaussian fit
 - [x] Compute pRF gaussian grid fit derivatives for **sub-170k** [compute_gauss_gridfit_derivatives.py](analysis_code/postproc/prf/postfit/compute_gauss_gridfit_derivatives.py)
@@ -106,6 +108,6 @@ Analyses are run on individual participant (**sub-0X**) surface (**fsnative**) o
 - [x] Make CSS fit derivatives and pcm maps with pycortex for **sub-170k** [pycortex_maps_css.py](analysis_code/postproc/prf/postfit/pycortex_maps_css.py)
 - [x] Make subject WEBGL with pycortex for **sub-170k** [pycortex_webgl_css.py](analysis_code/postproc/prf/webgl/pycortex_webgl_css.py)
 - [x] Edit [index.html](analysis_code/postproc/prf/webgl/index.html) and publish WEBGL on webapp [publish_webgl.py](analysis_code/postproc/prf/webgl/publish_webgl.py)
-- [ ] Make TSV with CSS fit derivatives, pcm and statistics for **sub-170k** and **group** [make_tsv_css.py](analysis_code/postproc/prf/postfit/make_tsv_css.py)
-- [ ] Make pRF derivatives and pcm main figures and figure TSV for **sub-170k** and **group** [make_rois_fig.py](analysis_code/postproc/prf/postfit/make_rois_fig.py)
-- [ ] Merge all css pycortex and pRF derivatives and pcm main figures for **sub-170k** and **group** [merge_fig_css.py](analysis_code/postproc/prf/postfit/merge_fig_css.py)
+- [x] Make TSV with CSS fit derivatives, pcm and statistics for **sub-170k** [make_tsv_css.py](analysis_code/postproc/prf/postfit/make_tsv_css.py)
+- [x] Make pRF derivatives and pcm main figures and figure TSV for **sub-170k** and **group** [make_rois_fig.py](analysis_code/postproc/prf/postfit/make_rois_fig.py)
+- [x] Merge all css pycortex and pRF derivatives and pcm main figures for **sub-170k** and **group** [merge_fig_css.py](analysis_code/postproc/prf/postfit/merge_fig_css.py)
