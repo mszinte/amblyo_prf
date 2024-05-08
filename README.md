@@ -13,9 +13,7 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 ## To do
 ---
 - [ ] make logarithmic scale for colormap of cortical magnification
-- [ ] check and run 170k averaging codes and plots
-- [ ] redo 170k correlation with correction of stats made by Uriel
-- [ ] run shells in RetinoMaps 
+- [ ] run RetinoMaps
 - [ ] send data to Adrien
 - [ ] Read back thesis and think of analysis to redo
 
