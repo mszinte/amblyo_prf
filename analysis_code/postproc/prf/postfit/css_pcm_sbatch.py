@@ -22,7 +22,9 @@ To run:
 >> python css_pcm_sbatch.py [main directory] [project] [subject] [group] [server]
 -----------------------------------------------------------------------------------------
 Exemple:
+cd ~/projects/amblyo_prf/analysis_code/postproc/prf/postfit/
 python css_pcm_sbatch.py /scratch/mszinte/data amblyo_prf sub-01 327 b327
+python css_pcm_sbatch.py /scratch/mszinte/data amblyo_prf sub-170k 327 b327
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
 Edited by Uriel Lascombes (uriel.lascombes@laposte.net)

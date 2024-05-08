@@ -24,6 +24,7 @@ To run:
 Exemple:
 cd ~/disks/meso_H/projects/amblyo_prf/analysis_code/postproc/prf/postfit/
 python pycortex_maps_css.py ~/disks/meso_S/data amblyo_prf sub-01 n
+python pycortex_maps_css.py ~/disks/meso_S/data amblyo_prf sub-170k n
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (mail@martinszinte.net)
 Edited by Uriel Lascombes (uriel.lascombes@laposte.net)
@@ -80,7 +81,6 @@ cortex_dir = "{}/{}/derivatives/pp_data/cortex".format(main_dir, project_dir)
 set_pycortex_config_file(cortex_dir)
 
 # Maps settings 
-
 rsq_idx, ecc_idx, polar_real_idx, polar_imag_idx, size_idx = 0, 1, 2, 3, 4
 amp_idx, baseline_idx, x_idx, y_idx, hrf_1_idx = 5, 6, 7, 8, 9
 hrf_2_idx, n_idx, loo_rsq_idx, pcm_idx, slope_idx = 10, 11, 12, 13, 14
@@ -279,13 +279,6 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
     maps_names.append('n')
     
     # pcm
-    
-    # threshold for PCM
-    pcm_th_down = all_deriv_mat_th[pcm_idx,...] >= analysis_info['pcm_th'][0]
-    pcm_th_up = all_deriv_mat_th[pcm_idx,...] <= analysis_info['pcm_th'][1]
-    all_th_pcm = np.array((pcm_th_down, pcm_th_up)) 
-    all_deriv_mat[loo_rsq_idx, np.logical_and.reduce(all_th_pcm)==False]=0 # put this to zero to not plot it
-    
     pcm_data = all_deriv_mat[pcm_idx,...]
     param_pcm = {'data': pcm_data, 
                  'cmap': cmap_ecc_size, 

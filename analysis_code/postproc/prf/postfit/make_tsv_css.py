@@ -21,7 +21,9 @@ To run:
 >> python make_tsv_css.py [main directory] [project name] [subject num] [group]
 -----------------------------------------------------------------------------------------
 Exemple:
+cd ~/projects/amblyo_prf/analysis_code/postproc/prf/postfit/
 python make_tsv_css.py /scratch/mszinte/data amblyo_prf sub-01 327
+python make_tsv_css.py /scratch/mszinte/data amblyo_prf sub-170k 327
 -----------------------------------------------------------------------------------------
 Written by Martin Szinte (martin.szinte@gmail.com)
 Edited by Uriel Lascombes (uriel.lascombes@laposte.net)
@@ -59,6 +61,8 @@ with open('../../../settings.json') as f:
     json_s = f.read()
     analysis_info = json.loads(json_s)
 formats = analysis_info['formats']
+if subject == 'sub-170k': formats = ['170k']
+else: formats = analysis_info['formats']
 extensions = analysis_info['extensions']
 prf_task_name = analysis_info['prf_task_name']
 rois = analysis_info['rois']
