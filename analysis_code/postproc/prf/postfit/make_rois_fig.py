@@ -23,6 +23,8 @@ python make_rois_fig.py [main directory] [project name] [subject] [group]
 Exemple:
 cd ~/projects/amblyo_prf/analysis_code/postproc/prf/postfit/
 python make_rois_fig.py /scratch/mszinte/data amblyo_prf sub-01 327
+python make_rois_fig.py /scratch/mszinte/data amblyo_prf sub-170k 327
+python make_rois_fig.py /scratch/mszinte/data amblyo_prf group 327
 -----------------------------------------------------------------------------------------
 Written by Uriel Lascombes (uriel.lascombes@laposte.net)
 Edited by Martin Szinte (mail@martinszinte.net)
@@ -55,8 +57,12 @@ group = sys.argv[4]
 with open('../../../settings.json') as f:
     json_s = f.read()
     analysis_info = json.loads(json_s)
-formats = analysis_info['formats']
-extensions = analysis_info['extensions']
+if subject == 'sub-170k': 
+    formats = ['170k']
+    extensions = ['dtseries.nii']
+else: 
+    formats = analysis_info['formats']
+    extensions = analysis_info['extensions']
 rois = analysis_info['rois']
 
 # Threshold settings
@@ -68,7 +74,6 @@ amplitude_th = analysis_info['amplitude_th']
 stats_th = analysis_info['stats_th']
 n_th = analysis_info['n_th']
 subjects = analysis_info['subjects']
-subjects = ["sub-01", "sub-02"]
 
 # Figure settings
 colormap_dict = {'V1': (243, 231, 155),
