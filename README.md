@@ -12,9 +12,6 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 
 ## To do
 ---
-- [ ] send data to Adrien
-- [ ] Read back master thesis, comments of Silver and think of analysis to redo
-- [ ] Discuss with Adrien of poster
 - [ ] copy source data in amblyo_prf and get rid of stereo_prf
 
 ## Data analysis
@@ -111,3 +108,9 @@ Analyses are run on individual participant (**sub-0X**) surface (**fsnative**) o
 - [x] Make TSV with CSS fit derivatives, pcm and statistics for **sub-170k** [make_tsv_css.py](analysis_code/postproc/prf/postfit/make_tsv_css.py)
 - [x] Make pRF derivatives and pcm main figures and figure TSV for **sub-170k** and **group** [make_rois_fig.py](analysis_code/postproc/prf/postfit/make_rois_fig.py)
 - [x] Merge all css pycortex and pRF derivatives and pcm main figures for **sub-170k** and **group** [merge_fig_css.py](analysis_code/postproc/prf/postfit/merge_fig_css.py)
+
+### MAIN analysis
+- [ ] Compute difference pRF size between patients and control and stats [compute_size_effect.ipynb](ananalysis_code/main/compute_size_effect.ipynb)
+- [ ] Draw difference pRF size between patients and control [compute_size_effect.ipynb](ananalysis_code/main/draw_size_effect.ipynb)
+- [ ] Compute difference pRF CM between patients and control and stats [compute_pcm_effect.ipynb](ananalysis_code/main/compute_pcm_effect.ipynb)
+- [ ] Draw difference pRF CM between patients and control [compute_pcm_effect.ipynb](ananalysis_code/main/draw_pcm_effect.ipynb)
