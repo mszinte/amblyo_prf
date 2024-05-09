@@ -16,6 +16,7 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 - [ ] send data to Adrien
 - [ ] Read back master thesis, comments of Silver and think of analysis to redo
 - [ ] Discuss with Adrien of poster
+- [ ] copy source data in amblyo_prf and get rid of stereo_prf
 
 ## Data analysis
 ---
