@@ -12,7 +12,6 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 
 ## To do
 ---
-- [ ] make logarithmic scale for colormap of cortical magnification
 - [ ] send data to Adrien
 - [ ] Read back master thesis, comments of Silver and think of analysis to redo
 - [ ] Discuss with Adrien of poster
