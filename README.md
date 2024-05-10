@@ -109,8 +109,8 @@ Analyses are run on individual participant (**sub-0X**) surface (**fsnative**) o
 - [x] Make pRF derivatives and pcm main figures and figure TSV for **sub-170k** and **group** [make_rois_fig.py](analysis_code/postproc/prf/postfit/make_rois_fig.py)
 - [x] Merge all css pycortex and pRF derivatives and pcm main figures for **sub-170k** and **group** [merge_fig_css.py](analysis_code/postproc/prf/postfit/merge_fig_css.py)
 
-### MAIN analysis
-- [ ] Compute difference pRF size between patients and control and stats [compute_size_effect.ipynb](ananalysis_code/main/compute_size_effect.ipynb)
-- [ ] Draw difference pRF size between patients and control [compute_size_effect.ipynb](ananalysis_code/main/draw_size_effect.ipynb)
-- [ ] Compute difference pRF CM between patients and control and stats [compute_pcm_effect.ipynb](ananalysis_code/main/compute_pcm_effect.ipynb)
-- [ ] Draw difference pRF CM between patients and control [compute_pcm_effect.ipynb](ananalysis_code/main/draw_pcm_effect.ipynb)
+### Inter-group analysis
+- [ ] Make pRF derivatives and pcm main figures and figure TSV for **group-control**, **group-amblyo**, **group-aniso**, **group-strab**, **group-mixed** [make_rois_fig.py](analysis_code/postproc/prf/postfit/make_rois_fig.py)
+- [ ] Merge all css pycortex and pRF derivatives and pcm main figures for **group-control**, **group-amblyo**, **group-aniso**, **group-strab**, **group-mixed** [merge_fig_css.py](analysis_code/postproc/prf/postfit/merge_fig_css.py)
+- [ ] Compute inter-group results and stats [compute_inter-group.ipynb](disks/meso_H/projects/amblyo_prf/analysis_code/main/compute_inter-group.ipynb)
+- [ ] Draw inter-group results [fig_inter-group.ipynb](disks/meso_H/projects/amblyo_prf/analysis_code/main/fig_inter-group.ipynb)
