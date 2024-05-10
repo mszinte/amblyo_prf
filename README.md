@@ -13,6 +13,7 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 ## To do
 ---
 - [ ] copy source data in amblyo_prf and get rid of stereo_prf
+- [ ] change notebook to python
 
 ## Data analysis
 ---
@@ -110,7 +111,10 @@ Analyses are run on individual participant (**sub-0X**) surface (**fsnative**) o
 - [x] Merge all css pycortex and pRF derivatives and pcm main figures for **sub-170k** and **group** [merge_fig_css.py](analysis_code/postproc/prf/postfit/merge_fig_css.py)
 
 ### Inter-group analysis
+*We ran a ROI based group analysis determined individually on subject surfaces fsnative and </br>*
+*by type (control vs patient) or by amblyopia type (control vs. anisometropic/strabismic/mixed)</br>*
+
 - [ ] Make pRF derivatives and pcm main figures and figure TSV for **group-control**, **group-amblyo**, **group-aniso**, **group-strab**, **group-mixed** [make_rois_fig.py](analysis_code/postproc/prf/postfit/make_rois_fig.py)
-- [ ] Merge all css pycortex and pRF derivatives and pcm main figures for **group-control**, **group-amblyo**, **group-aniso**, **group-strab**, **group-mixed** [merge_fig_css.py](analysis_code/postproc/prf/postfit/merge_fig_css.py)
-- [ ] Compute inter-group results and stats [compute_inter-group.ipynb](disks/meso_H/projects/amblyo_prf/analysis_code/main/compute_inter-group.ipynb)
-- [ ] Draw inter-group results [fig_inter-group.ipynb](disks/meso_H/projects/amblyo_prf/analysis_code/main/fig_inter-group.ipynb)
+- [ ] Merge all css pycortex and pRF derivatives and pcm main figures for **group-control**, **group-amblyo**, **group-aniso**, **group-strab**, **group-mixed** [merge_fig_css.py](analysis_code/intergroup/merge_fig_css.py)
+- [ ] Compute inter-group results and stats [compute_inter-group.ipynb](analysis_code/inter-group/compute_inter-group.ipynb)
+- [ ] Make inter-group figures [make_inter-group_fig.ipynb](analysis_code/inter-group/make_inter-group_fig.ipynb)
