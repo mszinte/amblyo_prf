@@ -25,6 +25,12 @@ cd ~/projects/amblyo_prf/analysis_code/postproc/prf/postfit/
 python make_rois_fig.py /scratch/mszinte/data amblyo_prf sub-01 327
 python make_rois_fig.py /scratch/mszinte/data amblyo_prf sub-170k 327
 python make_rois_fig.py /scratch/mszinte/data amblyo_prf group 327
+python make_rois_fig.py /scratch/mszinte/data amblyo_prf group_patient 327
+python make_rois_fig.py /scratch/mszinte/data amblyo_prf group_aniso 327
+python make_rois_fig.py /scratch/mszinte/data amblyo_prf group_mixed 327
+python make_rois_fig.py /scratch/mszinte/data amblyo_prf group_strab 327
+python make_rois_fig.py /scratch/mszinte/data amblyo_prf group_control 327
+python make_rois_fig.py /scratch/mszinte/data amblyo_prf group_excluded 327
 -----------------------------------------------------------------------------------------
 Written by Uriel Lascombes (uriel.lascombes@laposte.net)
 Edited by Martin Szinte (mail@martinszinte.net)
@@ -73,7 +79,14 @@ pcm_th = analysis_info['pcm_th']
 amplitude_th = analysis_info['amplitude_th']
 stats_th = analysis_info['stats_th']
 n_th = analysis_info['n_th']
-subjects = analysis_info['subjects']
+if subject == 'group': subjects = analysis_info['subjects']
+elif subject == 'group_patient': subjects = analysis_info['subjects_patient']
+elif subject == 'group_aniso': subjects = analysis_info['subjects_aniso']
+elif subject == 'group_strab': subjects = analysis_info['subjects_strab']
+elif subject == 'group_mixed': subjects = analysis_info['subjects_mixed']
+elif subject == 'group_control': subjects = analysis_info['subjects_control']
+elif subject == 'group_excluded': subjects = analysis_info['subject_excluded']
+else: subjects = []
 
 # Figure settings
 colormap_dict = {'V1': (243, 231, 155),

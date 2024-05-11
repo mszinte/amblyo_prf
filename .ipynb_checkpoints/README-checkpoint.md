@@ -12,8 +12,10 @@ Adrien CHOPIN, Dennis LEVI, Uriel LASCOMBES, Jian DING, Yasha SHEYNIN, Michael S
 
 ## To do
 ---
+- [ ] make inter-group plot for aniso / strab / mixed vs control
+- [ ] make sub-170k for type of group
+- [ ] change inter-group notebook to python
 - [ ] copy source data in amblyo_prf and get rid of stereo_prf
-- [ ] change notebook to python
 
 ## Data analysis
 ---
@@ -112,9 +114,9 @@ Analyses are run on individual participant (**sub-0X**) surface (**fsnative**) o
 
 ### Inter-group analysis
 *We ran a ROI based group analysis determined individually on subject surfaces fsnative and </br>*
-*by type (control vs patient) or by amblyopia type (control vs. anisometropic/strabismic/mixed)</br>*
+*by type (control (RetinoMaps) vs patient) or by amblyopia type (control vs. anisometropic/strabismic/mixed)</br>*
 
-- [ ] Make pRF derivatives and pcm main figures and figure TSV for **group-control**, **group-amblyo**, **group-aniso**, **group-strab**, **group-mixed** [make_rois_fig.py](analysis_code/postproc/prf/postfit/make_rois_fig.py)
-- [ ] Merge all css pycortex and pRF derivatives and pcm main figures for **group-control**, **group-amblyo**, **group-aniso**, **group-strab**, **group-mixed** [merge_fig_css.py](analysis_code/intergroup/merge_fig_css.py)
-- [ ] Compute inter-group results and stats [compute_inter-group.ipynb](analysis_code/inter-group/compute_inter-group.ipynb)
-- [ ] Make inter-group figures [make_inter-group_fig.ipynb](analysis_code/inter-group/make_inter-group_fig.ipynb)
+- [x] Make pRF derivatives and pcm main figures and figure TSV for **group-patient**, **group-patient_control**, **group-aniso**, **group-strab**, **group-mixed** [make_rois_fig.py](analysis_code/postproc/prf/postfit/make_rois_fig.py)
+- [x] Merge all css pycortex and pRF derivatives and pcm main figures for **group-patient**, **group-patient_control**, **group-aniso**, **group-strab**, **group-mixed**  [merge_fig_css.py](analysis_code/intergroup/merge_fig_css.py)
+- [x] Compute inter-group results and stats [compute_inter-group.ipynb](analysis_code/inter-group/compute_inter-group.ipynb)
+- [x] Make inter-group figures [make_inter-group_fig.ipynb](analysis_code/inter-group/make_inter-group_fig.ipynb)
