@@ -12,7 +12,7 @@ def compute_plot_data(subject, main_dir, project_dir, format_, rois,
                       amplitude_threshold, ecc_threshold, size_threshold, 
                       rsqr_threshold, stats_threshold, pcm_threshold, n_threshold,
                       max_ecc, num_ecc_size_bins, num_ecc_pcm_bins, num_polar_angle_bins,
-                      subjects_to_group=None):
+                      screen_side, gaussian_mesh_grain, hot_zone_percent, subjects_to_group=None):
     """
     Load and compute the data as function of the plot
     
@@ -34,6 +34,9 @@ def compute_plot_data(subject, main_dir, project_dir, format_, rois,
     num_ecc_size_bins: number of bins for eccentricty plot for size relationship
     num_ecc_pcm_bins: number of bins for eccentricty plot for pcm relationship
     num_polar_angle_bins: number of bins for eccentricty plot for polar angle
+    screen_side: mesh screen side (square) im dva (e.g. 20 dva from -10 to 10 dva)
+    gaussian_mesh_grain: The grain you want for the gaussian mesh
+    hot_zone_percent: the percentage to define the hot zone (how much of the denser locations you take)
     subjects: list of subject to group
     
     Returns
@@ -45,8 +48,9 @@ def compute_plot_data(subject, main_dir, project_dir, format_, rois,
     df_polar_angle: dataframe to use in polar angle plot
     df_contralaterality: dataframe to use in contralaterality plot
     df_params_avg: dataframe to use in parameters average plot
+    df_distribution: dataframe to use in prf distribution plot
     """
-    from maths_utils import weighted_regression, bootstrap_ci_mean
+    from maths_utils import bootstrap_ci_mean, make_prf_distribution_df, make_prf_barycentre_df
     
     if 'group' in subject:
         
@@ -99,7 +103,23 @@ def compute_plot_data(subject, main_dir, project_dir, format_, rois,
             df_contralaterality_indiv = pd.read_table(tsv_contralaterality_fn, sep="\t")
             if i == 0: df_contralaterality = df_contralaterality_indiv.copy()
             else: df_contralaterality = pd.concat([df_contralaterality, df_contralaterality_indiv])
-        
+            
+            # Spatial distribution 
+            # -------------------
+            tsv_distribution_fn = "{}/{}_prf_distribution.tsv".format(tsv_dir, subject_to_group)
+            df_distribution_indiv = pd.read_table(tsv_distribution_fn, sep="\t")
+            if i == 0: df_distribution = df_distribution_indiv.copy()
+            else:
+                # Identifying numeric columns
+                numeric_columns = df_distribution_indiv.select_dtypes(include='number').columns
+                non_numeric_columns = df_distribution_indiv.columns.difference(numeric_columns)
+                
+                # Performing the average only on numeric columns
+                df_distribution[numeric_columns] = (df_distribution[numeric_columns] + df_distribution_indiv[numeric_columns]) / 2
+                
+                # Concatenating non-numeric columns back to the dataframe
+                df_distribution[non_numeric_columns] = df_distribution_indiv[non_numeric_columns]
+
         # Averaging and saving tsv
         tsv_dir = '{}/{}/derivatives/pp_data/{}/{}/prf/tsv'.format(
             main_dir, project_dir, subject, format_)
@@ -171,6 +191,30 @@ def compute_plot_data(subject, main_dir, project_dir, format_, rois,
         tsv_contralaterality_fn = "{}/{}_prf_contralaterality.tsv".format(tsv_dir, subject)
         print('Saving tsv: {}'.format(tsv_contralaterality_fn))
         df_contralaterality.to_csv(tsv_contralaterality_fn, sep="\t", na_rep='NaN', index=False)
+        
+        # Spatial distribution 
+        # -------------------
+        tsv_distribution_fn = "{}/{}_prf_distribution.tsv".format(tsv_dir, subject)
+        print('Saving tsv: {}'.format(tsv_distribution_fn))
+        df_distribution.to_csv(tsv_distribution_fn, sep="\t", na_rep='NaN', index=False)
+        
+        # Spatial distribution hot zone barycentre 
+        # ----------------------------------------
+        hemis = ['hemi-L', 'hemi-R', 'hemi-LR']
+        for j, hemi in enumerate(hemis):
+            hemi_values = ['hemi-L', 'hemi-R'] if hemi == 'hemi-LR' else [hemi]
+            df_distribution_hemi = df_distribution.loc[df_distribution.hemi.isin(hemi_values)]
+            df_barycentre_hemi = make_prf_barycentre_df(
+                df_distribution_hemi, rois, screen_side, gaussian_mesh_grain, hot_zone_percent=hot_zone_percent, ci_confidence_level=0.95)
+            
+            df_barycentre_hemi['hemi'] = [hemi] * len(df_barycentre_hemi)
+            if j == 0: df_barycentre = df_barycentre_hemi
+            else: df_barycentre = pd.concat([df_barycentre, df_barycentre_hemi])
+            
+        tsv_barycentre_fn = "{}/{}_prf_barycentre.tsv".format(tsv_dir, subject)
+        print('Saving tsv: {}'.format(tsv_barycentre_fn))
+        df_barycentre.to_csv(tsv_barycentre_fn, sep="\t", na_rep='NaN', index=False)
+
     else:
         tsv_dir = '{}/{}/derivatives/pp_data/{}/{}/prf/tsv'.format(
             main_dir, project_dir, subject, format_)
@@ -305,7 +349,7 @@ def compute_plot_data(subject, main_dir, project_dir, format_, rois,
         df_polar_angle = df_polar_angle_bins
         
         # Contralaterality
-        # ----------------
+        # ----------------         
         for j, roi in enumerate(rois):
             df_rh = data.loc[(data.roi == roi) & (data.hemi == 'hemi-R')]
             df_lh = data.loc[(data.roi == roi) & (data.hemi == 'hemi-L')]
@@ -320,6 +364,32 @@ def compute_plot_data(subject, main_dir, project_dir, format_, rois,
     
             if j == 0: df_contralaterality = df_contralaterality_roi
             else: df_contralaterality = pd.concat([df_contralaterality, df_contralaterality_roi])
+            
+        # Spatial distribution 
+        # --------------------  
+        hemis = ['hemi-L', 'hemi-R', 'hemi-LR']
+        for i, hemi in enumerate(hemis):
+            hemi_values = ['hemi-L', 'hemi-R'] if hemi == 'hemi-LR' else [hemi]
+            data_hemi = data.loc[data.hemi.isin(hemi_values)]
+            df_distribution_hemi = make_prf_distribution_df(
+                data_hemi, rois, screen_side, gaussian_mesh_grain, hot_zone_percent=hot_zone_percent, ci_confidence_level=0.95)
+
+            df_distribution_hemi['hemi'] = [hemi] * len(df_distribution_hemi)
+            if i == 0: df_distribution = df_distribution_hemi
+            else: df_distribution = pd.concat([df_distribution, df_distribution_hemi])
+        
+        # Spatial distribution hot zone barycentre 
+        # ----------------------------------------
+        hemis = ['hemi-L', 'hemi-R', 'hemi-LR']
+        for i, hemi in enumerate(hemis):
+            hemi_values = ['hemi-L', 'hemi-R'] if hemi == 'hemi-LR' else [hemi]
+            df_distribution_hemi = df_distribution.loc[df_distribution.hemi.isin(hemi_values)]
+            df_barycentre_hemi = make_prf_barycentre_df(
+                df_distribution_hemi, rois, screen_side, gaussian_mesh_grain, hot_zone_percent=hot_zone_percent, ci_confidence_level=0.95)
+            
+            df_barycentre_hemi['hemi'] = [hemi] * len(df_barycentre_hemi)
+            if i == 0: df_barycentre = df_barycentre_hemi
+            else: df_barycentre = pd.concat([df_barycentre, df_barycentre_hemi])
         
         # Saving tsv
         tsv_roi_area_fn = "{}/{}_prf_roi_area.tsv".format(tsv_dir, subject)
@@ -349,8 +419,16 @@ def compute_plot_data(subject, main_dir, project_dir, format_, rois,
         tsv_contralaterality_fn = "{}/{}_prf_contralaterality.tsv".format(tsv_dir, subject)
         print('Saving tsv: {}'.format(tsv_contralaterality_fn))
         df_contralaterality.to_csv(tsv_contralaterality_fn, sep="\t", na_rep='NaN', index=False)
+        
+        tsv_distribution_fn = "{}/{}_prf_distribution.tsv".format(tsv_dir, subject)
+        print('Saving tsv: {}'.format(tsv_contralaterality_fn))
+        df_distribution.to_csv(tsv_distribution_fn, sep="\t", na_rep='NaN', index=False)
+        
+        tsv_barycentre_fn = "{}/{}_prf_barycentre.tsv".format(tsv_dir, subject)
+        print('Saving tsv: {}'.format(tsv_barycentre_fn))
+        df_barycentre.to_csv(tsv_barycentre_fn, sep="\t", na_rep='NaN', index=False)
 
-    return df_roi_area, df_violins, df_ecc_size, df_ecc_pcm, df_polar_angle, df_contralaterality, df_params_avg
+    return df_roi_area, df_violins, df_ecc_size, df_ecc_pcm, df_polar_angle, df_contralaterality, df_params_avg, df_distribution, df_barycentre
         
 def plotly_template(template_specs):
     """
@@ -1322,217 +1400,213 @@ def prf_contralaterality_plot(df_contralaterality, fig_height, fig_width, rois, 
     
     return fig 
 
+def prf_distribution_plot(df_distribution, fig_height, fig_width, rois, roi_colors, screen_side):
+    """
+    Make prf distribution contour plot
+    
+    Parameters
+    ----------
+    df_distribution : dataframe
+    fig_width : figure width in pixels
+    fig_height : figure height in pixels
+    rois : list of rois
+    roi_colors : list of rgb colors for plotly
+    screen_side: mesh screen side (square) im dva (e.g. 20 dva from -10 to 10 dva)
+     
+    Returns
+    -------
+    fig : distribution figure
+    """
+    
+    # Template settings
+    template_specs = dict(axes_color="rgba(0, 0, 0, 1)",
+                          axes_width=2,
+                          axes_font_size=15,
+                          bg_col="rgba(255, 255, 255, 1)",
+                          font='Arial',
+                          title_font_size=15,
+                          plot_width=1.5)
+    fig_template = plotly_template(template_specs)
+    
+    # General figure settings
+    rows, cols = 1, len(rois)
+    line_width = 1
+    contour_width = 0.5
+    
+    figs = []
+    hemispheres = []
+    hemis = ['hemi-L', 'hemi-R', 'hemi-LR']
+    for i, hemi in enumerate(hemis):  
+        fig = make_subplots(rows=rows ,cols=cols)
+        for j, roi in enumerate(rois) :
+            # Make df roi
+            df_roi = df_distribution.loc[(df_distribution.roi == roi) & (df_distribution.hemi == hemi)]
 
-def categories_proportions_roi_plot(data, subject, fig_height, fig_width):
-    data = data.copy()
-    filtered_data = data[data['stats_final'] != 'non_responding']
-    
-    # Sort categories
-    categories_order = ['vision', 'vision_and_pursuit_and_saccade', 'pursuit_and_saccade', 'vision_and_saccade', 'vision_and_pursuit', 'saccade', 'pursuit']
-    filtered_data['stats_final'] = pd.Categorical(filtered_data['stats_final'], categories=categories_order, ordered=True)
-    filtered_data = filtered_data.sort_values(['rois', 'stats_final'])
-
-    
-    #  Defines colors settings 
-    roi_colors = px.colors.sequential.Sunset[:4] + px.colors.sequential.Rainbow[:]
-    stats_categories_colors = list(reversed(px.colors.qualitative.D3))[2:]
-    
-    # To write make the percent visible only for choose categories 
-    percent_color =  {'pursuit': 'rgba(255,255,255,0)', 
-                      'saccade': 'rgba(255,255,255,0)', 
-                      'pursuit_and_saccade': 'rgba(0, 0, 0, 1)', 
-                      'vision': 'rgba(0, 0, 0, 1)', 
-                      'vision_and_pursuit': 'rgba(255,255,255,0)', 
-                      'vision_and_saccade': 'rgba(255,255,255,0)', 
-                      'vision_and_pursuit_and_saccade': 'rgba(0, 0, 0, 1)'}
-    
-    categorie_color_map = {'pursuit': 'rgba(255,255,255,0)', 
-                           'saccade': 'rgba(255,255,255,0)', 
-                           'pursuit_and_saccade': stats_categories_colors[3], 
-                           'vision': stats_categories_colors[4], 
-                           'vision_and_pursuit': 'rgba(255,255,255,0)', 
-                           'vision_and_saccade': 'rgba(255,255,255,0)', 
-                           'vision_and_pursuit_and_saccade': stats_categories_colors[7]}
-    
-    rois = pd.unique(data.rois)
-    #  Make the subplot
-    # fig_height, fig_width = 300, 1920
-    rows = 2 
-    cols =len(rois)
-    specs = [[{'type': 'domain'}] * cols,  [{'type': 'xy'}] * cols]
-    
-    
-    fig = make_subplots(rows=rows, cols=cols, print_grid=False, specs=specs, row_heights=[1,0.05])
-    
-    
-    for i, roi in enumerate(rois):
-        df_rois = filtered_data.loc[filtered_data.rois == roi]
-        #  Colors for categories 
-        categorie_colors = [categorie_color_map[label] for label in df_rois.stats_final]
-        #  Colors for the percentages 
-        percentage_colors = [percent_color[label] for label in df_rois.stats_final]
+            # make the two dimensional mesh for z dimension
+            exclude_columns = ['roi', 'hemi', 'x', 'y']
+            int_columns = df_roi.columns.difference(exclude_columns)
+            gauss_z_tot = df_roi[int_columns].values
+            
+            # Contour plot
+            fig.add_trace(go.Contour(x=df_roi.x, 
+                     y=df_roi.y,
+                     z=gauss_z_tot, 
+                     colorscale='hot', 
+                     showscale=False, 
+                     contours_coloring='lines',
+                     line_width=contour_width),
+                    row=1, col=j+1)
+            
+            # x line
+            fig.add_trace(go.Scatter(x=[0,0],
+                                     y=[-screen_side, screen_side],
+                                     mode='lines',
+                                     line=dict(dash='2px', 
+                                               color=roi_colors[j].replace('rgb','rgba').replace(')',',0.5)'), 
+                                               width=line_width)),
+                                    row=1, col=j+1)
+            # y line
+            fig.add_trace(go.Scatter(x=[-screen_side, screen_side], 
+                                     y=[0,0], 
+                                     mode='lines', 
+                                     line=dict(dash='2px', 
+                                               color=roi_colors[j].replace('rgb','rgba').replace(')',',0.5)'), 
+                                               width=line_width)),
+                          row=1, col=j+1)
+            
+            # square
+            fig.add_shape(type="rect", 
+                          x0=-10, 
+                          y0=-10, 
+                          x1=10, 
+                          y1=10, 
+                          line=dict(dash='2px', 
+                                    color=roi_colors[j].replace('rgb','rgba').replace(')',',0.5)'), 
+                                    width=line_width),
+                          row=1, col=j+1)
+            
+        fig.update_xaxes(color= ('rgba(255,255,255,0)'))
+        fig.update_yaxes(color= ('rgba(255,255,255,0)'))
         
-        
-        fig.add_trace(go.Pie(labels=df_rois.stats_final, 
-                             values=df_rois.vertex_surf, 
-                             showlegend=False, 
-                             sort=False,
-                             textinfo='percent',
-                             textposition='inside',
-                             direction='clockwise',
-                             name= roi,    
-                             marker=dict(colors=categorie_colors),
-                             insidetextfont=dict(color=percentage_colors),
-                             hole=0.3), 
-                      row=1, col=i+1)
-        
-        fig.add_annotation(text=roi, 
-                           yshift =10,
-                           showarrow=False, 
-                           font=dict(size=13,color=roi_colors[i]), 
-                           row=2, col=i+1)
-    
-    
-        
-    fig.update_layout(height=fig_height, 
-                      width=fig_width,
-                      template='simple_white')  
-    
-    fig.update_xaxes(showline=True, 
-                     ticklen=0, 
-                     linecolor=('rgba(255,255,255,0)'), 
-                     tickfont=dict(color='rgba(255,255,255,0)'))
-    
-    fig.update_yaxes(showline=True, 
-                     ticklen=0, 
-                     linecolor=('rgba(255,255,255,0)'), 
-                     tickfont=dict(color='rgba(255,255,255,0)'))
-    
-    return fig
+        # Define parameters
+        fig.update_layout(height=fig_height, 
+                          width=fig_width, 
+                          showlegend=False,
+                          template=fig_template,
+                          margin_l=10, 
+                          margin_r=10, 
+                          margin_t=100, 
+                          margin_b=100)
+        figs.append(fig)
+        hemispheres.append(hemi)
+    return figs, hemispheres
 
-def surface_rois_categories_plot(data, subject, fig_height, fig_width):   
-    data = data.copy()
-    #  Defines colors settings 
-    roi_colors = px.colors.sequential.Sunset[:4] + px.colors.sequential.Rainbow[:]
-    stats_categories_colors = list(reversed(px.colors.qualitative.D3))[2:]
+def prf_barycentre_plot(df_barycentre, fig_height, fig_width, rois, roi_colors, screen_side):
+    """
+    Make prf barycentre plot
     
+    Parameters
+    ----------
+    df_barycentre : dataframe
+    fig_width : figure width in pixels
+    fig_height : figure height in pixels
+    rois : list of rois
+    roi_colors : list of rgb colors for plotly
+    screen_side: mesh screen side (square) im dva (e.g. 20 dva from -10 to 10 dva)
+     
+    Returns
+    -------
+    fig : barycentre figure
+    """
     
+    # Template settings
+    template_specs = dict(axes_color="rgba(0, 0, 0, 1)",
+                          axes_width=2,
+                          axes_font_size=15,
+                          bg_col="rgba(255, 255, 255, 1)",
+                          font='Arial',
+                          title_font_size=15,
+                          plot_width=1.5)
+    fig_template = plotly_template(template_specs)
     
-    
-    categorie_color_map = {'non_responding': stats_categories_colors[0], 
-                           'pursuit': stats_categories_colors[1], 
-                           'saccade': stats_categories_colors[2], 
-                           'pursuit_and_saccade': stats_categories_colors[3], 
-                           'vision': stats_categories_colors[4], 
-                           'vision_and_pursuit': stats_categories_colors[5], 
-                           'vision_and_saccade': stats_categories_colors[6], 
-                           'vision_and_pursuit_and_saccade': stats_categories_colors[7]}
-    
-    
-    #  grpup df 
-    group_df_rois = data.groupby(['rois'], sort=False)['vertex_surf'].sum().reset_index()
-    group_rois_categories = data.groupby(['rois', 'stats_final'], sort=False)['vertex_surf'].sum().reset_index()
-    
-    #  Make subplot 
-    # fig_height, fig_width = 1080, 1920
-    fig = make_subplots(specs=[[{"secondary_y": True}]])
-
-    
-    
-    fig.add_trace(go.Bar(x=group_df_rois.rois, 
-                         y=group_df_rois.vertex_surf, 
-                         showlegend=False, 
-                         marker=dict(color=roi_colors, opacity=0.1)), 
-                  secondary_y=False)
-    
-    #Choose categories to plot
-    stats_categories = ['vision',  'vision_and_pursuit_and_saccade','pursuit_and_saccade']
-    for categorie in stats_categories:
-        df = group_rois_categories.loc[group_rois_categories.stats_final == categorie]
-    
-        fig.add_trace(go.Bar(x=df.rois, 
-                             y=df.vertex_surf, 
-                             name=categorie,  
-                             legendgroup=categorie, 
-                             marker_color=categorie_color_map[categorie]), 
-                      secondary_y=True) 
-    
-    fig.update_layout(yaxis2=dict(overlaying='y',
-                                  side='right',
-                                  range=[0, 5000],  
-                                  showticklabels=False, 
-                                  ticklen=0, 
-                                  linecolor=('rgba(255,255,255,0)')))
-    
-    
-    
-    fig.update_xaxes(showline=True, 
-                     ticklen=0, 
-                     linecolor=('rgba(255,255,255,0)'), 
-                     tickfont=dict(size=12))      
-    
-    fig.update_yaxes(range=[0,5000], 
-                     nticks=5, 
-                     title_text='Surface in mm<sup>2</sup>',secondary_y=False)
-    
-    fig.update_layout(height=fig_height, 
-                      width=fig_width,
-                      barmode='stack',
-                      showlegend=True, 
-                      template='simple_white')  
-    
-    
-    return fig 
-
-
-def surface_rois_all_categories_plot(data, subject, fig_height, fig_width):  
-    data = data.copy()
-    #  Defines colors settings 
-    stats_categories_colors = list(reversed(px.colors.qualitative.D3))[2:]
-    
-    
-    
-    
-    categorie_color_map = {'non_responding': stats_categories_colors[0], 
-                           'pursuit': stats_categories_colors[1], 
-                           'saccade': stats_categories_colors[2], 
-                           'pursuit_and_saccade': stats_categories_colors[3], 
-                           'vision': stats_categories_colors[4], 
-                           'vision_and_pursuit': stats_categories_colors[5], 
-                           'vision_and_saccade': stats_categories_colors[6], 
-                           'vision_and_pursuit_and_saccade': stats_categories_colors[7]}
-    
-    #  grpup df 
-    group_df = data.groupby(['rois', 'stats_final'], sort=False)['vertex_surf'].sum().reset_index()
-    
-    #  Figure settings
-    # fig_height, fig_width = 1080, 1920
+    # General figure settings
+    line_width = 1
     fig = go.Figure()
+    hemis = ['hemi-L', 'hemi-R']
+    for i, hemi in enumerate(hemis): 
+        if hemi=='hemi-L': symbol, showlegend = 'square' , True
+        elif hemi=='hemi-R': symbol, showlegend = 'circle' , False
+        for j, roi in enumerate(rois) :
+            # Make df roi
+            df_roi = df_barycentre.loc[(df_barycentre.roi == roi) & (df_barycentre.hemi == hemi)]    
     
+            # barycentre position
+            fig.add_trace(go.Scatter(x=df_roi.barycentre_x, 
+                                     y=df_roi.barycentre_y, 
+                                     mode='markers', 
+                                     name = roi,
+                                     marker=dict(symbol=symbol, 
+                                                 color=roi_colors[j], 
+                                                 size=12),
+                                     error_x=dict(type='data', 
+                                                  array=[df_roi.upper_ci_x - df_roi.barycentre_x], 
+                                                  arrayminus=[df_roi.barycentre_x - df_roi.lower_ci_x],
+                                                  visible=True, 
+                                                  thickness=3, 
+                                                  width=0, 
+                                                  color=roi_colors[j]),
+                                     error_y=dict(type='data', 
+                                                  array=[df_roi.upper_ci_y - df_roi.barycentre_y], 
+                                                  arrayminus=[df_roi.barycentre_y - df_roi.lower_ci_y],
+                                                  visible=True, 
+                                                  thickness=3, 
+                                                  width=0, 
+                                                  color=roi_colors[j]),
+                                 showlegend=showlegend))
+        # Center lignes
+        fig.add_trace(go.Scatter(x=[0,0], 
+                                 y=[-screen_side, screen_side], 
+                                 mode='lines', 
+                                 showlegend=False, 
+                                 line=dict(dash='2px',color='grey', width=line_width)))
+        
+        fig.add_trace(go.Scatter(x=[-screen_side,screen_side], 
+                                 y=[0,0], 
+                                 mode='lines', 
+                                 showlegend=False,
+                                 line=dict(dash='2px',color='grey', width=line_width)))
+        
+        # Add squares 
+        for position in [2,4,6,8,10]:
+            fig.add_shape(type="rect", 
+                          x0=-position, 
+                          y0=-position, 
+                          x1=position, 
+                          y1=position, 
+                          line=dict(dash='2px',color='grey', width=line_width))
+        # Add annotations 
+        fig.add_trace(go.Scatter(x=[0, 0, 0, 0, 0], 
+                                 y=[2.2, 4.2, 6.2, 8.2, 10.2], 
+                                 showlegend=False, 
+                                 text=["2 dva", 
+                                       "4 dva", 
+                                       "6 dva",
+                                       "8 dva", 
+                                       "10 dva"], 
+                                 mode="text", 
+                                 textfont=dict(size=10)))
     
-    stats_categories= ['non_responding', 'vision','vision_and_pursuit_and_saccade', 'pursuit_and_saccade', 'pursuit', 'saccade', 'vision_and_pursuit', 'vision_and_saccade']
-    for categorie in stats_categories:
-        df = group_df.loc[group_df.stats_final == categorie]
-    
-        fig.add_trace(go.Bar(x=df.rois, 
-                             y=df.vertex_surf, 
-                             name=categorie,  
-                             legendgroup=categorie, 
-                             marker_color=categorie_color_map[categorie])) 
-    
-    fig.update_xaxes(showline=True, 
-                     ticklen=0, 
-                     linecolor=('rgba(255,255,255,0)'), 
-                     tickfont=dict(size=12))      
-    
-    fig.update_yaxes(range=[0,5000], 
-                     nticks=5, 
-                     title_text='Surface in mm<sup>2</sup>')
-    
+    fig.update_yaxes(range=[-15,15],color= ('rgba(255,255,255,0)'))
+    fig.update_xaxes(range=[-15,15],color= ('rgba(255,255,255,0)'))
+
+    # Define parameters
     fig.update_layout(height=fig_height, 
-                      width=fig_width,
-                      barmode='stack',
-                      showlegend=True, 
-                      template='simple_white')  
-    
-    return fig 
+                      width=fig_width, 
+                      showlegend=True,
+                      template=fig_template,
+                      margin_l=390, 
+                      margin_r=390, 
+                      margin_t=50, 
+                      margin_b=50)
+        
+    return fig

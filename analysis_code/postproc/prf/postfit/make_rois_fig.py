@@ -105,6 +105,9 @@ num_ecc_size_bins = 6
 num_ecc_pcm_bins = 6
 num_polar_angle_bins = 9
 max_ecc = 15
+screen_side = 20
+gaussian_mesh_grain = 100
+hot_zone_percent = 0.01
 fig_width = 1080
 
 # Format loop
@@ -116,7 +119,8 @@ for format_, extension in zip(formats, extensions):
     os.makedirs(fig_dir, exist_ok=True)
 
     # Load data
-    df_roi_area, df_violins, df_ecc_size, df_ecc_pcm, df_polar_angle, df_contralaterality, df_params_avg = \
+    df_roi_area, df_violins, df_ecc_size, df_ecc_pcm, df_polar_angle, \
+        df_contralaterality, df_params_avg, df_distribution, df_barycentre = \
         compute_plot_data(subject=subject,
                           main_dir=main_dir,
                           project_dir=project_dir,
@@ -133,6 +137,9 @@ for format_, extension in zip(formats, extensions):
                           num_ecc_pcm_bins=num_ecc_pcm_bins,
                           num_polar_angle_bins=num_polar_angle_bins,
                           max_ecc=max_ecc,
+                          screen_side=screen_side,
+                          gaussian_mesh_grain=gaussian_mesh_grain, 
+                          hot_zone_percent=hot_zone_percent,
                           subjects_to_group=subjects)
     
     # Roi area and stats plot
@@ -143,7 +150,7 @@ for format_, extension in zip(formats, extensions):
     
     # Violins plot
     fig = prf_violins_plot(df_violins=df_violins, fig_width=fig_width, fig_height=600, 
-                           rois=rois, roi_colors=roi_colors)
+                            rois=rois, roi_colors=roi_colors)
     fig_fn = "{}/{}_prf_violins.pdf".format(fig_dir, subject)
     print('Saving pdf: {}'.format(fig_fn))
     fig.write_image(fig_fn)
@@ -166,15 +173,15 @@ for format_, extension in zip(formats, extensions):
     # Ecc.pCM plot
     fig_fn = "{}/{}_prf_ecc_pcm.pdf".format(fig_dir, subject)
     fig = prf_ecc_pcm_plot(df_ecc_pcm=df_ecc_pcm, fig_width=fig_width, fig_height=400, 
-                           rois=rois, roi_colors=roi_colors,
-                           plot_groups=plot_groups, max_ecc=max_ecc)
+                            rois=rois, roi_colors=roi_colors,
+                            plot_groups=plot_groups, max_ecc=max_ecc)
     print('Saving pdf: {}'.format(fig_fn))
     fig.write_image(fig_fn)
     
     # Polar angle distributions
     figs, hemis = prf_polar_angle_plot(df_polar_angle=df_polar_angle, fig_width=fig_width, 
-                                       fig_height=300, rois=rois, roi_colors=roi_colors,
-                                       num_polar_angle_bins=num_polar_angle_bins)
+                                        fig_height=300, rois=rois, roi_colors=roi_colors,
+                                        num_polar_angle_bins=num_polar_angle_bins)
     for (fig, hemi) in zip(figs, hemis):
         fig_fn = "{}/{}_prf_polar_angle_{}.pdf".format(fig_dir, subject, hemi)
         print('Saving pdf: {}'.format(fig_fn))
@@ -189,8 +196,25 @@ for format_, extension in zip(formats, extensions):
     fig.write_image(fig_fn)
 
     # Spatial distibution plot
+
+    figs, hemis = prf_distribution_plot(df_distribution=df_distribution, 
+                                        fig_width=fig_width, fig_height=300, 
+                                        rois=rois, roi_colors=roi_colors, screen_side=screen_side)
+
+    for (fig, hemi) in zip(figs, hemis):
+        fig_fn = "{}/{}_distribution_{}.pdf".format(fig_dir, subject, hemi)
+        print('Saving pdf: {}'.format(fig_fn))
+        fig.write_image(fig_fn)
+
+    # Spatial distibution barycentre plot
+    fig_fn = "{}/{}_barycentre.pdf".format(fig_dir, subject)
+    fig = prf_barycentre_plot(df_barycentre=df_barycentre, 
+                                    fig_width=fig_width, fig_height=400, 
+                                    rois=rois, roi_colors=roi_colors, screen_side=screen_side)
+    print('Saving pdf: {}'.format(fig_fn))
+    fig.write_image(fig_fn)
     
-# Define permission cmd
-print('Changing files permissions in {}/{}'.format(main_dir, project_dir))
-os.system("chmod -Rf 771 {}/{}".format(main_dir, project_dir))
-os.system("chgrp -Rf {} {}/{}".format(group, main_dir, project_dir))
+# # Define permission cmd
+# print('Changing files permissions in {}/{}'.format(main_dir, project_dir))
+# os.system("chmod -Rf 771 {}/{}".format(main_dir, project_dir))
+# os.system("chgrp -Rf {} {}/{}".format(group, main_dir, project_dir))
