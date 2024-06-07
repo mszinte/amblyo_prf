@@ -29,7 +29,6 @@ Written by Martin Szinte (martin.szinte@gmail.com)
 Edited by Uriel Lascombes (uriel.lascombes@laposte.net)
 -----------------------------------------------------------------------------------------
 """
-
 # Stop warnings
 import warnings
 warnings.filterwarnings("ignore")
@@ -178,7 +177,7 @@ for format_, pycortex_subject in zip(formats, [subject, 'sub-170k']):
     print('Saving tsv: {}'.format(tsv_fn))
     df_rois.to_csv(tsv_fn, sep="\t", na_rep='NaN', index=False)
 
-# Define permission cmd
+# # Define permission cmd
 # print('Changing files permissions in {}/{}'.format(main_dir, project_dir))
 # os.system("chmod -Rf 771 {}/{}".format(main_dir, project_dir))
 # os.system("chgrp -Rf {} {}/{}".format(group, main_dir, project_dir))
