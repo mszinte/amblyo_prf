@@ -34,7 +34,6 @@
     "max_ecc_size": 20,
     "ecc_th": [0.05, 20.0],
     "size_th": [0.05, 20.0],
-    "pcm_th": [0.05, 100.0],
     "n_th": [0.05, 10.0],
     "amplitude_th": 0,
     "rsqr_th": 0,
